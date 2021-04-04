@@ -1,9 +1,14 @@
 /* dm-serif-display-regular - latin */
+
 @font-face {
   font-family: 'DM Serif Display';
+
   font-style: normal;
+
   font-weight: 400;
+
   src: url('../fonts/dm-serif-display-v4-latin-regular.eot'); /* IE9 Compat Modes */
+
   src: local('DM Serif Display Regular'), local('DMSerifDisplay-Regular'),
        url('../fonts/dm-serif-display-v4-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
        url('../fonts/dm-serif-display-v4-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
@@ -13,11 +18,16 @@
 }
 
 /* inter-regular - latin */
+
 @font-face {
   font-family: 'Inter';
+
   font-style: normal;
+
   font-weight: 400;
+
   src: url('../fonts/inter-v2-latin-regular.eot'); /* IE9 Compat Modes */
+
   src: local(''),
        url('../fonts/inter-v2-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
        url('../fonts/inter-v2-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
@@ -32,8 +42,6 @@ html {
 
 img {
   max-width: 100%;
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
   margin-bottom: 1%;
 }
@@ -45,21 +53,25 @@ img {
   e.g.
   [_gallery >](imgages/test.jpg)
   */
+
   img[alt~="_gallery"] {
     max-width: 49.5%;
   }
 
   /* Aligned to the right */
+
   img[alt$=">"] {
     float: right;
   }
 
   /* Aligned to the left */
+
   img[alt$="<"] {
     float: left;
   }
 
   /* Centered image */
+
   img[alt$="><"] {
     display: block;
     margin: auto;
@@ -97,8 +109,10 @@ img {
 }
 
 .bottom {
-  margin-block-start: 0px;
-  margin-block-end: 0px;
+  -webkit-margin-before: 0px;
+          margin-block-start: 0px;
+  -webkit-margin-after: 0px;
+          margin-block-end: 0px;
   margin-bottom: 0px;
 }
 
@@ -139,11 +153,10 @@ img {
   display: block;
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
@@ -177,6 +190,7 @@ body.darkmode li p code {
 }
 
 /* blockquote */
+
 blockquote {
   font-family: 'Inter';
   background-color: rgba(148, 148, 149, 0.08) ;
@@ -198,6 +212,7 @@ blockquote footer cite:before {
 }
 
 /* Scroll bar */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -206,15 +221,17 @@ blockquote footer cite:before {
 ::-webkit-scrollbar-thumb {
   background: rgb(128 128 128 / 70%);
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgb(128 128 128 / 20%);
 }
 
-::-webkit-scrollbar-thumb:active { 
+::-webkit-scrollbar-thumb:active {
   background-color: rgb(128 128 128 / 100%);
 }
 
 /* Footer */
+
 a.footer-link:hover,
 a.footer-link:focus {
   cursor: pointer;
@@ -223,10 +240,10 @@ a.footer-link:focus {
 .svg-hov {
   transition: all .2s ease-in-out;
 }
+
 .svg-hov:hover {
   transform: translateY(-3px);
   transition: all .2s ease-in-out;
-
 }
 
 .hexo {
@@ -238,12 +255,15 @@ a.footer-link:focus {
 .github {
   fill: #63636F;
 }
+
 .linkedin {
   fill: #0073b1;
 }
+
 .twitter {
   fill: #1DA1F2;
 }
+
 .instagram {
   fill: #E4405F
 }
@@ -270,7 +290,20 @@ body.darkmode {
 }
 
 .trans {
-  animation: transitionPlay 0.7s;
+  -webkit-animation: transitionPlay 0.7s;
+          animation: transitionPlay 0.7s;
+}
+
+@-webkit-keyframes transitionPlay {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes transitionPlay {
@@ -301,8 +334,6 @@ body.darkmode {
   text-align: center;
 }
 
-
-
 @media (min-width: 550px) {
   .posisi {
     text-align: right;
@@ -315,5 +346,4 @@ body.darkmode {
   #madewith {
     text-align: left;
   }
-
 }
