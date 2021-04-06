@@ -66,7 +66,7 @@
 <link rel="stylesheet" href="/css/custom.css">
 
   
-<link rel="stylesheet" href="/css/prism-dark.css">
+<link rel="stylesheet" href="/css/prism-dracula.css">
 
   
 <link rel="stylesheet" href="/css/prism-line-numbers.css">
@@ -205,7 +205,7 @@
   <h3 id="要求">要求</h3>
 <p>根据个人年龄、教育水平、工作类型等共14种特征（有离散也有连续），对个人的收入情况做预测（2分类，大于50K或小于50K）</p>
 <p><strong>数据集描述</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">Task: Predicting #salary is greater or less than 50,000.
+<pre class="language-none"><code class="language-none">Task: Predicting #salary is greater or less than 50,000.
 
 1. Number of Instances
    48842 instances, mix of continuous and discrete (train&#x3D;32561, test&#x3D;16281)
@@ -236,7 +236,7 @@ salary: &gt;50K, &lt;&#x3D;50K
 
 5. Class Distribution: 
  Probability for the label &#39;&gt;50K&#39;  : 23.93% &#x2F; 24.78% (without unknowns)
- Probability for the label &#39;&lt;&#x3D;50K&#39; : 76.07% &#x2F; 75.22% (without unknowns)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ Probability for the label &#39;&lt;&#x3D;50K&#39; : 76.07% &#x2F; 75.22% (without unknowns)</code></pre>
 <h3 id="步骤">步骤</h3>
 <p>以Logistic Regression为例，分为以下四个步骤</p>
 <ul>
@@ -248,7 +248,7 @@ salary: &gt;50K, &lt;&#x3D;50K
 <h3 id="数据处理"><span id="data-processing">数据处理</span></h3>
 <p>Logistic Regression无法处理离散数据(类别数据，比如职业、婚姻状态)，需要把所有数据变成连续数值，同时处理空数据(在这里空数据均为'?')，因为测试集与训练集是分开给出的，因此下面同时对两个数据集做处理</p>
 <p>首先，读入数据</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
 <span class="token operator">%</span>matplotlib inline
 <span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
 <span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
@@ -263,20 +263,20 @@ continuousCols <span class="token operator">=</span> <span class="token punctuat
 df <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">'../data/train.txt'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf8'</span><span class="token punctuation">,</span> names<span class="token operator">=</span>colNames<span class="token punctuation">)</span>
 df<span class="token punctuation">.</span>head<span class="token punctuation">(</span><span class="token punctuation">)</span>
 testDf <span class="token operator">=</span> pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">'../data/test.txt'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf8'</span><span class="token punctuation">,</span> names<span class="token operator">=</span>colNames<span class="token punctuation">)</span>
-testDf<span class="token punctuation">.</span>head<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+testDf<span class="token punctuation">.</span>head<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 <p>然后根据salary信息设置其target列，salary&gt;50K是1，否则是0，设置完后丢弃salary列</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 设Target列</span>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># 设Target列</span>
 <span class="token keyword">def</span> <span class="token function">processTarget</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
     df<span class="token punctuation">[</span>targetCol<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
     df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>df<span class="token punctuation">[</span><span class="token string">"salary"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>contains<span class="token punctuation">(</span><span class="token string">">"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>targetCol<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span>
     df<span class="token punctuation">.</span>drop<span class="token punctuation">(</span>columns<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"salary"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> inplace<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
     <span class="token keyword">return</span> df
 df <span class="token operator">=</span> processTarget<span class="token punctuation">(</span>df<span class="token punctuation">)</span>
-testDf <span class="token operator">=</span> processTarget<span class="token punctuation">(</span>testDf<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+testDf <span class="token operator">=</span> processTarget<span class="token punctuation">(</span>testDf<span class="token punctuation">)</span></code></pre>
 <p>接下来处理缺失值，对于离散属性缺失的行，直接丢弃</p>
 <p>因为离散属性有语义，不能像连续属性一样引入一个不会对分布产生影响的值(0)，因此只能将他们删掉。对于连续的属性，则直接将缺失的值置为0</p>
 <p>同时用get_dummies将其变成onehot编码</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">processDiscrete</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">processDiscrete</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
     cntBeforeDrop <span class="token operator">=</span> df<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
     <span class="token keyword">for</span> col <span class="token keyword">in</span> discreteCols<span class="token punctuation">:</span>
         df<span class="token punctuation">.</span>drop<span class="token punctuation">(</span>df<span class="token punctuation">.</span>loc<span class="token punctuation">[</span>df<span class="token punctuation">[</span>col<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token builtin">str</span><span class="token punctuation">.</span>contains<span class="token punctuation">(</span><span class="token string">"\?"</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">.</span>index<span class="token punctuation">,</span> inplace<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
@@ -287,18 +287,18 @@ testDf <span class="token operator">=</span> processTarget<span class="token pun
     <span class="token keyword">return</span> onehotDf
 
 df <span class="token operator">=</span> processDiscrete<span class="token punctuation">(</span>df<span class="token punctuation">)</span>
-testDf <span class="token operator">=</span> processDiscrete<span class="token punctuation">(</span>testDf<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+testDf <span class="token operator">=</span> processDiscrete<span class="token punctuation">(</span>testDf<span class="token punctuation">)</span></code></pre>
 <p>连续变量则需要归一化，因为不同变量的尺度不同，在不归一化的情况下尺度过大的变量将会覆盖小的</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">processContinuous</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">processContinuous</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">:</span>
     mean <span class="token operator">=</span> df<span class="token punctuation">[</span>continuousCols<span class="token punctuation">]</span><span class="token punctuation">.</span>mean<span class="token punctuation">(</span><span class="token punctuation">)</span>
     std <span class="token operator">=</span> df<span class="token punctuation">[</span>continuousCols<span class="token punctuation">]</span><span class="token punctuation">.</span>std<span class="token punctuation">(</span><span class="token punctuation">)</span>
     norm <span class="token operator">=</span> <span class="token punctuation">(</span>df<span class="token punctuation">[</span>continuousCols<span class="token punctuation">]</span> <span class="token operator">-</span> mean<span class="token punctuation">)</span> <span class="token operator">/</span> std
     df <span class="token operator">=</span> pd<span class="token punctuation">.</span>concat<span class="token punctuation">(</span><span class="token punctuation">[</span>df<span class="token punctuation">.</span>drop<span class="token punctuation">(</span>columns<span class="token operator">=</span>continuousCols<span class="token punctuation">)</span><span class="token punctuation">,</span> norm<span class="token punctuation">]</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
     <span class="token keyword">return</span> df
 df <span class="token operator">=</span> processContinuous<span class="token punctuation">(</span>df<span class="token punctuation">)</span>
-testDf <span class="token operator">=</span> processContinuous<span class="token punctuation">(</span>testDf<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+testDf <span class="token operator">=</span> processContinuous<span class="token punctuation">(</span>testDf<span class="token punctuation">)</span></code></pre>
 <p>由于利用onehot编码，每一个类别属性出现的值都会变成一个列，如果训练集和测试集里类的值域不同，则每个类别属性对应的onehot列数也不同，在此将其对齐以适合接下来的训练、测试</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 测试集和训练集中，类别信息不一定一样，需要对齐一下</span>
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token comment"># 测试集和训练集中，类别信息不一定一样，需要对齐一下</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>df<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>testDf<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
 <span class="token keyword">def</span> <span class="token function">alignCols</span><span class="token punctuation">(</span>df1<span class="token punctuation">,</span> df2<span class="token punctuation">)</span><span class="token punctuation">:</span>
@@ -322,17 +322,17 @@ testInputs<span class="token punctuation">,</span> testTarget <span class="token
 <span class="token keyword">print</span><span class="token punctuation">(</span>trainInputs<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>trainTarget<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>testInputs<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>testTarget<span class="token punctuation">.</span>shape<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token keyword">print</span><span class="token punctuation">(</span>testTarget<span class="token punctuation">.</span>shape<span class="token punctuation">)</span></code></pre>
 <p>至此，数据准备完毕</p>
 <h3 id="模型构建"><span id="model-building">模型构建</span></h3>
 <p>采用Logistic Regression，此处直接调sklearn的api，前人栽树后人乘凉</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> sklearn<span class="token punctuation">.</span>linear_model <span class="token keyword">import</span> LogisticRegression
+<pre class="language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> sklearn<span class="token punctuation">.</span>linear_model <span class="token keyword">import</span> LogisticRegression
 <span class="token keyword">from</span> sklearn<span class="token punctuation">.</span>metrics <span class="token keyword">import</span> roc_auc_score<span class="token punctuation">,</span> accuracy_score
 
-lr <span class="token operator">=</span> LogisticRegression<span class="token punctuation">(</span>solver<span class="token operator">=</span><span class="token string">'lbfgs'</span><span class="token punctuation">,</span> max_iter<span class="token operator">=</span><span class="token number">1000</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+lr <span class="token operator">=</span> LogisticRegression<span class="token punctuation">(</span>solver<span class="token operator">=</span><span class="token string">'lbfgs'</span><span class="token punctuation">,</span> max_iter<span class="token operator">=</span><span class="token number">1000</span><span class="token punctuation">)</span></code></pre>
 <h3 id="模型训练"><span id="model-training">模型训练</span></h3>
 <p>sklearn训练只要一行代码</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">lr<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>trainInputs<span class="token punctuation">,</span> trainTarget<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="language-python" data-language="python"><code class="language-python">lr<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>trainInputs<span class="token punctuation">,</span> trainTarget<span class="token punctuation">)</span></code></pre>
 <h3 id="模型评估"><span id="model-testing">模型评估</span></h3>
 <p>TODO</p>
 <h3 id="其他模型">其他模型</h3>

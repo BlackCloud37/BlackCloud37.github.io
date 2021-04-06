@@ -36,6 +36,18 @@
        url('../fonts/inter-v2-latin-regular.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
+/* Source Code Pro Regular */
+
+@font-face {
+  font-family: 'Source Code Pro';
+
+  font-style: normal;
+
+  font-weight: 400;
+
+  src: url('../fonts/SourceCodePro-Regular.ttf');
+}
+
 html {
   overflow: auto;
 }
@@ -179,10 +191,12 @@ img {
 }
 
 li p code {
-  background-color: rgb(230, 230, 230);
+  font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  background-color: #e6ecf1;
   border-radius: 5px;
-  padding: 0px 2px;
-  font-size: 85%;
+  padding: 2px 4px;
+  margin: 0 1px;
+  font-size: 95%;
 }
 
 body.darkmode li p code {
