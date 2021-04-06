@@ -48,7 +48,10 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-
+  <!-- SEO
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="baidu-site-verification" content="code-HW8U3Sxzda" />
+  
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   
@@ -231,7 +234,13 @@ salary: &gt;50K, &lt;&#x3D;50K
  Probability for the label &#39;&gt;50K&#39;  : 23.93% &#x2F; 24.78% (without unknowns)
  Probability for the label &#39;&lt;&#x3D;50K&#39; : 76.07% &#x2F; 75.22% (without unknowns)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="步骤">步骤</h3>
-<p>以Logistic Regression为例，分为以下四个步骤 - <a href="#data-processing">数据处理</a> - <a href="#model-building">模型构建</a> - <a href="#model-training">模型训练</a> - <a href="#model-testing">模型评估</a></p>
+<p>以Logistic Regression为例，分为以下四个步骤</p>
+<ul>
+<li><a href="#data-processing">数据处理</a></li>
+<li><a href="#model-building">模型构建</a></li>
+<li><a href="#model-training">模型训练</a></li>
+<li><a href="#model-testing">模型评估</a></li>
+</ul>
 <h3 id="数据处理"><span id="data-processing">数据处理</span></h3>
 <p>Logistic Regression无法处理离散数据(类别数据，比如职业、婚姻状态)，需要把所有数据变成连续数值，同时处理空数据(在这里空数据均为'?')，因为测试集与训练集是分开给出的，因此下面同时对两个数据集做处理</p>
 <p>首先，读入数据</p>
