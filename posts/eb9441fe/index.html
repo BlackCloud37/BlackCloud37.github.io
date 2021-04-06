@@ -129,6 +129,8 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   
 
+  <!-- Valine Comments-->
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
@@ -257,6 +259,25 @@
 </blockquote>
   
   
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
+
+
+<!--  -->
 
   
     
