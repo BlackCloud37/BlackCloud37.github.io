@@ -11,36 +11,36 @@
   <meta charset="utf-8">
 
   
-  <title>Blackcloud&#39;s Page</title>
+  <title>纯CSS Footer吸底</title>
   
   <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
   
-  <link rel="canonical" href="https://blackcloud37.tech/">
+  <link rel="canonical" href="https://blackcloud37.tech/posts/80494ea8/">
   
-  <meta name="description" content="">
+  <meta name="description" content="Reference: how to keep footer at the bottom of content and stick at the bottom on viewport duplicate  需求   实现页面内容不满一屏时，Footer吸底 内容超一屏时Footer跟随文档流  文中所">
   
   
   <meta name="author" content="Chen Ye">
   
-  <meta property="og:image" content="https://blackcloud37.tech/images/thumbnail.jpg">
+  <meta property="og:image" content="https://blackcloud37.techundefined">
   
   <meta property="og:site_name" content="Blackcloud&#39;s Page" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Blackcloud&#39;s Page" />
+  <meta property="og:title" content="纯CSS Footer吸底" />
   
-  <meta property="og:description" content="">
+  <meta property="og:description" content="Reference: how to keep footer at the bottom of content and stick at the bottom on viewport duplicate  需求   实现页面内容不满一屏时，Footer吸底 内容超一屏时Footer跟随文档流  文中所">
   
-  <meta property="og:url" content="https://blackcloud37.tech/" />
+  <meta property="og:url" content="https://blackcloud37.tech/posts/80494ea8/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Blackcloud&#39;s Page">
+  <meta name="twitter:title" content="纯CSS Footer吸底">
   
-  <meta name="twitter:description" content="">
+  <meta name="twitter:description" content="Reference: how to keep footer at the bottom of content and stick at the bottom on viewport duplicate  需求   实现页面内容不满一屏时，Footer吸底 内容超一屏时Footer跟随文档流  文中所">
   
   
-  <meta name="twitter:image" content="https://blackcloud37.tech/images/thumbnail.jpg">
+  <meta name="twitter:image" content="https://blackcloud37.techundefined">
   
-  <meta name="twitter:url" content="https://blackcloud37.tech/" />
+  <meta name="twitter:url" content="https://blackcloud37.tech/posts/80494ea8/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -200,91 +200,105 @@
 </div>
 
         <div class="trans">
-          <div class="row">
-  <div class="column">
-    <!-- Main information, edit it on theme/_config.yml -->
-    <h2 class="mb-2">欢迎来到我的自留地。</h2>
-    <p></p>
-    <p></p>
-  </div>
-</div>
+            <h2>纯CSS Footer吸底</h2>
 
-<h3>Recent Posts</h3>
+  <blockquote>
+<p>Reference: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/65651052/how-to-keep-footer-at-the-bottom-of-content-and-stick-at-the-bottom-on-viewport">how to keep footer at the bottom of content and stick at the bottom on viewport duplicate</a></p>
+</blockquote>
+<h3 id="需求">需求</h3>
+<p><img src="https://i.stack.imgur.com/w32kG.png" /></p>
+<ol type="1">
+<li>实现页面内容不满一屏时，Footer吸底</li>
+<li>内容超一屏时Footer跟随文档流</li>
+</ol>
+<p>文中所给的解法适合<strong>Footer高度固定</strong>的情况，思路是设置Footer绝对定位到Container底部<code>(bottom: 0)</code>实现需求1.，令Container的<code>min-height: 100vh</code>且Content的<code>padding-bottom: &lt;height-of-footer&gt;</code>实现需求2.</p>
+<h3 id="代码">代码</h3>
+<pre class="language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      Some contents
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>footer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      Footer Here
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
 
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
+  <span class="token selector">.container</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+    <span class="token property">min-height</span><span class="token punctuation">:</span> 100vh<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.content</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">padding-bottom</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span> <span class="token comment">/* larger than or same with .footer's height */</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token selector">.footer</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+    <span class="token property">bottom</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span></code></pre>
 
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Apr 7, 2021</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/posts/80494ea8/" >
-      
-        纯CSS Footer吸底
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Apr 6, 2021</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/posts/eb9441fe/" >
-      
-        Hexo添加LaTeX支持
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Apr 5, 2021</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/posts/3a18ec90/" >
-      
-        利用Logistic Regression解决收入分类问题
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Apr 5, 2021</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/posts/d35f8a2a/" >
-      
-        人工智能导论 学习算法
-      
-    </a>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">Apr 5, 2021</p>
-  </div>
-  <div class="nine columns left mb-3">
-    <a href="/posts/1c291ca3/" >
-      
-        Hello World!
-      
-    </a>
-  </div>
-</div>
+  <p><a class="classtest-link" href="/tags/CSS/" rel="tag">CSS</a>, <a class="classtest-link" href="/tags/Front-End/" rel="tag">Front End</a> — Apr 7, 2021</p>
+  
+    <blockquote style="font-style:normal;padding:1em">
+  作者: BlackCloud
+  <br>
+  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
+</blockquote>
+  
+  
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
 
 
-<h4> <a href="/archives">All Posts</a></h4>
+<!--  -->
 
+  
+    
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
           <div class="row mt-2">
   
     

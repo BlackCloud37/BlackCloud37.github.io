@@ -14,8 +14,8 @@ code[class*="language-"],
   text-align: left;
   white-space: pre;
   word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
+  word-wrap: break-word;
+  white-space: pre-wrap;
   line-height: 1.5;
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -28,11 +28,12 @@ code[class*="language-"],
 /* Code blocks */
 
 pre[class*="language-"] {
-  font-size: 12px;
+  font-size: 13px;
   padding: 1em;
   margin: .5em 0;
   overflow: auto;
   border-radius: .5em;
+  padding: 24px 40px 22px;
 }
 
 :not(pre) > code[class*="language-"],
@@ -46,6 +47,15 @@ pre[class*="language-"] {
   padding: .1em;
   border-radius: .3em;
   white-space: normal;
+}
+
+:not(pre) > code {
+  font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  background-color: rgba(190, 193, 211, .3);
+  border-radius: 5px;
+  padding: 2px 4px;
+  margin: 0 1px;
+  font-size: 95%;
 }
 
 .token.comment,

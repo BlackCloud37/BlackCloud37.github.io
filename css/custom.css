@@ -190,14 +190,14 @@ img {
   border-radius: 50%;
 }
 
-li p code {
+/* li p code {
   font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   background-color: #e6ecf1;
   border-radius: 5px;
   padding: 2px 4px;
   margin: 0 1px;
   font-size: 95%;
-}
+} */
 
 body.darkmode li p code {
   background-color: rgb(65, 65, 65);
@@ -206,11 +206,16 @@ body.darkmode li p code {
 /* blockquote */
 
 blockquote {
-  font-family: 'Inter';
-  background-color: rgba(148, 148, 149, 0.08) ;
+  width: 100%;
+  background-color: rgba(205, 207, 209, 0.1);
+  border-left: 4px solid #3884ff;
+  border-radius: 0.3rem;
+  padding: 16px;
   margin: 1.5em 0px;
-  padding: 1.1em 20px 1px 20px;
-  font-style: italic;
+}
+
+blockquote > p:last-child {
+  margin: 0;
 }
 
 blockquote footer {
