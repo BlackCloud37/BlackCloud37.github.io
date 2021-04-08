@@ -86,12 +86,26 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <style>
   a:not(.icon) {
-    text-decoration-color: #3884ff;
+    position: relative;
+    /* text-decoration-color: #3884ff; */
+    text-decoration: none;
     background-image: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 50%,
       #3884ff 50%
     );
+  }
+  a:not(.icon)::after {
+    content: '';
+    width: 100%;
+    height: .4em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* background-color: ; */
+    z-index: -1;
+    opacity: .4;
+    background-color: #3884ff;
   }
   /* blockquote {
     border-left: 8px solid #3884ff;
@@ -203,6 +217,22 @@
           
 <h2>All Posts</h2>
 
+
+    <article>
+      <div class="row">
+
+        <div class="three columns left lit">
+          <p class="bottom">Apr 8, 2021</p>
+        </div>
+        <div class="nine columns left mb-3">
+          <a href="/posts/fb3ef408/" class="">
+            
+              CIS194中文翻译 Week1 Haskell Basics
+            
+          </a>
+        </div>
+      </div>
+    </article>
 
     <article>
       <div class="row">

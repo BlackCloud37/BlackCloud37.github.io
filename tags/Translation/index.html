@@ -11,36 +11,36 @@
   <meta charset="utf-8">
 
   
-  <title>人工智能导论 学习算法</title>
+  <title>Posts Related to Translation</title>
   
   <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
   
-  <link rel="canonical" href="https://blackcloud37.tech/posts/d35f8a2a/">
+  <link rel="canonical" href="https://blackcloud37.tech/tags/Translation/">
   
-  <meta name="description" content="Concepts of Machine Learning Components of Machine Learning  Hypothesis space &amp;amp; Learning Algorithm 在决策空间中利用学习算法找到最优的决策，讨论的决策空间往往是一系列备选函数的集合，学习算法试图">
+  <meta name="description" content="">
   
   
   <meta name="author" content="Chen Ye">
   
-  <meta property="og:image" content="https://blackcloud37.techundefined">
+  <meta property="og:image" content="https://blackcloud37.tech/images/thumbnail.jpg">
   
   <meta property="og:site_name" content="Blackcloud&#39;s Page" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="人工智能导论 学习算法" />
+  <meta property="og:title" content="Posts Related to Translation" />
   
-  <meta property="og:description" content="Concepts of Machine Learning Components of Machine Learning  Hypothesis space &amp;amp; Learning Algorithm 在决策空间中利用学习算法找到最优的决策，讨论的决策空间往往是一系列备选函数的集合，学习算法试图">
+  <meta property="og:description" content="">
   
-  <meta property="og:url" content="https://blackcloud37.tech/posts/d35f8a2a/" />
+  <meta property="og:url" content="https://blackcloud37.tech/tags/Translation/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="人工智能导论 学习算法">
+  <meta name="twitter:title" content="Posts Related to Translation">
   
-  <meta name="twitter:description" content="Concepts of Machine Learning Components of Machine Learning  Hypothesis space &amp;amp; Learning Algorithm 在决策空间中利用学习算法找到最优的决策，讨论的决策空间往往是一系列备选函数的集合，学习算法试图">
+  <meta name="twitter:description" content="">
   
   
-  <meta name="twitter:image" content="https://blackcloud37.techundefined">
+  <meta name="twitter:image" content="https://blackcloud37.tech/images/thumbnail.jpg">
   
-  <meta name="twitter:url" content="https://blackcloud37.tech/posts/d35f8a2a/" />
+  <meta name="twitter:url" content="https://blackcloud37.tech/tags/Translation/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -214,122 +214,38 @@
 </div>
 
         <div class="trans">
-            <h2>人工智能导论 学习算法</h2>
-
-  <h3 id="concepts-of-machine-learning">Concepts of Machine Learning</h3>
-<h4 id="components-of-machine-learning">Components of Machine Learning</h4>
-<ul>
-<li><p><strong>Hypothesis space &amp; Learning Algorithm</strong></p>
-<p>在决策空间中利用学习算法找到最优的决策，讨论的决策空间往往是一系列备选函数的集合，学习算法试图找到其中最符合我们要求的函数(a prediction <span class="math inline">\(h\)</span>)</p>
-<p>我们期望决策空间只包含具有正则性的函数，如对于分类问题，决策空间包含线性超平面</p></li>
-<li><p><strong>Loss Function</strong> 衡量我们找到的<span class="math inline">\(h\)</span>与实际结果的差异</p></li>
-</ul>
-<h4 id="machine-learning-scenarios">Machine Learning Scenarios</h4>
-<ul>
-<li>Classification(分类)</li>
-<li>Clustering(聚类)</li>
-<li>Regression(回归)</li>
-<li>Embedding(嵌入)</li>
-</ul>
-<h4 id="evaluation-metrics">Evaluation Metrics</h4>
-<p>T: True, F: False, P: Positive, N: Negative - Classification - Precision (<span class="math inline">\(\frac{TP}{TP+FP}\)</span>) - Recall (<span class="math inline">\(\frac{TP}{TP+FN}\)</span>) - Accuracy (<span class="math inline">\(\frac{TP+TN}{TP+TN+FP+FN}\)</span>) - Error (I - Accuracy) - Confusion Matrix</p>
-<ul>
-<li>Regression
-<ul>
-<li>Error(Squared, Absolute, Squared Logarithmic, Absolute Percentage)</li>
-</ul></li>
-</ul>
-<h4 id="model-selection">Model Selection</h4>
-<blockquote>
-<p>All models are wroing, but some are useful. - G. E. P. Box</p>
-</blockquote>
-<p>模型选择算法(CASH optimization problem)，选择所有算法在其超参数空间上的所有情况构成的所有组合(Algorithm, Hyperparameter)中Loss最小的组合</p>
-<p>可惜，复杂度太高</p>
-<p>按照以下路径，人工选择算法</p>
-<figure>
-<img src="https://blackcloud-assets.oss-cn-beijing.aliyuncs.com/imgs/WeChat7cca4ed6317ad1c6f4f491efbb4cdcc2.png" alt="CheetSheet" /><figcaption aria-hidden="true">CheetSheet</figcaption>
-</figure>
-<h3 id="算法">算法</h3>
-<p>列举了一些常用的算法（主要是分类的）</p>
-<h4 id="k-nearest-neighborsknn">K-Nearest Neighbors(KNN)</h4>
-<p>为预测x的类型，寻找k个与x最近的neighbors，以其中的大多数的类型作为x的类型</p>
-<p>随着k的增大，噪音被抹平，决策边界变得平滑，越不容易overfit</p>
-<p>k作为超参数，可以利用validation set决定，通常取奇数</p>
-<p><strong>优点</strong> - 可以学习复杂函数 - 不丢失原始数据信息 - 可以学习非常大的数据集及类数目</p>
-<p><strong>缺点</strong> - 推断时低效 - 依赖于特征选择</p>
-<h4 id="linear-classification">Linear Classification</h4>
-<p>Logistic Regression/Softmax Regression</p>
-<p>名为回归，实际上是用回归的方法获得一个连续的分类的概率，再将其映射为一个离散的类别</p>
-<p>Softmax Regression是将Logistic Regression拓展到多分类</p>
-<h4 id="support-vector-machine">Support Vector Machine</h4>
-<p>支持向量机，一种二分类模型</p>
-<p>基本思想是找到<strong>能够正确划分数据</strong>并且<strong>几何间隔最大的</strong>超平面，与LR的区别在于它要求集合间隔最大，因此只有一个符合要求的超平面，而LR能找到无数个符合要求的超平面，和LR相比，本质在于Loss Function不同</p>
-<p>线性SVM只依赖于数据的边界，而不依赖数据的全局分布，因此能解决数据unbalance的情况</p>
-<p>可以引入核函数解决非线性问题</p>
-<h4 id="decision-tree">Decision Tree</h4>
-<p>根据Feature，多层决策来得到最终的分类，会得到一系列平行于决策空间坐标轴的决策面</p>
-<h4 id="random-forest">Random Forest</h4>
-
-  <p><a class="classtest-link" href="/tags/AI/" rel="tag">AI</a>, <a class="classtest-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a> — Apr 5, 2021</p>
-  
-    <blockquote style="font-style:normal;padding:1em">
-  作者: BlackCloud
-  <br>
-  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
-</blockquote>
-  
-  
-  <hr>
-  <div id="vcomments"></div>
-  <script>
-    var requiredFields = ['nick', 'mail'];
-    new Valine({
-      el: '#vcomments',
-      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
-      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
-      placeholder: 'Gubba nub nub doo rah kah',
-      avatar: 'retro',
-      pageSize: parseInt('10'),
-      requiredFields: requiredFields,
-      visitor: 'true',
-      lang: 'en',
-    })
-  </script>
+          
 
 
-<!--  -->
+   <h3>Posts Related to — Translation</h3>
 
-  
+
+
+  <article>
+    <div class="row">
+
+      <div class="three columns left lit">
+        <p class="bottom">Apr 8, 2021</p>
+      </div>
+      <div class="nine columns left mb-3">
+        <a href="/posts/fb3ef408/">
+          
+            CIS194中文翻译 Week1 Haskell Basics
+          
+        </a>
+      </div>
+    </div>
+  </article>
+
+
+<div class="pagination-bar">
+  <ul class="pagination">
     
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true
-        }
-      });
-    </script>
+    
+  </ul>
+</div>
 
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-          tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-          }
-        });
-    </script>
 
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-            var all = MathJax.Hub.getAllJax(), i;
-            for(i=0; i < all.length; i += 1) {
-                all[i].SourceElement().parentNode.className += ' has-jax';
-            }
-        });
-    </script>
-
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
           <div class="row mt-2">
   
     
