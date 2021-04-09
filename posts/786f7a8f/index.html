@@ -228,11 +228,11 @@
 <h3 id="enumeration-types">Enumeration types</h3>
 <p>就像许多编程语言一样，Haskell允许你创建自己的<strong>枚举类型</strong>，这是一个简单的例子:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Thing</span> <span class="token operator">=</span> <span class="token constant">Shoe</span>
-					 <span class="token operator">|</span> <span class="token constant">Ship</span>
-					 <span class="token operator">|</span> <span class="token constant">SealingWax</span>
-					 <span class="token operator">|</span> <span class="token constant">Cabbage</span>
-					 <span class="token operator">|</span> <span class="token constant">King</span>
-	<span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
+           <span class="token operator">|</span> <span class="token constant">Ship</span>
+           <span class="token operator">|</span> <span class="token constant">SealingWax</span>
+           <span class="token operator">|</span> <span class="token constant">Cabbage</span>
+           <span class="token operator">|</span> <span class="token constant">King</span>
+  <span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
 <p>这段代码声明了一个新的名为<code>Thing</code>的类型，它有五个<strong>数据构造器</strong>: <code>Shoe, Ship, ...</code> 它们是<code>Thing</code>有且仅有的可选值</p>
 <blockquote>
 <p><code>deriving Show</code> 指示GHC自动生成将<code>Thing</code>转换成<code>String</code>的代码，这也是ghci在打印<code>Thing</code>类型的表达式时所用的方法</p>
@@ -259,7 +259,7 @@
 <p><code>Thing</code> 是一个枚举类型，就像其他语言，如Java, C++提供的一样。不过，枚举类型在Haskell中只不过是一个更广泛的<strong>代数数据类型</strong> <em>(algebraic data types)</em> 的特殊情况。作为我们的第一个<strong>不仅仅是枚举</strong>的数据类型的例子，来看下面 <code>FailableDouble</code> 的类型定义</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">FailableDouble</span> <span class="token operator">=</span> <span class="token constant">Failure</span>
                     <span class="token operator">|</span> <span class="token constant">OK</span> <span class="token constant">Double</span>
-	<span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
+  <span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
 <p>这段代码的意思是，<code>FailableDouble</code> 类型拥有两个数据构造器。第一个是 <code>Failure</code>，它不接受任何参数，所以 <code>Failure</code>本身就是<code>FailableDouble</code> 的一个可选值。第二个是 <code>OK</code>，它接受一个 <code>Double</code> 类型的参数，所以 <code>OK</code> 本身并不是 <code>FailableDouble</code> 的可选值，我们必须传一个 <code>Double</code> 参数，<code>OK Double</code> 的组合才是<code>FailableDouble</code>的可选值，就像这样:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">ex01</span>  <span class="token operator">=</span> <span class="token constant">Failure</span>   <span class="token comment">-- valid value of FailableDouble</span>
 <span class="token hvariable">ex02</span>  <span class="token operator">=</span> <span class="token constant">OK</span> <span class="token number">3.4</span>    <span class="token comment">-- valid value of FailableDouble</span>
@@ -369,7 +369,7 @@
 <p>作为另一个简单的例子，我们可以定义一个在每个内部节点上储存<code>Int</code>、叶子节点上储存<code>Char</code>的二叉树类型:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Tree</span> <span class="token operator">=</span> <span class="token constant">Leaf</span> <span class="token constant">Char</span>
           <span class="token operator">|</span> <span class="token constant">Node</span> <span class="token constant">Tree</span> <span class="token constant">Int</span> <span class="token constant">Tree</span>
-	<span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
+  <span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
 <p>然后用这样的代码构造它</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">tree</span> <span class="token operator">::</span> <span class="token constant">Tree</span>
 <span class="token hvariable">tree</span> <span class="token operator">=</span> <span class="token constant">Node</span> <span class="token punctuation">(</span><span class="token constant">Leaf</span> <span class="token char string">'x'</span><span class="token punctuation">)</span> <span class="token number">1</span> <span class="token punctuation">(</span><span class="token constant">Node</span> <span class="token punctuation">(</span><span class="token constant">Leaf</span> <span class="token char string">'y'</span><span class="token punctuation">)</span> <span class="token number">2</span> <span class="token punctuation">(</span><span class="token constant">Leaf</span> <span class="token char string">'z'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
