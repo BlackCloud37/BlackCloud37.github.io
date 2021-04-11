@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>CIS194中文翻译 Week3 Recursion patterns, polymorphism, and the Prelude</title>
+  
+  <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
+  
+  <link rel="canonical" href="https://blackcloud37.tech/posts/5f294974/">
+  
+  <meta name="description" content="Reference: Recursion patterns, polymorphism, and the Prelude 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Recursion patterns, polymorphism">
+  
+  
+  <meta name="author" content="Chen Ye">
+  
+  <meta property="og:image" content="https://blackcloud37.techundefined">
+  
+  <meta property="og:site_name" content="Blackcloud&#39;s Page" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="CIS194中文翻译 Week3 Recursion patterns, polymorphism, and the Prelude" />
+  
+  <meta property="og:description" content="Reference: Recursion patterns, polymorphism, and the Prelude 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Recursion patterns, polymorphism">
+  
+  <meta property="og:url" content="https://blackcloud37.tech/posts/5f294974/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CIS194中文翻译 Week3 Recursion patterns, polymorphism, and the Prelude">
+  
+  <meta name="twitter:description" content="Reference: Recursion patterns, polymorphism, and the Prelude 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Recursion patterns, polymorphism">
+  
+  
+  <meta name="twitter:image" content="https://blackcloud37.techundefined">
+  
+  <meta name="twitter:url" content="https://blackcloud37.tech/posts/5f294974/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- SEO
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="baidu-site-verification" content="code-HW8U3Sxzda" />
+  
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.ico">
+  <link rel="manifest" href="image/site.webmanifest">
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    position: relative;
+    /* text-decoration-color: #3884ff; */
+    text-decoration: none;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #3884ff 50%
+    );
+  }
+  a:not(.icon)::after {
+    content: '';
+    width: 100%;
+    height: .4em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* background-color: ; */
+    z-index: -1;
+    opacity: .4;
+    background-color: #3884ff;
+  }
+  /* blockquote {
+    border-left: 8px solid #3884ff;
+  } */
+  .nanobar .bar {
+    background: #3884ff;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #3884ff;
+    border-color: #3884ff;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #3884ff;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+  <!-- Valine Comments-->
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      BlackCloud&#39;s Page
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+          
+          <a href="/About" class="ml">About</a>
+          
+        
+          
+          <a href="/Links" class="ml">Links</a>
+          
+        
+        
+          
+            <a href="mailto:yechenz37@163.com" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>CIS194中文翻译 Week3 Recursion patterns, polymorphism, and the Prelude</h2>
+
+  <blockquote>
+<p>Reference: <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/lectures/03-rec-poly.html">Recursion patterns, polymorphism, and the Prelude</a></p>
+<p>本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持</p>
+</blockquote>
+<h2 id="recursion-patterns-polymorphism-and-the-prelude递归模板多态与prelude">Recursion patterns, polymorphism, and the Prelude//递归模板，多态与Prelude</h2>
+<p>在你完成作业2的时候，你可能花了很多时间写显式递归的函数，现在你可能认为那些就是Haskell程序员在大部分时间所做的。但实际上，有经验的Haskell程序员<strong>几乎从不</strong>写递归函数！</p>
+<p>虽然在理论上，递归函数几乎能实现任何事（比如代替循环来迭代列表），不过在实践中我们会发现，有一些模式在递归中反复出现，通过抽象这些模板到库函数，我们就能把低级的、递归的逻辑剥离到库函数中，而只需要实现高阶的逻辑，这也是<em>wholemeal programming</em>的目的</p>
+<h3 id="recursion-patterns递归模板">Recursion patterns//递归模板</h3>
+<p>回忆我们对<code>Int</code>类型的列表的简单实现:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">IntList</span> <span class="token operator">=</span> <span class="token constant">Empty</span> <span class="token operator">|</span> <span class="token constant">Cons</span> <span class="token constant">Int</span> <span class="token constant">IntList</span>
+  <span class="token keyword">deriving</span> <span class="token constant">Show</span></code></pre>
+<p>我们可能会希望在<code>IntList</code>上实现什么操作呢？以下是几个可能的选择:</p>
+<ul>
+<li>遍历列表，对每个元素做操作（映射）</li>
+<li>仅保留一部分符合指定要求的元素（过滤）</li>
+<li>总结整个列表的性质，比如求所有元素的和、乘积、最大值最小值...（规约）</li>
+<li>...</li>
+</ul>
+<blockquote>
+<p>译者注: 如果你学过Javascript或Python等，并对Map/Filter/Reduce等高阶函数十分了解，那么下面的这部分内容可以快速浏览</p>
+</blockquote>
+<h4 id="map映射">Map//映射</h4>
+<p>我们先考虑第一个操作: 遍历列表并对每个元素做操作，比如我们可以对每个元素加一:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">incAll</span> <span class="token operator">::</span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">incAll</span> <span class="token constant">Empty</span> <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token hvariable">incAll</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">incAll</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span></code></pre>
+<p>也可以对每个元素求绝对值:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">absAll</span> <span class="token operator">::</span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">absAll</span> <span class="token constant">Empty</span> <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token hvariable">absAll</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token punctuation">(</span><span class="token builtin">abs</span> <span class="token hvariable">x</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">absAll</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span></code></pre>
+<p>也可以对每个元素求平方</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">squareAll</span> <span class="token operator">::</span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">squareAll</span> <span class="token constant">Empty</span>       <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token hvariable">squareAll</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">*</span><span class="token hvariable">x</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">squareAll</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span></code></pre>
+<p>此时此刻，你的脑子里该响防空警报了。这三个函数长得实在太像了，<strong>我们是不是在repeating outselves</strong>？这可犯了大忌。为了避免重复，我们必须抽象共性</p>
+<p>上面的三个函数，所做的都是一件事情: 对列表的每一个元素应用一个操作<code>(inc, abs, square)</code>，然后返回由新元素组成的列表。这种操作即为Map，如果你学过Javascript或者Python，那对此(以及剩下的所有操作)肯定不陌生</p>
+<p>在每一个Map操作中，遍历每个元素并应用操作这一点是不变的，而每次应用的操作具体是什么是可变的，但他们都是一个<code>Int -&gt; Int</code>的函数——而在Haskell中，函数是一等公民，因此，要做的操作本身可以被作为参数，指示负责遍历的函数究竟要做什么操作:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">mapIntList</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">mapIntList</span> <span class="token hvariable">_</span> <span class="token constant">Empty</span>        <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token hvariable">mapIntList</span> <span class="token hvariable">op</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token punctuation">(</span><span class="token hvariable">op</span> <span class="token hvariable">x</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">mapIntList</span> <span class="token hvariable">op</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span></code></pre>
+<p><code>mapIntList</code>的骨架几乎和我们之前实现的函数一模一样: 空边界判断、递归遍历每一个元素并应用操作... 唯一的区别在于操作本身由参数指定——它是一个<code>Int -&gt; Int</code>的函数</p>
+<p>现在我们可以改写之前的三个函数了:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">exampleList</span> <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token number">2</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">6</span><span class="token punctuation">)</span> <span class="token constant">Empty</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token hvariable">addOne</span> <span class="token operator">::</span> <span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span>
+<span class="token hvariable">addOne</span> <span class="token hvariable">x</span> <span class="token operator">=</span> <span class="token hvariable">x</span> <span class="token operator">+</span> <span class="token number">1</span>
+
+<span class="token hvariable">square</span> <span class="token operator">::</span> <span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span>
+<span class="token hvariable">square</span> <span class="token hvariable">x</span> <span class="token operator">=</span> <span class="token hvariable">x</span> <span class="token operator">*</span> <span class="token hvariable">x</span>
+
+<span class="token hvariable">mapIntList</span> <span class="token hvariable">addOne</span> <span class="token hvariable">exampleList</span>    <span class="token comment">-- same as incAll</span>
+<span class="token hvariable">mapIntList</span> <span class="token builtin">abs</span>    <span class="token hvariable">exampleList</span>    <span class="token comment">-- same as absAll</span>
+<span class="token hvariable">mapIntList</span> <span class="token hvariable">square</span> <span class="token hvariable">exampleList</span>    <span class="token comment">-- same as squareAll</span></code></pre>
+<h4 id="filter筛选">Filter//筛选</h4>
+<p>第二个希望的操作是，仅保留一部分符合指定要求的元素，即筛选我们想要的元素，比如下面这个只保留偶数的函数:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">keepOnlyEven</span> <span class="token operator">::</span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">keepOnlyEven</span> <span class="token constant">Empty</span> <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token constant">KeepOnlyEven</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+	<span class="token operator">|</span> <span class="token builtin">even</span> <span class="token hvariable">x</span>    <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token punctuation">(</span><span class="token hvariable">keepOnlyEven</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>   <span class="token comment">-- is even, keep it</span>
+	<span class="token operator">|</span> <span class="token builtin">otherwise</span> <span class="token operator">=</span> <span class="token hvariable">keepOnlyEven</span> <span class="token hvariable">xs</span>            <span class="token comment">-- drop it away</span></code></pre>
+<p>有了Map的经验，很容易能想到，我们依然可以实现一个遍历列表的骨架，而究竟哪个元素需要保留，则可以由我们传递一个测试函数来实现，测试函数则是一个接受<code>Int</code>，返回是否保留它的信息<code>(Bool)</code>的函数:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">filterIntList</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Bool</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">filterIntList</span> <span class="token hvariable">_</span> <span class="token constant">Empty</span> <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token hvariable">filterIntList</span> <span class="token hvariable">test</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+	<span class="token operator">|</span> <span class="token hvariable">test</span> <span class="token hvariable">x</span>    <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token punctuation">(</span><span class="token hvariable">filterIntList</span> <span class="token hvariable">test</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+	<span class="token operator">|</span> <span class="token builtin">otherwise</span> <span class="token operator">=</span> <span class="token hvariable">filterIntList</span> <span class="token hvariable">test</span> <span class="token hvariable">xs</span>
+	
+<span class="token hvariable">filterIntList</span> <span class="token builtin">even</span> <span class="token hvariable">exampleList</span></code></pre>
+<h4 id="fold折叠">Fold//折叠</h4>
+<p>最后一个希望的操作是，总结整个列表的某个属性，并返回一个单一值，比如求所有元素的和、乘积、最大值最小值...这种操作在Haskell中被称为<code>Fold</code>，而在其他地方可能也被叫做<code>Reduce</code>，即规约。参照上面两个例子，你可以自己想一下这个操作该如何抽象，并自行实现一个<code>reduceIntList</code>，关于它的讨论我们会在下周展开</p>
+<blockquote>
+<p>我的一个参照实现:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- 这是一个实现不完全的fold，因为我们只能获得Int类型的"总结"，想知道如何支持更多类型，接着学吧</span>
+<span class="token hvariable">foldIntList</span> <span class="token operator">::</span> <span class="token constant">Int</span> <span class="token operator">-></span> <span class="token punctuation">(</span><span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">foldIntList</span> <span class="token hvariable">initVal</span> <span class="token hvariable">_</span> <span class="token constant">Empty</span> <span class="token operator">=</span> <span class="token hvariable">initVal</span>
+<span class="token hvariable">foldIntList</span> <span class="token hvariable">currVal</span> <span class="token hvariable">op</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">foldIntList</span> <span class="token punctuation">(</span><span class="token hvariable">op</span> <span class="token hvariable">x</span> <span class="token hvariable">currVal</span><span class="token punctuation">)</span> <span class="token hvariable">op</span> <span class="token hvariable">xs</span></code></pre>
+</blockquote>
+<h3 id="polymorphism多态">Polymorphism//多态</h3>
+<p>我们现在已经写了一点漂亮又通用的函数来帮助完成在<code>IntList</code>上的map或者filter的操作了，但是这还不够——如果我们如果我们要操作的不是<code>IntList</code>呢，我们难道还要分别实现<code>mapStringList, mapIntegerList, mapBoolList, mapListList, ...</code>吗，那就又是在重复了——这所有函数的逻辑都一模一样，只有里面的类型标记不同——我们最忌讳的就是重复</p>
+<p>当然不能对每一个数据类型都实现一个一样功能的函数，既然只有数据类型不同，那么就想Haskell有没有能支持我们对一个逻辑复用不同数据类型的解决办法呢？多态<em>(polymorphic)</em>就是</p>
+<blockquote>
+<p><em>polymorphic</em> 源自希腊语(πολύμορφος)，意为“拥有多种形式”</p>
+</blockquote>
+<h4 id="polymorphic-data-types">Polymorphic data types</h4>
+<p>首先，我们来看看如何定义一个多态数据类型</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">List</span> <span class="token hvariable">t</span> <span class="token operator">=</span> <span class="token constant">E</span> <span class="token operator">|</span> <span class="token constant">C</span> <span class="token hvariable">t</span> <span class="token punctuation">(</span><span class="token constant">List</span> <span class="token hvariable">t</span><span class="token punctuation">)</span></code></pre>
+<blockquote>
+<p>因为之前已经在<code>IntList</code>里使用了<code>Empty</code>和<code>Cons</code>两个名字来指代我们的两个数据构造器，所以现在不直接使用这两个名字以避免混淆，在这段定义里，<code>E</code>代表<code>Empty</code>，<code>C</code>代表<code>Cons</code></p>
+<p>其中多出来的<code>t</code>是一个<strong>类型变量<em>(type variable)</em></strong>，他可以指代任何类型，比如<code>Int</code>。语法上，类型变量必须以小写字母开头，类型必须以大写字母开头</p>
+</blockquote>
+<p>在增加了<code>t</code> 之后，我们可以给<code>List</code>这个类型构造器传递一个<code>Type</code>作为参数，比如<code>Int</code>，得到一个特化的、指定了元素类型的列表类:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">lst1</span> <span class="token operator">::</span> <span class="token constant">List</span> <span class="token constant">Int</span>
+<span class="token hvariable">lst1</span> <span class="token operator">=</span> <span class="token constant">C</span> <span class="token number">3</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token number">5</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token number">2</span> <span class="token constant">E</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token hvariable">lst2</span> <span class="token operator">::</span> <span class="token constant">List</span> <span class="token constant">Char</span>
+<span class="token hvariable">lst2</span> <span class="token operator">=</span> <span class="token constant">C</span> <span class="token char string">'x'</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token char string">'y'</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token char string">'z'</span> <span class="token constant">E</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token hvariable">lst3</span> <span class="token operator">::</span> <span class="token constant">List</span> <span class="token constant">Bool</span>
+<span class="token hvariable">lst3</span> <span class="token operator">=</span> <span class="token constant">C</span> <span class="token constant">True</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token constant">False</span> <span class="token constant">E</span><span class="token punctuation">)</span></code></pre>
+<p>我们不必再分别实现<code>IntList, CharList, BoolList...</code>了，只要实现一次<code>List t</code>，然后传递我们想要的目标类型作为构造参数就好</p>
+<h4 id="polymorphic-functions">Polymorphic functions</h4>
+<p>现在，来实现我们的最终目标: 依赖于多态类<code>List</code>让我们之前实现的函数也多态化。先从<code>filterIntList</code>开始下手:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Old version</span>
+<span class="token hvariable">filterIntList</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Bool</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">IntList</span> <span class="token operator">-></span> <span class="token constant">IntList</span>
+<span class="token hvariable">filterIntList</span> <span class="token hvariable">_</span> <span class="token constant">Empty</span> <span class="token operator">=</span> <span class="token constant">Empty</span>
+<span class="token hvariable">filterIntList</span> <span class="token hvariable">test</span> <span class="token punctuation">(</span><span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+	<span class="token operator">|</span> <span class="token hvariable">test</span> <span class="token hvariable">x</span>    <span class="token operator">=</span> <span class="token constant">Cons</span> <span class="token hvariable">x</span> <span class="token punctuation">(</span><span class="token hvariable">filterIntList</span> <span class="token hvariable">test</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+	<span class="token operator">|</span> <span class="token builtin">otherwise</span> <span class="token operator">=</span> <span class="token hvariable">filterIntList</span> <span class="token hvariable">test</span> <span class="token hvariable">xs</span>
+
+<span class="token comment">-- Brand new, polymorphic version</span>
+<span class="token hvariable">filterList</span> <span class="token operator">::</span> <span class="token operator">???</span> <span class="token comment">-- see below</span>
+<span class="token hvariable">filterList</span> <span class="token hvariable">_</span> <span class="token constant">E</span> <span class="token operator">=</span> <span class="token constant">E</span>
+<span class="token hvariable">filterList</span> <span class="token hvariable">test</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+  <span class="token operator">|</span> <span class="token hvariable">test</span> <span class="token hvariable">x</span>    <span class="token operator">=</span> <span class="token constant">C</span> <span class="token hvariable">x</span> <span class="token punctuation">(</span><span class="token hvariable">filterList</span> <span class="token hvariable">test</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span>
+  <span class="token operator">|</span> <span class="token builtin">otherwise</span> <span class="token operator">=</span> <span class="token hvariable">filterList</span> <span class="token hvariable">test</span> <span class="token hvariable">xs</span></code></pre>
+<p>在ghci里输出<code>filterList</code>的类型，我们得到的是</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token operator">*</span><span class="token constant">Main</span><span class="token operator">></span> <span class="token operator">:</span><span class="token hvariable">t</span> <span class="token hvariable">filterList</span>
+<span class="token hvariable">filterList</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token hvariable">t</span> <span class="token operator">-></span> <span class="token constant">Bool</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">List</span> <span class="token hvariable">t</span> <span class="token operator">-></span> <span class="token constant">List</span> <span class="token hvariable">t</span></code></pre>
+<p>这可以读作: 对于类型<code>t</code>，<code>filterList</code>接受一个映射<code>t</code>到<code>Bool</code>的函数(即<code>test</code>函数)和一个由许多类型为<code>t</code>的元素构成的列表，然后返回一个这样的列表</p>
+<p>那么<code>mapIntList</code>的泛化版本呢，<code>mapList</code>函数的类型定义应该是什么？依样画葫芦，参照<code>filterList</code>的类型，我们可能第一时间会想到:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">mapList</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token hvariable">t</span> <span class="token operator">-></span> <span class="token hvariable">t</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">List</span> <span class="token hvariable">t</span> <span class="token operator">-></span> <span class="token constant">List</span> <span class="token hvariable">t</span></code></pre>
+<p>除了接受的函数从返回<code>Bool</code>变成返回<code>t</code>以外，没什么改变。这个类型定义是可用的，你可以自己实现一遍来验证。不过这种写法还是差了一点: 它可以支持把一个由<code>t</code>类型构成的列表映射成一个<code>t</code>类型构成的列表，也仅能如此，对于把每个元素加一、取取绝对值这样的需求，它能胜任，但假如我们做<code>mapList show</code>这样的调用，来实现展示整个列表里所有元素(的字符串形式)，这个函数就做不到了。根本原因在于它要求输入的列表元素类型和输出的都是<code>t</code>，如果打破这个要求呢:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">mapList</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">b</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token constant">List</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">List</span> <span class="token hvariable">b</span>
+<span class="token hvariable">mapList</span> <span class="token hvariable">_</span> <span class="token constant">E</span>        <span class="token operator">=</span> <span class="token constant">E</span>
+<span class="token hvariable">mapList</span> <span class="token hvariable">f</span> <span class="token punctuation">(</span><span class="token constant">C</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">C</span> <span class="token punctuation">(</span><span class="token hvariable">f</span> <span class="token hvariable">x</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token hvariable">mapList</span> <span class="token hvariable">f</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span></code></pre>
+<p>这是我们新实现的<code>map</code>，现在它的定义中出现了两个不确定的类型，一个决定了输入的列表的元素类型，另一个决定输出的。多态函数在调用时决定类型，因此对任何可能的类型，我们的<code>mapList</code>函数都能正常工作了(当然也包括<code>a,b</code>相同的情况，这种情况下，新的<code>mapList</code>退化成旧的)</p>
+<h3 id="the-prelude">The Prelude</h3>
+<p><code>Prelude</code>是一个包含一组基础定义的<strong>模组<em>(module)</em></strong>，它会被所有Haskell程序隐式地引用，翻阅它的<a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html">文档</a>来了解它究竟能干什么是很值得的事情。在<code>Prelude</code>中已经定义了多态列表，还实现了许多<a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#g:11">有用的多态函数</a>，比如<code>map, filter</code>，对应着我们自己实现的<code>mapList, filterList</code>，其中<a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html"><code>Data.List</code>模块</a>实现了更多这些函数</p>
+<blockquote>
+<p>译注: 原文指向的Prelude文档(http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html)已经404，现在文中的链接都是我找到的版本</p>
+</blockquote>
+<p>其中一个有用的多态类型叫做<code>Maybe</code>，它是这样定义的:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Maybe</span> <span class="token hvariable">a</span> <span class="token operator">=</span> <span class="token constant">Nothing</span> <span class="token operator">|</span> <span class="token constant">Just</span> <span class="token hvariable">a</span></code></pre>
+<p>一个类型为<code>Maybe a</code>的变量要么真的包含了一个<code>a</code>(被<code>Just</code>构造器包裹)，要么就是<code>Nothing</code>(通常用来表示错误)，<a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Maybe.html"><code>Data.Maybe</code>模块</a>包含了针对<code>Maybe</code>的实用函数</p>
+<h3 id="total-and-partial-functions全函数与部分函数">Total and partial functions//全函数与部分函数</h3>
+<p>考虑这样一个多态类型</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token hvariable">a</span></code></pre>
+<p>什么样的函数会有这样的类型呢？这个类型表明给定一个由<code>a</code>类元素构成的列表，函数返回一个<code>a</code>类型的值，比如<code>Prelude</code>中的<code>head</code>干的就是这件事: 给定任何类型的列表，<code>head</code>返回它的第一个元素</p>
+<p>但是如果<code>head</code>拿到了一个空列表呢？我们来看看<a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/src/GHC-List.html#head">它的源码</a>...</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- | \(\mathcal&#123;O&#125;(1)\). Extract the first element of a list, which must be non-empty.</span>
+<span class="token comment">--</span>
+<span class="token comment">-- >>> head [1, 2, 3]</span>
+<span class="token comment">-- 1</span>
+<span class="token comment">-- >>> head [1..]</span>
+<span class="token comment">-- 1</span>
+<span class="token comment">-- >>> head []</span>
+<span class="token comment">-- Exception: Prelude.head: empty list</span>
+<span class="token builtin">head</span>                    <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token hvariable">a</span>
+<span class="token builtin">head</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">:</span><span class="token hvariable">_</span><span class="token punctuation">)</span>              <span class="token operator">=</span>  <span class="token hvariable">x</span>
+<span class="token builtin">head</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>                 <span class="token operator">=</span>  <span class="token hvariable">badHead</span>
+<span class="token comment">&#123;-# NOINLINE [1] head #-&#125;</span>
+
+<span class="token hvariable">badHead</span> <span class="token operator">::</span> <span class="token hvariable">a</span>
+<span class="token hvariable">badHead</span> <span class="token operator">=</span> <span class="token hvariable">errorEmptyList</span> <span class="token string">"head"</span></code></pre>
+<p>如你所见，<code>head</code>在遇到空列表时的做法是抛出异常，因为除此以外也没有合理的处理办法——<code>head</code>甚至不知道这里的类型<code>a</code>是什么，它可能是任何类型，没人能凭空变出这么一个元素</p>
+<p><code>head</code>就是一个<strong>部分函数<em>(partial function)</em></strong>: 有一些输入会导致<code>head</code>崩溃。那些在某些case下递归不会终止的函数也叫部分函数。那些定义良好、在所有可能的case下都能良好工作的函数叫<strong>全函数<em>(total functions)</em></strong></p>
+<p>良好的Haskell实践意味着尽可能避免部分函数——这也是在任何编程语言中的良好实践——可惜在大部分语言中，要实现避免部分函数非常非常困难，Haskell希望让这件事尽量简单</p>
+<p><strong><code>head</code>就是个错误！</strong>它不应该出现在<code>Prelude</code>中，其他的<code>Prelude</code>中的部分函数还包含<code>tail, init, last, (!!)</code>，<strong>你永远都不应该使用这些函数</strong>，你要是在作业里使用这些函数，我就狠狠地扣你的分XD</p>
+<p>那么，应该如何找到它们的替代品呢？</p>
+<h4 id="replacing-partial-functions替代部分函数">Replacing partial functions//替代部分函数</h4>
+<p>通常，像<code>head,tail</code>这种部分函数可以用模式匹配来替代，比如下面这两个例子:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">doStuff1</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token constant">Int</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token constant">Int</span>
+<span class="token hvariable">doStuff1</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>  <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token hvariable">doStuff1</span> <span class="token punctuation">[</span><span class="token hvariable">_</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token hvariable">doStuff1</span> <span class="token hvariable">xs</span>  <span class="token operator">=</span> <span class="token builtin">head</span> <span class="token hvariable">xs</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token builtin">head</span> <span class="token punctuation">(</span><span class="token builtin">tail</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+
+<span class="token hvariable">doStuff2</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token constant">Int</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token constant">Int</span>
+<span class="token hvariable">doStuff2</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>        <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token hvariable">doStuff2</span> <span class="token punctuation">[</span><span class="token hvariable">_</span><span class="token punctuation">]</span>       <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token hvariable">doStuff2</span> <span class="token punctuation">(</span><span class="token hvariable">x1</span><span class="token operator">:</span><span class="token hvariable">x2</span><span class="token operator">:</span><span class="token hvariable">_</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">x1</span> <span class="token operator">+</span> <span class="token hvariable">x2</span></code></pre>
+<p>它们做的事一样的事，返回一样的结果，并且都是全函数，不过只有第二个才是一眼就能看出是全函数的，第一个则难读很多。记得多写像第二个一样好读的代码</p>
+<h4 id="writing-partial-functions写部分函数">Writing partial functions//写部分函数</h4>
+<p>假如你发现自己在写部分函数，该怎么办？给你两条可选的路，第一是修改函数的输出类型来指示它可能会遇到的错误，回想一下<code>Maybe</code>的定义:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Maybe</span> <span class="token hvariable">a</span> <span class="token operator">=</span> <span class="token constant">Nothing</span> <span class="token operator">|</span> <span class="token constant">Just</span> <span class="token hvariable">a</span></code></pre>
+<p>现在假设我们正在实现<code>head</code>，我们可以把它改写成这个安全的版本:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">safeHead</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token constant">Maybe</span> <span class="token hvariable">a</span>
+<span class="token hvariable">safeHead</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>    <span class="token operator">=</span> <span class="token constant">Nothing</span>
+<span class="token hvariable">safeHead</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">:</span><span class="token hvariable">_</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">Just</span> <span class="token hvariable">x</span></code></pre>
+<p>这也是在<a target="_blank" rel="noopener" href="http://hackage.haskell.org/package/safe"><code>safe package</code></a>里真实存在的函数，这样设计的理由有这些:</p>
+<ol type="1">
+<li><code>safeHead</code>永远不会崩溃</li>
+<li><code>safeHead</code>的类型定义让它发生的错误非常显而易见，可以直接按返回值是否是<code>Nothing</code>判断</li>
+<li>类型系统会强迫调用<code>safeHead</code>的人正确实现处理返回<code>Nothing</code>情况的逻辑，否则编译不会通过（一举打倒了许多偷懒的邋遢鬼</li>
+</ol>
+<p>在一些场景下，<code>safeHead</code>仍然是“部分的”，不过我们已经在类型系统中反映了这个“部分性”，至少在这种意义上它是安全的。我们已经<strong>让函数的类型尽可能多地透露关于它是如何工作的信息</strong>了</p>
+<p>不过假如我们<strong>保证</strong>只会对非空的列表调用<code>head</code>呢？在这种情况下，收到<code>Maybe a</code>作为返回值可能会比<code>a</code>麻烦，因为我们还要花功夫去处理永远不可能出现的返回值是<code>Nothing</code>的情况</p>
+<p>解决办法，也是我给你的第二条路是，如果一些情况确实<strong>担保</strong>了边界条件不可能触发，那么我们的类型应该能反映出这个<strong>担保</strong>，来让编译器确认这个<strong>担保</strong>是真的实现了，而不是忽悠人的花招:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">NonEmptyList</span> <span class="token hvariable">a</span> <span class="token operator">=</span> <span class="token constant">NEL</span> <span class="token hvariable">a</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span>
+
+<span class="token hvariable">nelToList</span> <span class="token operator">::</span> <span class="token constant">NonEmptyList</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span>
+<span class="token hvariable">nelToList</span> <span class="token punctuation">(</span><span class="token constant">NEL</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">x</span><span class="token operator">:</span><span class="token hvariable">xs</span>
+
+<span class="token hvariable">listToNel</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token constant">Maybe</span> <span class="token punctuation">(</span><span class="token constant">NonEmptyList</span> <span class="token hvariable">a</span><span class="token punctuation">)</span>
+<span class="token hvariable">listToNel</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>     <span class="token operator">=</span> <span class="token constant">Nothing</span>
+<span class="token hvariable">listToNel</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">:</span><span class="token hvariable">xs</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token constant">Just</span> <span class="token operator">$</span> <span class="token constant">NEL</span> <span class="token hvariable">x</span> <span class="token hvariable">xs</span>
+
+<span class="token hvariable">headNEL</span> <span class="token operator">::</span> <span class="token constant">NonEmptyList</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span>
+<span class="token hvariable">headNEL</span> <span class="token punctuation">(</span><span class="token constant">NEL</span> <span class="token hvariable">a</span> <span class="token hvariable">_</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">a</span>
+
+<span class="token hvariable">tailNEL</span> <span class="token operator">::</span> <span class="token constant">NonEmptyList</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token punctuation">[</span><span class="token hvariable">a</span><span class="token punctuation">]</span>
+<span class="token hvariable">tailNEL</span> <span class="token punctuation">(</span><span class="token constant">NEL</span> <span class="token hvariable">_</span> <span class="token hvariable">as</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">as</span></code></pre>
+<p>你可能觉得做这么多麻烦的工作，只是为了帮助那些不像你一样天才的笨蛋，因为你永远不会做出对空列表调用<code>head</code>这种蠢事，对吧？世上肯定有这样的笨蛋，不过他们可能不是你想的那些人;)</p>
+
+  
+    <blockquote style="font-style:normal;padding:1em">
+  作者: BlackCloud
+  <br>
+  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
+</blockquote>
+  
+  <p><a class="classtest-link" href="/tags/CIS194/" rel="tag">CIS194</a>, <a class="classtest-link" href="/tags/Haskell/" rel="tag">Haskell</a>, <a class="classtest-link" href="/tags/Haskell-%E5%85%A5%E9%97%A8/" rel="tag">Haskell 入门</a>, <a class="classtest-link" href="/tags/Haskell-%E6%95%99%E7%A8%8B/" rel="tag">Haskell 教程</a>, <a class="classtest-link" href="/tags/Translation/" rel="tag">Translation</a> — Apr 11, 2021</p>
+  
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
+
+
+<!--  -->
+
+  
+    
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+          <div class="row mt-2">
+  
+    
+    <div class="eight columns">
+      <p id="madewith">Made with 
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/BlackCloud37" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://www.linkedin.com/in/%E5%AE%B8-%E5%8F%B6-b473b71b6/" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="LinkedIn">
+        <svg class="linkedin svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      
+
+      
+
+      
+
+    </div>
+
+
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>

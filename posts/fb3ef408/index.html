@@ -17,7 +17,7 @@
   
   <link rel="canonical" href="https://blackcloud37.tech/posts/fb3ef408/">
   
-  <meta name="description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Haskell Basics 推荐阅读:  Learn You a Haskell for Great Good, chapter 2">
+  <meta name="description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Haskell Basics//Haskell基础 推荐阅读:  Learn You a Haskell for Great Good">
   
   
   <meta name="author" content="Chen Ye">
@@ -28,14 +28,14 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="CIS194中文翻译 Week1 Haskell Basics" />
   
-  <meta property="og:description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Haskell Basics 推荐阅读:  Learn You a Haskell for Great Good, chapter 2">
+  <meta property="og:description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Haskell Basics//Haskell基础 推荐阅读:  Learn You a Haskell for Great Good">
   
   <meta property="og:url" content="https://blackcloud37.tech/posts/fb3ef408/" />
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CIS194中文翻译 Week1 Haskell Basics">
   
-  <meta name="twitter:description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Haskell Basics 推荐阅读:  Learn You a Haskell for Great Good, chapter 2">
+  <meta name="twitter:description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Haskell Basics//Haskell基础 推荐阅读:  Learn You a Haskell for Great Good">
   
   
   <meta name="twitter:image" content="https://blackcloud37.techundefined">
@@ -220,17 +220,17 @@
 <p>Reference: <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/lectures/01-intro.html">Haskell Basics</a></p>
 <p>本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持</p>
 </blockquote>
-<h2 id="haskell-basics">Haskell Basics</h2>
+<h2 id="haskell-basicshaskell基础">Haskell Basics//Haskell基础</h2>
 <p>推荐阅读:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://learnyouahaskell.com/starting-out">Learn You a Haskell for Great Good</a>, chapter 2（中文版<a target="_blank" rel="noopener" href="https://www.kancloud.cn/kancloud/learnyouahaskell/44651">Haskell趣学指南</a>）</li>
 <li><a target="_blank" rel="noopener" href="http://book.realworldhaskell.org/">Real World Haskell</a>, chapters 1 and 2</li>
 </ul>
-<h3 id="what-is-haskell">What is Haskell?</h3>
-<p>Haskell是一个<em>惰性的、函数式</em>的编程语言，由一群学者在19世纪80年代晚期创建。因为当时有许多惰性的函数式语言，每个人都有他们的选择，因此（跨编程语言的）思想难以交流。所以一撮人聚在一起，糅合当时存在的编程语言中的精华思想和一小部分新理念到一个新语言中。Haskell诞生了</p>
+<h3 id="what-is-haskell何为haskell">What is Haskell?//何为Haskell</h3>
+<p>Haskell是一个惰性的、函数式的编程语言，由一群学者在19世纪80年代晚期创建。因为当时有许多惰性的函数式语言，每个人都有他们的选择，因此（跨编程语言的）思想难以交流。所以一撮人聚在一起，糅合当时存在的编程语言中的精华思想和一小部分新理念到一个新语言中。Haskell诞生了</p>
 <p><img src="https://cdn.jsdelivr.net/gh/BlackCloud37/PictureBed@master/blog/20210408112419.png" alt="Haskel Logo" /></p>
 <p>所以，Haskell的特性究竟如何？它是:</p>
-<h4 id="functional">Functional</h4>
+<h4 id="functional函数式">Functional//函数式</h4>
 <p><img src="https://cdn.jsdelivr.net/gh/BlackCloud37/PictureBed@master/blog/20210408112351.png" alt="functional" style="zoom:60%;" /></p>
 <p>没有一个精确又被广泛接受的对<em>functional</em>一词的定义，不过当我们提及Haskell是个<em>functional</em> language时，我们通常指这两件事:</p>
 <ul>
@@ -241,7 +241,7 @@
 <li><p>Haskell的程序往往关注<strong>如何对表达式求值</strong>，而非<strong>执行指令</strong></p></li>
 </ul>
 <p>将这两点组合在一起，我们得到了编程的全新思维模式，接下来的学习过程中我们将花大部分时间来探索这种思维模式。</p>
-<h4 id="pure">Pure</h4>
+<h4 id="pure纯净">Pure//纯净</h4>
 <p><img src="https://cdn.jsdelivr.net/gh/BlackCloud37/PictureBed@master/blog/20210408112332.jpg" alt="pure water" style="zoom:33%;" /></p>
 <p>Haskell的表达式总是<strong>引用透明</strong> <em>(referentially transparent)</em>的，引用透明意味着:</p>
 <ul>
@@ -255,7 +255,7 @@
 <li><strong>并行性</strong> <em>(Parallelism)</em>: 对表达式求值<em>(evaluating)</em>可以轻易地并行，只要它们保证不会互相影响</li>
 <li><strong>头不痛了</strong> <em>(Fewer headaches)</em>: 易用但不受限制的副作用与跨语句作用<em>(action-at-a-distance)</em>会导致程序难以调试、维护以及分析<em>(reason about)</em></li>
 </ul>
-<h4 id="lazy">Lazy</h4>
+<h4 id="lazy惰性求值">Lazy//惰性求值</h4>
 <p><img src="https://cdn.jsdelivr.net/gh/BlackCloud37/PictureBed@master/blog/20210408112309.jpg" alt="lazy polar bears" style="zoom:33%;" /></p>
 <p>在Haskell中，表达式仅在需要其值时被求值，这个设计简单但具有深远影响，我们将在整个学期中体会它。其中一些影响是:</p>
 <ul>
@@ -264,12 +264,12 @@
 <li>使得更具组合性的编程风格<em>(compositional programming)</em>成为可能（见之后的<em>wholemeal programming</em>）</li>
 <li>（这是缺点）分析时间和空间使用率更加复杂了</li>
 </ul>
-<h4 id="statically-typed">Statically typed</h4>
+<h4 id="statically-typed静态类型">Statically typed//静态类型</h4>
 <p><img src="https://cdn.jsdelivr.net/gh/BlackCloud37/PictureBed@master/blog/20210408112233.jpg" alt="baby photo" style="zoom:33%;"/></p>
 <p>所有的Haskell表达式都有类型，并且类型都在编译时被检查。包含类型错误的程序不会编译成功，因此减少了运行时错误的可能</p>
-<h3 id="themes">Themes</h3>
+<h3 id="themes大纲">Themes//大纲</h3>
 <p>贯穿整个课程，我们将关注三个主题</p>
-<h4 id="types">Types</h4>
+<h4 id="types类型">Types//类型</h4>
 <p>静态类型系统看上去非常讨厌。实际上，在诸如C++或Java的语言中，静态类型确实很讨厌:( 但这不是静态类型系统本身的问题，只是因为C++和Java的类型系统的表达能力太弱。在学期中，我们将会仔细学习Haskell的类型系统，而它可以:</p>
 <ul>
 <li><p>帮助理清思维和表达程序结构</p>
@@ -279,10 +279,10 @@
 <li><p>将运行时错误转化为编译时错误</p>
 <p>在运行程序前就修复错误比疯狂测试然后期望它能work要好得多。“如果编译成功，那它必定正确”在大多数时候是玩笑话（因为在类型正确的程序上仍然可能出现逻辑错误），但是这句话在Haskell中比在其他语言中更具现实性</p></li>
 </ul>
-<h4 id="abstraction">Abstraction</h4>
+<h4 id="abstraction抽象化">Abstraction//抽象化</h4>
 <p>“<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/%E4%B8%80%E6%AC%A1%E4%B8%94%E4%BB%85%E4%B8%80%E6%AC%A1">Don't Repeat Yourself</a>”是编程中经常被提起的咒语<em>(mantra)</em>，又被称为“Abstraction Principle”，其关键在于不该存在任何重复: 每个想法、算法、数据都应该只在代码里出现一次。关注代码的相似结构并分析其共性<em>(commonality)</em>即为抽象<em>(abstraction)</em></p>
 <p>Haskell最擅长抽象: 包括参数多态、高阶函数与类型类<em>(type classes)</em>都能帮助减少重复。我们探索Haskell的旅程将会有大半时间在关注抽象</p>
-<h4 id="wholemeal-programming">Wholemeal programming</h4>
+<h4 id="wholemeal-programming全局视野">Wholemeal programming//全局视野</h4>
 <p>另一个我们将要探索的主题是<em>wholemeal programming</em>。这是一段来自Ralf Hinze的话:</p>
 <blockquote>
 <p>函数式语言最擅长wholemeal programming，这个术语由Geraint Jones提出。Wholemeal programming意味着关注全局<em>(to think big)</em>: 操作整个列表而非一小段元素；开发解的空间而非单个解；想象整个图而非单条路径。Wholemeal的方法经常能为问题提供新的视角。它很好地补充了投影编程<em>(projective programming)</em>的思想: 先解决一个通用的问题，再将这个通用问题转化成更具体的问题以提取我们需要的信息。</p>
@@ -296,9 +296,9 @@
 <p>而在Haskell中，我们只需要写</p>
 <p><code>sum (map (3*) lst)</code></p>
 <p>我们在这学期将先学会如何这样编程，再考虑为何Haskell要这样设计、以及这种设计如何实现</p>
-<h3 id="literate-haskell">Literate Haskell</h3>
+<h3 id="literate-haskell文学haskell">Literate Haskell//文学Haskell</h3>
 <p>这样的文件是“Haskell文学文档<em>(literate Haskell document)</em>”（文学一词取自<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a>的中文版<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%A6%E7%BC%96%E7%A8%8B">文学编程</a>）: 只有以<code>&gt;</code>和一个空格开头的行才是代码，其他所有东西都是注释。你的代码作业不需要是文学Haskell，除非你很喜欢这样做。文学Haskell文档的后缀往往是<code>.lhs</code>，而正常Haskell的源码文件后缀是<code>.hs</code></p>
-<h3 id="declarations-and-variables">Declarations and variables</h3>
+<h3 id="declarations-and-variables声明与对象">Declarations and variables//声明与对象</h3>
 <blockquote>
 <p>译者注：下面的代码演示包含了语法错误展示等，因此需要依赖于Haskell的编程环境以查看编译器的错误信息，因此建议在开始看这段前先配置好Haskell环境</p>
 <p>环境推荐采用<a target="_blank" rel="noopener" href="https://docs.haskellstack.org/en/stable/README/">Haskell Stack</a>，更多说明参考<a target="_blank" rel="noopener" href="https://github.com/bitemyapp/learnhaskell/blob/master/guide-zh_CN.md">learnhaskell</a>。关于编程环境，由于本课程文档中没有提及，因此此处暂不赘述，如有需求可以去了解<code>ghc, ghci, haskell stack</code>等相关概念及使用方法</p>
@@ -317,8 +317,8 @@
 <p>那么，你认为下面这段代码意味着什么？</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">y</span> <span class="token operator">::</span> <span class="token constant">Int</span>
 <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token hvariable">y</span> <span class="token operator">+</span> <span class="token number">1</span></code></pre>
-<h3 id="basic-types">Basic Types</h3>
-<h4 id="int">Int</h4>
+<h3 id="basic-types基础类型">Basic Types//基础类型</h3>
+<h4 id="int整型">Int//整型</h4>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Machine-sized integers</span>
 <span class="token hvariable">i</span> <span class="token operator">::</span> <span class="token constant">Int</span>
 <span class="token hvariable">i</span> <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">78</span></code></pre>
@@ -332,10 +332,10 @@ Biggest Int &amp; Smallest Int:
 9223372036854775807
 -9223372036854775808</code></pre>
 <p>注意Haskell习惯用小驼峰为变量、函数命名，且用大写字母开头作为命名是不合法的。如果你不喜欢小驼峰，那你倒大霉了(x</p>
-<h4 id="integer">Integer</h4>
+<h4 id="integer整数">Integer//整数</h4>
 <p>整数类型<em>(Integer)</em>则是一个可以容纳更大范围整数值的类型，具体能容纳多少取决于可用内存的大小</p>
 <blockquote>
-<p>译者注：Int类型总是定长的（比如64-bit， 8字节），以便存入单个寄存器减少内存读取。Integer储存巨大数值的代价就是它不能一次性被放入寄存器，因此对Integer做操作往往慢于Int。如无必要，请用Int</p>
+<p>译者注：Int类型总是定长的（比如64-bit， 8字节），以便存入单个寄存器减少内存读取。Integer储存巨大数值的代价就是它不能一次性被放入寄存器，可能带来效率问题。不过据说Haskell对Integer的优化相当好</p>
 </blockquote>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Arbitrary-precision integers</span>
 <span class="token hvariable">n</span> <span class="token operator">::</span> <span class="token constant">Integer</span>
@@ -352,7 +352,7 @@ n &amp; numDigits of reallyBig
 1234567890987654321987340982334987349872349874534
 19729</code></pre>
 <p>Haskell的Integer容纳了一个19729位的整数（当然，也可以更多）</p>
-<h4 id="floating-point">Floating-point</h4>
+<h4 id="floating-point浮点数">Floating-point//浮点数</h4>
 <p>对于浮点数，Haskell准备了单精度浮点数<em>(Float)</em>和双精度浮点数<em>(Double)</em>，就同你之前学过的语言一样</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Double-precision floating point</span>
 <span class="token hvariable">d1</span><span class="token punctuation">,</span> <span class="token hvariable">d2</span> <span class="token operator">::</span> <span class="token constant">Double</span>
@@ -362,7 +362,7 @@ n &amp; numDigits of reallyBig
 <span class="token hvariable">f1</span><span class="token punctuation">,</span> <span class="token hvariable">f2</span> <span class="token operator">::</span> <span class="token constant">Float</span>
 <span class="token hvariable">f1</span> <span class="token operator">=</span> <span class="token number">1.2</span>
 <span class="token hvariable">f2</span> <span class="token operator">=</span> <span class="token number">3.7e-2</span></code></pre>
-<h4 id="booleans-characters-and-strings">Booleans, characters, and strings</h4>
+<h4 id="booleans-characters-and-strings布尔值字符与字符串">Booleans, characters, and strings//布尔值，字符与字符串</h4>
 <p>如下，不赘述，值得注意的是String其实就是Char的数组，在之后会有更详细的接触</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Booleans</span>
 <span class="token hvariable">b1</span><span class="token punctuation">,</span> <span class="token hvariable">b2</span> <span class="token operator">::</span> <span class="token constant">Bool</span>
@@ -378,9 +378,9 @@ n &amp; numDigits of reallyBig
 <span class="token comment">-- Strings are lists of characters with special syntax</span>
 <span class="token hvariable">s</span> <span class="token operator">::</span> <span class="token constant">String</span>
 <span class="token hvariable">s</span> <span class="token operator">=</span> <span class="token string">"Hello, Haskell!"</span></code></pre>
-<h3 id="ghci">GHCi</h3>
+<h3 id="ghci交互式编程环境">GHCi//交互式编程环境</h3>
 <p>GHCi是一个采用GHC的交互式的Haskell REPL(Read-Eval-Print)环境。在GHCi里，你可以即时地对表达式求值、利用<code>:load (:l)</code>指令加载Haskell文件并用<code>:reload (:r)</code>重载、利用<code>:type (:t)</code>查询表达式的类型。更多指令可以使用<code>:?</code>查询</p>
-<h3 id="arithmetic">Arithmetic</h3>
+<h3 id="arithmetic来点算术">Arithmetic//来点算术</h3>
 <p>尝试在GHCi中执行以下语句并检查求得的值</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">ex01</span> <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">2</span>
 <span class="token hvariable">ex02</span> <span class="token operator">=</span> <span class="token number">19</span> <span class="token operator">-</span> <span class="token number">27</span>
@@ -411,7 +411,7 @@ n &amp; numDigits of reallyBig
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">ex09</span> <span class="token operator">=</span> <span class="token hvariable">i</span> `<span class="token builtin">div</span>` <span class="token hvariable">i</span> 	   <span class="token comment">-- same as ex09 = div i i</span>
 <span class="token hvariable">ex10</span> <span class="token operator">=</span> <span class="token number">12</span> `<span class="token builtin">div</span>` <span class="token number">5</span>    <span class="token comment">-- same as ex10 = div 12 5</span></code></pre>
 <p>如果你已经习惯了其他会对数值做隐式转换的语言，那Haskell的“死板”可能会让你难受。但是，我向你承认你会习惯的，并且随时间推移你会越发感谢它。隐式数值转换让我们对数值相关的代码的思维变得马虎</p>
-<h3 id="boolean-logic">Boolean logic</h3>
+<h3 id="boolean-logic布尔逻辑">Boolean logic//布尔逻辑</h3>
 <p>如你期待，Boolean值可以用 <code>&amp;&amp;, ||, not</code>三个操作符，比如:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">ex11</span> <span class="token operator">=</span> <span class="token constant">True</span> <span class="token operator">&amp;&amp;</span> <span class="token constant">False</span>
 <span class="token hvariable">ex12</span> <span class="token operator">=</span> <span class="token builtin">not</span> <span class="token punctuation">(</span><span class="token constant">False</span> <span class="token operator">||</span> <span class="token constant">True</span><span class="token punctuation">)</span></code></pre>
@@ -423,8 +423,8 @@ n &amp; numDigits of reallyBig
 <p>Haskell同样有<strong><code>if</code>表达式</strong> <em>(if-expression)</em>: <code>if b then t else f</code>会在<code>b == True</code>时<strong>返回</strong><code>t</code>，否则返回<code>f</code>。这和传统的<strong><code>if</code>语句</strong> <em>(if-statement)</em> 有区别。表达式与语句的区别在于表达式必须返回一个值，而语句代表一段控制指令</p>
 <p>同样对于上面那段代码，<code>if</code>语句的自然语言表述是: 如果<code>b</code>就做<code>t</code>，否则执行<code>f</code>，因此<code>else</code>块在需要执行的<code>f</code>为空时可以省略，代表什么都不做。二<code>if</code>表达式的自然语言表示则是: 如果<code>b</code>，这个表达式的值为<code>t</code>，否则值为<code>f</code>，因此<code>else</code>不可省略，因为否则这个表达式在<code>b</code>不满足时就没有任何值</p>
 <p>理想的Haskell程序不经常使用<code>if</code>，而是用模式匹配<em>(pattern-matching)</em>和门卫<em>(guards)</em>代替，参见下一部分</p>
-<h3 id="defining-basic-functions">Defining basic functions</h3>
-<h4 id="pattern-matching">Pattern Matching</h4>
+<h3 id="defining-basic-functions定义基础函数">Defining basic functions//定义基础函数</h3>
+<h4 id="pattern-matching模式匹配">Pattern Matching//模式匹配</h4>
 <p>我们可以实现一个输入正整数<code>n</code>，返回<code>1..n</code>的和的函数如下:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Compute the sum of the integers from 1 to n.</span>
 <span class="token hvariable">sumtorial</span> <span class="token operator">::</span> <span class="token constant">Integer</span> <span class="token operator">-></span> <span class="token constant">Integer</span>
@@ -433,7 +433,7 @@ n &amp; numDigits of reallyBig
 <p>第一行是声明，告诉Haskell这是一个接受<code>Integer</code>输出<code>Integer</code>的函数，剩下的子句（每一行）会被从上到下检查（根据函数参数），直到找到第一个符合条件的子句</p>
 <p>比如<code>sumtorial 0</code>会匹配第一个子句，因此直接返回0；而<code>sumtorial 3</code>没有匹配到第一个子句，因此会检查第二个子句，第二个子句没有任何匹配要求（比如要求输入是0），它只是将输入用变量<code>n</code>指示，即<code>n = 3</code>，然后它返回<code>n + sumtorial (n-1)</code>，即<code>3 + sumtorial 2</code>，进一步变成<code>3 + 2 + sumtorial 1</code>，<code>3 + 2 + 1 + sumtorial 0</code>及<code>3 + 2 + 1 + 0</code>。简单的递归:p</p>
 <p>上面的选择基于函数入参是否满足某个模式<em>(pattern)</em>来做出，<code>0</code>是一个模式，意味着输入了0，<code>n</code>是一个模式，意味着输入了单个变量，从上到下挨个匹配模式，直到找到匹配的（在这里<code>n</code>能匹配任何模式，但因为从上到下执行，所以如果输入是0，<code>0</code>总是比它先被匹配）。因此这种语法被称为模式匹配</p>
-<h4 id="guards">Guards</h4>
+<h4 id="guards门卫">Guards//门卫</h4>
 <p>选择也可以基于Boolean表达式的值做出，这种语法被称为门卫:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">hailstone</span> <span class="token operator">::</span> <span class="token constant">Integer</span> <span class="token operator">-></span> <span class="token constant">Integer</span>
 <span class="token hvariable">hailstone</span> <span class="token hvariable">n</span>
@@ -464,7 +464,7 @@ n &amp; numDigits of reallyBig
 <span class="token hvariable">isEven</span> <span class="token hvariable">n</span> <span class="token operator">=</span> <span class="token hvariable">n</span> `<span class="token builtin">mod</span>` <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span></code></pre>
 <p>不过Haskell已经有判断奇偶数的函数<code>odd</code>和<code>even</code>了</p>
 </blockquote>
-<h3 id="pairs">Pairs</h3>
+<h3 id="pairs对">Pairs//对</h3>
 <p>我们可以把东西打包在一起成为一个Pair，就像Python里的元组一样</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">p</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token constant">Int</span><span class="token punctuation">,</span> <span class="token constant">Char</span><span class="token punctuation">)</span>
 <span class="token hvariable">p</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token char string">'x'</span><span class="token punctuation">)</span></code></pre>
@@ -481,7 +481,7 @@ n &amp; numDigits of reallyBig
 a<span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span></code></pre>
 </blockquote>
 <p>Haskell还有三元组<em>(triples)</em>、四元组<em>(quadruples)</em>...，但你永远不应该使用他们。我们下周会讲更好的将三个及以上变量打包在一起的方法</p>
-<h3 id="using-functions-and-multiple-arguments">Using functions, and multiple arguments</h3>
+<h3 id="using-functions-and-multiple-arguments多参数函数">Using functions, and multiple arguments//多参数函数</h3>
 <p>要用多个参数调用函数，只要将参数挨个排在函数名后面，用空格分隔，就像:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">f</span> <span class="token operator">::</span> <span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span> <span class="token operator">-></span> <span class="token constant">Int</span>
 <span class="token hvariable">f</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token hvariable">z</span> <span class="token operator">=</span> <span class="token hvariable">x</span> <span class="token operator">+</span> <span class="token hvariable">y</span> <span class="token operator">+</span> <span class="token hvariable">z</span>
@@ -493,7 +493,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
 <p>并不意味着用<code>3, n+1, 7</code>调用<code>f</code>，而是被解释为<code>(f 3 n) + (1 7)</code></p>
 <p>所以正确的写法是</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">f</span> <span class="token number">3</span> <span class="token punctuation">(</span><span class="token hvariable">n</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token number">7</span></code></pre>
-<h3 id="lists">Lists</h3>
+<h3 id="lists列表">Lists//列表</h3>
 <p>列表 <em>(Lists)</em>是Haskell最基础的数据类型之一</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">nums</span><span class="token punctuation">,</span> <span class="token builtin">range</span><span class="token punctuation">,</span> <span class="token hvariable">range2</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token constant">Integer</span><span class="token punctuation">]</span>
 <span class="token hvariable">nums</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">]</span>
@@ -511,7 +511,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
 
 <span class="token hvariable">helloSame</span> <span class="token operator">=</span> <span class="token hvariable">hello1</span> <span class="token operator">==</span> <span class="token hvariable">hello2</span>        <span class="token comment">-- it's True</span></code></pre>
 <p>这也意味着，所有能够处理普通列表的基础库都能处理字符串</p>
-<h3 id="constructing-lists">Constructing lists</h3>
+<h3 id="constructing-lists构造列表">Constructing lists//构造列表</h3>
 <p>最简单的列表当属</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">emptyList</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span></code></pre>
 <p>其他列表都是从空列表构建而来的，列表实际就是一堆元素的组合，利用<em>cons</em>操作符<code>:</code>，我们可以将一个元素拼接到一个列表上，构建出一个新的列表。被拼接的元素会出现在新列表的头部</p>
@@ -534,7 +534,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
                    <span class="token operator">=></span> <span class="token hvariable">hailstoneSeq</span> <span class="token number">3</span> <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">10</span> <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">:</span> <span class="token hvariable">hailstoneSeq</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token hvariable">matching</span> <span class="token hvariable">pattern</span> <span class="token number">1</span> <span class="token operator">=></span> <span class="token hvariable">hailstoneSeq</span> <span class="token number">3</span> <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">10</span> <span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token hvariable">returns</span>            <span class="token operator">=></span> <span class="token number">3</span> <span class="token operator">:</span> <span class="token number">10</span> <span class="token operator">:</span> <span class="token number">0</span> <span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span></code></pre>
-<h3 id="functions-on-lists">Functions on lists</h3>
+<h3 id="functions-on-lists列表函数">Functions on lists//列表函数</h3>
 <p>列表也可以使用模式匹配</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- Compute the length of a list of Integers.</span>
 <span class="token hvariable">intListLength</span> <span class="token operator">::</span> <span class="token punctuation">[</span><span class="token constant">Integer</span><span class="token punctuation">]</span> <span class="token operator">-></span> <span class="token constant">Integer</span>
@@ -549,7 +549,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
 <span class="token hvariable">sumEveryTwo</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token hvariable">x</span><span class="token punctuation">]</span>    <span class="token comment">-- Do nothing to lists with a single element</span>
 <span class="token hvariable">sumEveryTwo</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token operator">:</span><span class="token punctuation">(</span><span class="token hvariable">y</span><span class="token operator">:</span><span class="token hvariable">zs</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token hvariable">x</span> <span class="token operator">+</span> <span class="token hvariable">y</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token hvariable">sumEveryTwo</span> <span class="token hvariable">zs</span></code></pre>
 <p>最后一个子句匹配一个至少有两个元素的列表，用<code>x, y</code>分别指代第一、二个元素，并用<code>zs</code>指代<strong>剩下</strong>的元素，然后返回<code>(x + y) : sumEveryTwo zs</code>。嵌套时的括号不是必须的，因此<code>sumEveryTwo (x:y:zs) = ...</code>也是等价的</p>
-<h3 id="combining-functions">Combining functions</h3>
+<h3 id="combining-functions组合函数">Combining functions//组合函数</h3>
 <p>将复杂的函数分解为简单函数的组合是良好的Haskell编程风格</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- The number of hailstone steps needed to reach 1 from a starting</span>
 <span class="token comment">-- number.</span>
@@ -557,7 +557,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
 <span class="token hvariable">hailstoneLen</span> <span class="token hvariable">n</span> <span class="token operator">=</span> <span class="token hvariable">intListLength</span> <span class="token punctuation">(</span><span class="token hvariable">hailstoneSeq</span> <span class="token hvariable">n</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span></code></pre>
 <p>这看起来可能很低效，为了计算<code>hailstone</code>需要的步数，居然要先生成一个完整的<code>hailstoneSeq</code>再计算长度，多浪费内存啊？但实际上并不！得益于Haskell的惰性求值，sequence的元素只有在被需要时生成，所以序列的生成和列表长度的计算是交织<em>(interleaved)</em>的。整个计算过程只使用<em>O(1)</em>的内存，不论输入多大的<code>n</code>（这里撒了一个善意的谎，但大差不差:p 至于问题在哪里就留待后几周讨论）</p>
 <p>我们之后将会学习更多的关于Haskell的惰性求值策略。至于现在，需要了解的信息是: 不要担心写一个需要用到整个数据结构的函数，并尽量多写小函数来组合出复杂的功能，这一开始会不太自然，不过这是写理想的（并且高效的）Haskell程序的方式，并且当你习惯后，这样写代码是一种享受</p>
-<h3 id="a-word-about-error-messages">A word about error messages</h3>
+<h3 id="a-word-about-error-messages关于报错信息">A word about error messages//关于报错信息</h3>
 <p>四字箴言: <strong>别怕报错</strong></p>
 <p>GHC的报错信息可能看起来很长并且很吓人，但是它们长并不代表它们晦涩，而代表它们包含很多有用的信息，比如:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token constant">Prelude</span><span class="token operator">></span> <span class="token char string">'x'</span> <span class="token operator">++</span> <span class="token string">"foo"</span>
@@ -570,7 +570,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
 <p>报错第一行就告诉你 <code>无法匹配传入的'Char'类型到期待的[a0]</code>上 ，这意味着表达式中的<strong>某一部分</strong>被期待为一个<code>[a0]</code>（虽然不知道<code>a0</code>是什么，但是<code>[]</code>告诉你他是一个列表）但实际上却是<code>Char</code>，<strong>某一部分</strong>是哪一部分？第二行报错告诉我们<code>它是(++)操作符的第一个参数，名字是'x'</code>，下面的报错告诉我们这个表达式出现的位置</p>
 <p>综合上述信息，我们很容易发现问题在于<code>(++)</code>操作符期待两个参数都是列表（进一步的，必须是相同类型的列表），而我们传入的第一个参数<code>'x'</code>是个<code>Char</code></p>
 <p>当你看到一大堆报错信息的时候，抵抗逃跑的冲动！深呼吸，然后仔细读错误信息。你不需要理解报错信息的全部内容，但是你肯定会学到很多，并且获得足够的定位问题的信息</p>
-<h3 id="assignment">Assignment</h3>
+<h3 id="assignment课后作业">Assignment//课后作业</h3>
 <p><a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/hw/01-intro.pdf">Homework1</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/BlackCloud37/CIS194-Haskell-Homeworks/blob/master/src/Week1.hs">My Answers</a></p>
 <blockquote>
@@ -584,7 +584,7 @@ a<span class="token punctuation">,</span> b <span class="token operator">=</span
   本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
 </blockquote>
   
-  <p><a class="classtest-link" href="/tags/CIS194/" rel="tag">CIS194</a>, <a class="classtest-link" href="/tags/Haskell/" rel="tag">Haskell</a>, <a class="classtest-link" href="/tags/Haskell-%E6%95%99%E7%A8%8B/" rel="tag">Haskell 教程</a>, <a class="classtest-link" href="/tags/Translation/" rel="tag">Translation</a> — Apr 8, 2021</p>
+  <p><a class="classtest-link" href="/tags/CIS194/" rel="tag">CIS194</a>, <a class="classtest-link" href="/tags/Haskell/" rel="tag">Haskell</a>, <a class="classtest-link" href="/tags/Haskell-%E5%85%A5%E9%97%A8/" rel="tag">Haskell 入门</a>, <a class="classtest-link" href="/tags/Haskell-%E6%95%99%E7%A8%8B/" rel="tag">Haskell 教程</a>, <a class="classtest-link" href="/tags/Translation/" rel="tag">Translation</a> — Apr 8, 2021</p>
   
   <hr>
   <div id="vcomments"></div>

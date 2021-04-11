@@ -17,7 +17,7 @@
   
   <link rel="canonical" href="https://blackcloud37.tech/posts/786f7a8f/">
   
-  <meta name="description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Algebraic Data Types 推荐阅读:  Real World Haskell, chapters 2 and 3  E">
+  <meta name="description" content="Reference: ADTs 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Algebraic Data Types//代数数据类型 推荐阅读:  Real World Haskell, chapters 2 and 3  Enu">
   
   
   <meta name="author" content="Chen Ye">
@@ -28,14 +28,14 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="CIS194中文翻译 Week2 Algebraic Data Types" />
   
-  <meta property="og:description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Algebraic Data Types 推荐阅读:  Real World Haskell, chapters 2 and 3  E">
+  <meta property="og:description" content="Reference: ADTs 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Algebraic Data Types//代数数据类型 推荐阅读:  Real World Haskell, chapters 2 and 3  Enu">
   
   <meta property="og:url" content="https://blackcloud37.tech/posts/786f7a8f/" />
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CIS194中文翻译 Week2 Algebraic Data Types">
   
-  <meta name="twitter:description" content="Reference: Haskell Basics 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Algebraic Data Types 推荐阅读:  Real World Haskell, chapters 2 and 3  E">
+  <meta name="twitter:description" content="Reference: ADTs 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  Algebraic Data Types//代数数据类型 推荐阅读:  Real World Haskell, chapters 2 and 3  Enu">
   
   
   <meta name="twitter:image" content="https://blackcloud37.techundefined">
@@ -217,15 +217,15 @@
             <h2>CIS194中文翻译 Week2 Algebraic Data Types</h2>
 
   <blockquote>
-<p>Reference: <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/lectures/01-intro.html">Haskell Basics</a></p>
+<p>Reference: <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/lectures/02-ADTs.html">ADTs</a></p>
 <p>本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持</p>
 </blockquote>
-<h2 id="algebraic-data-types">Algebraic Data Types</h2>
+<h2 id="algebraic-data-types代数数据类型">Algebraic Data Types//代数数据类型</h2>
 <p>推荐阅读:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://book.realworldhaskell.org/">Real World Haskell</a>, chapters 2 and 3</li>
 </ul>
-<h3 id="enumeration-types">Enumeration types</h3>
+<h3 id="enumeration-types枚举类型">Enumeration types//枚举类型</h3>
 <p>就像许多编程语言一样，Haskell允许你创建自己的<strong>枚举类型</strong>，这是一个简单的例子:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Thing</span> <span class="token operator">=</span> <span class="token constant">Shoe</span>
            <span class="token operator">|</span> <span class="token constant">Ship</span>
@@ -255,7 +255,7 @@
 <span class="token hvariable">isSmall2</span> <span class="token constant">Ship</span> <span class="token operator">=</span> <span class="token constant">False</span>
 <span class="token hvariable">isSmall2</span> <span class="token constant">King</span> <span class="token operator">=</span> <span class="token constant">False</span>
 <span class="token hvariable">isSmall2</span> <span class="token hvariable">_</span>    <span class="token operator">=</span> <span class="token constant">True</span></code></pre>
-<h3 id="beyond-enumerations">Beyond enumerations</h3>
+<h3 id="beyond-enumerations不只是枚举">Beyond enumerations//不只是枚举</h3>
 <p><code>Thing</code> 是一个枚举类型，就像其他语言，如Java, C++提供的一样。不过，枚举类型在Haskell中只不过是一个更广泛的<strong>代数数据类型</strong> <em>(algebraic data types)</em> 的特殊情况。作为我们的第一个<strong>不仅仅是枚举</strong>的数据类型的例子，来看下面 <code>FailableDouble</code> 的类型定义</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">FailableDouble</span> <span class="token operator">=</span> <span class="token constant">Failure</span>
                     <span class="token operator">|</span> <span class="token constant">OK</span> <span class="token constant">Double</span>
@@ -286,7 +286,7 @@
 <span class="token hvariable">getAge</span> <span class="token operator">::</span> <span class="token constant">Person</span> <span class="token operator">-></span> <span class="token constant">Int</span>
 <span class="token hvariable">getAge</span> <span class="token punctuation">(</span><span class="token constant">Person</span> <span class="token hvariable">_</span> <span class="token hvariable">a</span> <span class="token hvariable">_</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">a</span></code></pre>
 <p>注意类型构造器和数据构造器都叫<code>Person</code>，但它们属于不同的命名空间并且是不同的东西。这种给类型和数据构造器取同一个名字的写法很常见，不过在你真正习惯之前可能会觉得很迷惑</p>
-<h3 id="algebraic-data-types-in-general">Algebraic data types in general</h3>
+<h3 id="algebraic-data-types-in-general总结代数数据类型">Algebraic data types in general//总结代数数据类型</h3>
 <p>总体来说，一个代数数据类型拥有一个或多个数据构造器，并且每个数据构造器都有0个或多个参数</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">AlgDataType</span> <span class="token operator">=</span> <span class="token constant">Constr1</span> <span class="token constant">Type11</span> <span class="token constant">Type12</span>
                  <span class="token operator">|</span> <span class="token constant">Constr2</span> <span class="token constant">Type21</span>
@@ -294,7 +294,7 @@
                  <span class="token operator">|</span> <span class="token constant">Constr4</span></code></pre>
 <p>这段代码指明 <code>AlgDataType</code> 这个类型可以用四种方式构造: <code>Constr1, Constr2, Constr3, Constr4.</code> 取决于你使用了哪个构造器，一个<code>AlgDataType</code>的值可能可以包含其他值: 如果你用<code>Constr1</code>构造它，那么它就另外包含两个值，它们的类型分别是<code>Type11</code>和<code>Type12</code></p>
 <p><strong>Haskell要求: 类型和数据构造器的名字必须始终以大写字母开头，变量和函数名必须以小写字母开头</strong></p>
-<h3 id="pattern-matching">Pattern-matching</h3>
+<h3 id="pattern-matching模式匹配">Pattern-matching//模式匹配</h3>
 <p>我们已经见过了一些模式匹配的特殊例子，不过我们现在要具体学习对于代数数据类型，模式匹配究竟如何工作。总体来说，模式匹配就是<strong>将一个值通过其构造器分解</strong>，从中获得的信息会被用来决定接下来要做什么（如匹配是否成功），实际上，在Haskell中只有这一种方法可以用来做决定</p>
 <p>作为例子，要决定一个<code>AlgDataType</code>的值被哪个模式匹配，我们可以这样写:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">foo</span> <span class="token punctuation">(</span><span class="token constant">Constr1</span> <span class="token hvariable">a</span> <span class="token hvariable">b</span><span class="token punctuation">)</span>   <span class="token operator">=</span> <span class="token operator">...</span>
@@ -341,7 +341,7 @@
 <blockquote>
 <p>当然，实际上<code>Int</code>和<code>Char</code>不是这样定义的</p>
 </blockquote>
-<h3 id="case-expressions">Case expressions</h3>
+<h3 id="case-expressionscase表达式">Case expressions//Case表达式</h3>
 <p>Haskell中模式匹配的基础结构是<code>case</code>表达式，<code>case</code>表达式形如:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">case</span> <span class="token builtin">exp</span> <span class="token keyword">of</span>
   <span class="token hvariable">pat1</span> <span class="token operator">-></span> <span class="token hvariable">exp1</span>
@@ -358,7 +358,7 @@
 <span class="token hvariable">failureToZero</span>' <span class="token hvariable">x</span> <span class="token operator">=</span> <span class="token keyword">case</span> <span class="token hvariable">x</span> <span class="token keyword">of</span>
                      <span class="token constant">Failure</span> <span class="token operator">-></span> <span class="token number">0</span>
                      <span class="token constant">OK</span> <span class="token hvariable">d</span>    <span class="token operator">-></span> <span class="token hvariable">d</span></code></pre>
-<h3 id="recursive-data-types">Recursive data types</h3>
+<h3 id="recursive-data-types递归数据类型">Recursive data types//递归数据类型</h3>
 <p>数据类型可以是递归定义的，即在定义中包含他们自己。我们其实已经见过递归定义的数据类型了——<code>List</code>要么是空的，要么就是一个元素拼接在另一个列表之前。我们可以定义自己的列表类型如下:</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">IntList</span> <span class="token operator">=</span> <span class="token constant">Empty</span> <span class="token operator">|</span> <span class="token constant">Cons</span> <span class="token constant">Int</span> <span class="token constant">IntList</span></code></pre>
 <p>Haskell自带的列表与此非常相似，它只是拥有更特殊的语法<code>([]表示Empty，: 表示拼接)</code>，并且可以支持更多数据类型而已</p>
@@ -373,7 +373,7 @@
 <p>然后用这样的代码构造它</p>
 <pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">tree</span> <span class="token operator">::</span> <span class="token constant">Tree</span>
 <span class="token hvariable">tree</span> <span class="token operator">=</span> <span class="token constant">Node</span> <span class="token punctuation">(</span><span class="token constant">Leaf</span> <span class="token char string">'x'</span><span class="token punctuation">)</span> <span class="token number">1</span> <span class="token punctuation">(</span><span class="token constant">Node</span> <span class="token punctuation">(</span><span class="token constant">Leaf</span> <span class="token char string">'y'</span><span class="token punctuation">)</span> <span class="token number">2</span> <span class="token punctuation">(</span><span class="token constant">Leaf</span> <span class="token char string">'z'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<h3 id="assignment">Assignment</h3>
+<h3 id="assignment作业">Assignment//作业</h3>
 <p><a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/hw/02-ADTs.pdf">Homework2</a> <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/extras/02-ADTs/error.log">error.log</a> <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/extras/02-ADTs/sample.log">sample.log</a> <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/extras/02-ADTs/Log.hs">Log.hs</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/BlackCloud37/CIS194-Haskell-Homeworks/blob/master/src/Week2">My Answers</a></p>
 <blockquote>
@@ -387,7 +387,7 @@
   本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
 </blockquote>
   
-  <p><a class="classtest-link" href="/tags/CIS194/" rel="tag">CIS194</a>, <a class="classtest-link" href="/tags/Haskell/" rel="tag">Haskell</a>, <a class="classtest-link" href="/tags/Haskell-%E6%95%99%E7%A8%8B/" rel="tag">Haskell 教程</a>, <a class="classtest-link" href="/tags/Translation/" rel="tag">Translation</a> — Apr 9, 2021</p>
+  <p><a class="classtest-link" href="/tags/CIS194/" rel="tag">CIS194</a>, <a class="classtest-link" href="/tags/Haskell/" rel="tag">Haskell</a>, <a class="classtest-link" href="/tags/Haskell-%E5%85%A5%E9%97%A8/" rel="tag">Haskell 入门</a>, <a class="classtest-link" href="/tags/Haskell-%E6%95%99%E7%A8%8B/" rel="tag">Haskell 教程</a>, <a class="classtest-link" href="/tags/Translation/" rel="tag">Translation</a> — Apr 9, 2021</p>
   
   <hr>
   <div id="vcomments"></div>

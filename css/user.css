@@ -9,3 +9,9 @@ h1,h2,h3,h4,h5,h6 {
 #vcomments .vpower {
   display: none !important;
 }
+
+.post-title {
+  /* text-overflow: ellipsis; */
+  display:inline;
+  white-space:nowrap;
+}
