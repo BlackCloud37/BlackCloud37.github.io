@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>CIS194中文翻译 Week5 更多的多态与Type class</title>
+  
+  <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
+  
+  <link rel="canonical" href="https://blackcloud37.tech/posts/db537e15/">
+  
+  <meta name="description" content="Reference: More polymorphism and type classes 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  More polymorphism and type classes//更多多态与Type c">
+  
+  
+  <meta name="author" content="Chen Ye">
+  
+  <meta property="og:image" content="https://blackcloud37.techundefined">
+  
+  <meta property="og:site_name" content="Blackcloud&#39;s Page" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="CIS194中文翻译 Week5 更多的多态与Type class" />
+  
+  <meta property="og:description" content="Reference: More polymorphism and type classes 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  More polymorphism and type classes//更多多态与Type c">
+  
+  <meta property="og:url" content="https://blackcloud37.tech/posts/db537e15/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CIS194中文翻译 Week5 更多的多态与Type class">
+  
+  <meta name="twitter:description" content="Reference: More polymorphism and type classes 本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持  More polymorphism and type classes//更多多态与Type c">
+  
+  
+  <meta name="twitter:image" content="https://blackcloud37.techundefined">
+  
+  <meta name="twitter:url" content="https://blackcloud37.tech/posts/db537e15/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- SEO
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="baidu-site-verification" content="code-HW8U3Sxzda" />
+  
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.ico">
+  <link rel="manifest" href="image/site.webmanifest">
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    position: relative;
+    /* text-decoration-color: #3884ff; */
+    text-decoration: none;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #3884ff 50%
+    );
+  }
+  a:not(.icon)::after {
+    content: '';
+    width: 100%;
+    height: .4em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* background-color: ; */
+    z-index: -1;
+    opacity: .4;
+    background-color: #3884ff;
+  }
+  /* blockquote {
+    border-left: 8px solid #3884ff;
+  } */
+  .nanobar .bar {
+    background: #3884ff;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #3884ff;
+    border-color: #3884ff;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #3884ff;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+  <!-- Valine Comments-->
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      BlackCloud&#39;s Page
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+          
+          <a href="/About" class="ml">About</a>
+          
+        
+          
+          <a href="/Links" class="ml">Links</a>
+          
+        
+        
+          
+            <a href="mailto:yechenz37@163.com" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>CIS194中文翻译 Week5 更多的多态与Type class</h2>
+
+  <blockquote>
+<p>Reference: <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/lectures/05-type-classes.html">More polymorphism and type classes</a></p>
+<p>本文档为学习CIS 194课程时顺便翻译之作，如有任何错误、不当及建议，欢迎通过评论或者邮件同我交流。感谢支持</p>
+</blockquote>
+<h2 id="more-polymorphism-and-type-classes更多多态与type-class">More polymorphism and type classes//更多多态与Type class</h2>
+<p>Haskell多态系统的特色是<strong>参数多态 <em>(parametric polymorphism)</em></strong>，即多态函数可以处理任何输入类型，这对于使用多态的程序员或多态函数的使用者都有有趣的影响</p>
+<h3 id="parametricity">Parametricity</h3>
+<p>考虑这个类型</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span></code></pre>
+<p>这里的<code>a</code>是一个可以指代任何类型的<strong>类型变量</strong>，什么函数有上面这样的类型呢？</p>
+<p>这样的？</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">f</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span>
+<span class="token hvariable">f</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token hvariable">x</span> <span class="token operator">&amp;&amp;</span> <span class="token hvariable">y</span></code></pre>
+<p>但这个函数没法通过编译，虽然它的语法看上去没问题，但是它无法通过<strong>类型检查<em>(type check)</em></strong>，编译器会报这个错:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token number">2012</span><span class="token operator">-</span><span class="token number">02</span><span class="token operator">-</span><span class="token number">09</span><span class="token punctuation">.</span><span class="token hvariable">lhs</span><span class="token operator">:</span><span class="token number">37</span><span class="token operator">:</span><span class="token number">16</span><span class="token operator">:</span>
+    <span class="token constant">Couldn</span>'<span class="token hvariable">t</span> <span class="token hvariable">match</span> <span class="token keyword">type</span> `<span class="token hvariable">a</span>' <span class="token hvariable">with</span> `<span class="token constant">Bool</span>'
+      `<span class="token hvariable">a</span>' <span class="token hvariable">is</span> <span class="token hvariable">a</span> <span class="token hvariable">rigid</span> <span class="token keyword">type</span> <span class="token hvariable">variable</span> <span class="token hvariable">bound</span> <span class="token hvariable">by</span>
+          <span class="token hvariable">the</span> <span class="token keyword">type</span> <span class="token hvariable">signature</span> <span class="token hvariable">for</span> <span class="token hvariable">f</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token hvariable">at</span> <span class="token number">2012</span><span class="token operator">-</span><span class="token number">02</span><span class="token operator">-</span><span class="token number">09</span><span class="token punctuation">.</span><span class="token hvariable">lhs</span><span class="token operator">:</span><span class="token number">37</span><span class="token operator">:</span><span class="token number">3</span>
+    <span class="token constant">In</span> <span class="token hvariable">the</span> <span class="token hvariable">second</span> <span class="token hvariable">argument</span> <span class="token keyword">of</span> `<span class="token punctuation">(</span><span class="token operator">&amp;&amp;</span><span class="token punctuation">)</span>'<span class="token punctuation">,</span> <span class="token hvariable">namely</span> `<span class="token hvariable">y</span>'
+    <span class="token constant">In</span> <span class="token hvariable">the</span> <span class="token hvariable">expression</span><span class="token operator">:</span> <span class="token hvariable">x</span> <span class="token operator">&amp;&amp;</span> <span class="token hvariable">y</span>
+    <span class="token constant">In</span> <span class="token hvariable">an</span> <span class="token hvariable">equation</span> <span class="token hvariable">for</span> `<span class="token hvariable">f</span>'<span class="token operator">:</span> <span class="token hvariable">f</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token hvariable">x</span> <span class="token operator">&amp;&amp;</span> <span class="token hvariable">y</span></code></pre>
+<p>编译错误的理由是，多态函数的<strong>调用者</strong>才是决定其参数类型的人，但在这里，函数的实现者却先假定了<code>a</code>是<code>Bool</code>，并对其使用了<code>Bool</code>专属的<code>&amp;&amp;</code>运算符。要使用这个函数的人不一定事先知道我们用了<code>&amp;&amp;</code>，因此他可能试图用<code>String</code>或者<code>Int</code>作为参数来调用这个函数，然后发现出了问题——这显然是个不合理的情况，因此编译器选择拒绝这种实现。换句话说，你可以把<code>a -&gt; a -&gt; a</code>这个类型看成是一个<strong>承诺<em>(promise)</em></strong>，承诺这个函数可以接受调用者给的任何类型的参数</p>
+<p>另一个我们可以想到的实现方式是</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">f</span> <span class="token hvariable">a1</span> <span class="token hvariable">a2</span> <span class="token operator">=</span> <span class="token keyword">case</span> <span class="token punctuation">(</span><span class="token hvariable">typeOf</span> <span class="token hvariable">a1</span><span class="token punctuation">)</span> <span class="token keyword">of</span>
+            <span class="token constant">Int</span>  <span class="token operator">-></span> <span class="token hvariable">a1</span> <span class="token operator">+</span> <span class="token hvariable">a2</span>
+            <span class="token constant">Bool</span> <span class="token operator">-></span> <span class="token hvariable">a1</span> <span class="token operator">&amp;&amp;</span> <span class="token hvariable">a2</span>
+            <span class="token hvariable">_</span>    <span class="token operator">-></span> <span class="token hvariable">a1</span></code></pre>
+<p><code>f</code>函数对不同的类型有不同的表现，在Java里，我们确实可以这样实现它:</p>
+<pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">AdHoc</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Object</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token class-name">Object</span> a1<span class="token punctuation">,</span> <span class="token class-name">Object</span> a2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>a1 <span class="token keyword">instanceof</span> <span class="token class-name">Integer</span> <span class="token operator">&amp;&amp;</span> a2 <span class="token keyword">instanceof</span> <span class="token class-name">Integer</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token class-name">Integer</span><span class="token punctuation">)</span>a1 <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token class-name">Integer</span><span class="token punctuation">)</span>a2<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>a1 <span class="token keyword">instanceof</span> <span class="token class-name">Boolean</span> <span class="token operator">&amp;&amp;</span> a2 <span class="token keyword">instanceof</span> <span class="token class-name">Boolean</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token class-name">Boolean</span><span class="token punctuation">)</span>a1 <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token class-name">Boolean</span><span class="token punctuation">)</span>a2<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> a1<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> main <span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token function">f</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span> <span class="token string">"there"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">[</span>byorgey<span class="token annotation punctuation">@LVN513</span><span class="token operator">-</span><span class="token number">9</span><span class="token operator">:</span><span class="token operator">~</span><span class="token operator">/</span>tmp<span class="token punctuation">]</span>$ javac <span class="token class-name">Adhoc</span><span class="token punctuation">.</span>java <span class="token operator">&amp;&amp;</span> java <span class="token class-name">AdHoc</span>
+<span class="token number">4</span>
+<span class="token boolean">false</span>
+hello</code></pre>
+<p>不过在Haskell里，这样写是不被允许的——因为它没有类似Java的<code>instanceof</code>的操作符，它也没有能力在运行时查询一个变量的类型，并根据变量的类型决定具体要做什么。这种能力的缺失的一个理由是，Haskell的类型在类型检查完成后就被编译器抹去了: 在运行时，根本没有可以用来查询的类型信息。不过，我们还有其他更好的理由</p>
+<p>我们提过这种多态的实现风格被称为<strong>参数多态</strong>，像<code>f :: a -&gt; a -&gt; a</code>这样的函数对于类型<code>a</code>是<em>parametric</em>的，“parametric”的含义是“对任何调用者选择的参数类型都能工作”。在Java中，这种多态能力是由泛型提供的</p>
+<blockquote>
+<p>泛型就是受到Haskell启发而产生的，Haskell的一个主要设计者<a target="_blank" rel="noopener" href="http://homepages.inf.ed.ac.uk/wadler/">Phili Wadler</a>就是后来Java泛型系统的开发者</p>
+</blockquote>
+<p>所以什么函数实现才能有<code>a -&gt; a -&gt; a</code>这样的类型呢，以下是两个例子:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">f1</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span>
+<span class="token hvariable">f1</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token hvariable">x</span>
+
+<span class="token hvariable">f2</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span>
+<span class="token hvariable">f2</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token hvariable">y</span></code></pre>
+<p>由此可见， <code>a -&gt; a -&gt; a</code>这个类型透露了很多关于函数的信息</p>
+<p>现在，看看以下几个类型，思考一下什么样的函数可能具有这些类型</p>
+<ul>
+<li><code>a -&gt; a</code></li>
+<li><code>a -&gt; b</code></li>
+<li><code>a -&gt; b -&gt; a</code></li>
+<li><code>[a] -&gt; [a]</code></li>
+<li><code>(b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)</code></li>
+<li><code>(a -&gt; a) -&gt; a -&gt; a</code></li>
+</ul>
+<h3 id="two-views-on-parametricity">Two views on parametricity</h3>
+<p>作为一个多态函数的<strong>编写者</strong>，特别是当你之前经常用<code>instanceof</code>之类的语法来实现多态函数时，你现在肯定觉得Haskell的诸多限制非常不便: “怎么连这都没法用？” 但从多态函数<strong>使用者</strong>的视角来看，参数并不是“调用该函数的<strong>限制<em>(restrictions)</em></strong>”，而是“对于该函数功能的<strong>保证<em>(guarantees)</em></strong>”。当函数通过各种途径提供了对其功能的有力保证时，推理工具的使用就容易多了</p>
+<p>不过，确实有些时候根据变量类型决定做什么操作非常有用，比如加法，我们之前已经知道加法是多态的，<code>Int, Integer</code>和<code>Double</code>都可以做加法，显然它必须知道被加的数是什么类型: <code>Integer</code>的加法和<code>Double</code>的加法是完全不同的操作。它是怎么实现根据加数的类型决定具体的加法操作的呢？</p>
+<p>我们不妨看看<code>(+)</code>的类型:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token constant">Prelude</span><span class="token operator">></span> <span class="token operator">:</span><span class="token hvariable">t</span> <span class="token punctuation">(</span><span class="token operator">+</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token operator">+</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token constant">Num</span> <span class="token hvariable">a</span> <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span></code></pre>
+<p>Emmm, <code>Num a =&gt;</code>是什么意思？实际上，<code>(+)</code>不是唯一一个在定义里包含<code>=&gt;</code>的基础函数，下面这些函数的定义里也有一样的符号:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token punctuation">(</span><span class="token operator">==</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token constant">Eq</span> <span class="token hvariable">a</span>   <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span>
+<span class="token punctuation">(</span><span class="token operator">&lt;</span><span class="token punctuation">)</span>  <span class="token operator">::</span> <span class="token constant">Ord</span> <span class="token hvariable">a</span>  <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span>
+<span class="token builtin">show</span> <span class="token operator">::</span> <span class="token constant">Show</span> <span class="token hvariable">a</span> <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">String</span></code></pre>
+<p>下面我们来看看它们的实际意义</p>
+<h2 id="type-classes类型类">Type classes//类型类</h2>
+<p><code>Num</code>, <code>Eq</code>, <code>Ord</code>, 和 <code>Show</code>都叫<strong>类型类<em>(type classes)</em></strong>，而<code>(==)</code>,<code>(&lt;)</code>,<code>(+)</code>这些类型定义里包含类型类的函数都是类型类多态的<em>(type-class polymorphic)</em>。类型类指的是一些类型的集合，每个集合中的所有类型都<strong>支持共有的操作</strong>，针对某个类型类的 type-class polymorphic 函数则只对该集合的成员类型有效，举个例子，有一个类型类叫做<code>Eq</code>:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">class</span> <span class="token constant">Eq</span> <span class="token hvariable">a</span> <span class="token keyword">where</span>
+  <span class="token punctuation">(</span><span class="token operator">==</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span>
+  <span class="token punctuation">(</span><span class="token operator">/=</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span></code></pre>
+<p>我们可以这样解释这段定义: <code>Eq</code>是一个包含单参数<code>a</code>的类型类，任何类型<code>a</code>想作为<code>Eq</code>类的集合中的一员，就必须支持两个函数<code>(==)</code>和<code>(/=)</code>，并且这两个函数必须符合对应的函数定义。比如如果我们想让<code>Int</code>成为<code>Eq</code>的一员，就要定义两个函数<code>(==) : Int -&gt; Int -&gt; Bool</code>和<code>(/=) :: Int -&gt; Int -&gt; Bool</code>。因为Haskell已经实现了针对<code>Int</code>的这两个函数，因此实际上<code>Int</code>已经是<code>Eq</code>的成员类了</p>
+<p>现在我们再回过头来看<code>(==)</code>的定义:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token punctuation">(</span><span class="token operator">==</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token constant">Eq</span> <span class="token hvariable">a</span> <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span></code></pre>
+<p><code>=&gt;</code>前的<code>Eq a</code>是该定义的<strong>类型类约束<em>(type class constraint)</em></strong>，可以理解为只要类型<code>a</code>是<code>Eq</code>的成员，<code>(==)</code>函数就能接受两个<code>a</code>类型的变量并返回一个<code>Bool</code>，而对非<code>Eq</code>成员的类型调用<code>(==)</code>则会导致类型错误。如果说一个普通的多态函数保证了函数能正确处理任何类型，类型类多态的函数则保证能正确处理符合其类型类约束的类型</p>
+<p>Haskell编译器会对类型类函数做类型推断，以根据其被调用时的参数的具体类型确定究竟要使用哪个版本的该函数，其表现就像Java/C++中的重载一样</p>
+<p>为了加深理解，我们再来自己实现一个属于<code>Eq</code>的类型:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Foo</span> <span class="token operator">=</span> <span class="token constant">F</span> <span class="token constant">Int</span> <span class="token operator">|</span> <span class="token constant">G</span> <span class="token constant">Char</span>
+
+<span class="token keyword">instance</span> <span class="token constant">Eq</span> <span class="token constant">Foo</span> <span class="token keyword">where</span>
+  <span class="token punctuation">(</span><span class="token constant">F</span> <span class="token hvariable">i1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token constant">F</span> <span class="token hvariable">i2</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">i1</span> <span class="token operator">==</span> <span class="token hvariable">i2</span>
+  <span class="token punctuation">(</span><span class="token constant">G</span> <span class="token hvariable">c1</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token constant">G</span> <span class="token hvariable">c2</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">c1</span> <span class="token operator">==</span> <span class="token hvariable">c2</span>
+  <span class="token hvariable">_</span> <span class="token operator">==</span> <span class="token hvariable">_</span> <span class="token operator">=</span> <span class="token constant">False</span>
+
+  <span class="token hvariable">foo1</span> <span class="token operator">/=</span> <span class="token hvariable">foo2</span> <span class="token operator">=</span> <span class="token builtin">not</span> <span class="token punctuation">(</span><span class="token hvariable">foo1</span> <span class="token operator">==</span> <span class="token hvariable">foo2</span><span class="token punctuation">)</span></code></pre>
+<p>如上，我们实现了一个类型<code>Foo</code>，并且告诉编译器它是一个<code>Eq</code>的成员: 我们帮它实现了<code>(==)</code>和<code>(/=)</code>两个函数。不过如果每次都要为了让一个类属于某个类型类而实现一遍这些函数可能会很麻烦，而实际上确实有一个捷径: 类型类的那些共有函数通常可以基于某些基础函数实现，只要我们不覆盖其他函数的定义，那些函数就会默认按照基础函数的实现工作。举个例子，还记得<code>Eq</code>的类型声明如下:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">class</span> <span class="token constant">Eq</span> <span class="token hvariable">a</span> <span class="token keyword">where</span>
+  <span class="token punctuation">(</span><span class="token operator">==</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span>
+  <span class="token punctuation">(</span><span class="token operator">/=</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span>
+  <span class="token hvariable">x</span> <span class="token operator">/=</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token builtin">not</span> <span class="token punctuation">(</span><span class="token hvariable">x</span> <span class="token operator">==</span> <span class="token hvariable">y</span><span class="token punctuation">)</span></code></pre>
+<p>那么之后所有被声明为<code>Eq</code>成员的类都只需要实现<code>(==)</code>函数，然后它们的<code>(/=)</code>函数就会自动采用<code>not ==</code>的结果，而不必手动实现一遍。不过如果你希望<code>/=</code>有一些特殊表现，你也可以手动实现一遍，用你的实现覆盖默认的<code>not ==</code></p>
+<p>Haskell的<code>Eq</code>类型类的真实定义如下:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">class</span> <span class="token constant">Eq</span> <span class="token hvariable">a</span> <span class="token keyword">where</span>
+  <span class="token punctuation">(</span><span class="token operator">==</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token operator">/=</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span>
+  <span class="token hvariable">x</span> <span class="token operator">==</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token builtin">not</span> <span class="token punctuation">(</span><span class="token hvariable">x</span> <span class="token operator">/=</span> <span class="token hvariable">y</span><span class="token punctuation">)</span>
+  <span class="token hvariable">x</span> <span class="token operator">/=</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token builtin">not</span> <span class="token punctuation">(</span><span class="token hvariable">x</span> <span class="token operator">==</span> <span class="token hvariable">y</span><span class="token punctuation">)</span></code></pre>
+<p>这意味着要声明一个类为<code>Eq</code>的成员，我们可以选择实现<code>(==)</code>或者<code>(/=)</code>中的任何一个，另一个就会被自动实现为前一个的<code>not</code>——我们可以觉得实现哪个方便就写哪个，更方便了。不过如果两个都没实现，这里就会无限递归，<code>(==)</code>需要依赖<code>(/=)</code>，<code>(/=)</code>又要求<code>(==)</code>先实现...</p>
+<p>更方便的是，GHC会自动帮我们实现一些基础类型类的实例，比如要声明我们的<code>Foo'</code>为<code>Eq, Ord, Shoq</code>这三个基础类型类的实例，只需要这样写:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Foo</span>' <span class="token operator">=</span> <span class="token constant">F</span>' <span class="token constant">Int</span> <span class="token operator">|</span> <span class="token constant">G</span>' <span class="token constant">Char</span>
+  <span class="token keyword">deriving</span> <span class="token punctuation">(</span><span class="token constant">Eq</span><span class="token punctuation">,</span> <span class="token constant">Ord</span><span class="token punctuation">,</span> <span class="token constant">Show</span><span class="token punctuation">)</span></code></pre>
+<p>然后GHC就会自动帮我们把<code>Foo'</code>变成这三个类型类的实例了</p>
+<h4 id="type-classes-and-java-interfaces类型类和java-interface">Type classes and Java interfaces//类型类和Java interface</h4>
+<p>类型类和Java的interface十分相似，它们都定义了一类类型(type/class)，这类类型都必须实现特定的操作，不过类型类比Java interface更通用，这体现在以下几点上:</p>
+<ol type="1">
+<li><p>当Java的类被定义时，任何其实现的interface都必须被声明。而类型类的实例则可以在不同的地方被声明，甚至可以是在不同的模块中</p></li>
+<li><p>类型类函数的声明方式比interface函数的签名更灵活且通用，特别是对于多参数函数，比如对于下面这个类型类例子:</p></li>
+</ol>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">class</span> <span class="token constant">Blerg</span> <span class="token hvariable">a</span> <span class="token hvariable">b</span> <span class="token keyword">where</span>
+  <span class="token hvariable">blerg</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">b</span> <span class="token operator">-></span> <span class="token constant">Bool</span></code></pre>
+<p><code>Blerg</code>类型类的<code>blerg</code>方法的选用同时依赖于<code>a</code>和<code>b</code>两个类型，而Java中没有类似的能力</p>
+<p>Haskell的类型类还能轻松驾驭二元（甚至三元，四元...）的函数，比如</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">class</span> <span class="token constant">Num</span> <span class="token hvariable">a</span> <span class="token keyword">where</span>
+  <span class="token punctuation">(</span><span class="token operator">+</span><span class="token punctuation">)</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span>
+  <span class="token operator">...</span></code></pre>
+<p>在Java中没有实现这种效果的好办法: 两个参数中的一个必须是“特权”参数，这个参数实际被用来调用<code>(+)</code>方法，而这种不对称性非常尴尬；此外，由于Java有子类这一概念，两个同样类型的参数并不实际是同一类型（而可能只是继承自同一父类），这使得实现诸如<code>(+)</code>之类的二元运算符需要做运行时的类型检查</p>
+<h4 id="standard-type-classes标准类型类">Standard type classes//标准类型类</h4>
+<p>除了<code>Eq</code>外，你还需要了解Haskell中的其他标准类型类:</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Ord.html">Ord</a>代表着那些可以被排序的类型，即属于<code>Ord</code>的类型都必须实现诸如<code>(&lt;), (&lt;=)</code>和<code>compare</code>等用于比较的函数</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/tfp-1.0.2/docs/Type-Data-Num.html">Num</a>代表着那些数值类型，它们需要实现加法、减法和乘法操作。需要注意的是Haskell的整数字面量通常是类型多态的(函数):</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token constant">Prelude</span><span class="token operator">></span> <span class="token operator">:</span><span class="token hvariable">t</span> <span class="token number">5</span>
+<span class="token number">5</span> <span class="token operator">::</span> <span class="token constant">Num</span> <span class="token hvariable">a</span> <span class="token operator">=></span> <span class="token hvariable">a</span></code></pre>
+<p>即像<code>5</code>这样的字面量的类型可以是<code>Int/Integer/Double</code>或者是任何其他<code>Num</code>的成员类</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Text-Show.html">Show</a>代表着那些可以被打印的类，它们必须实现<code>show</code>函数，用于把该类型转化为可输出的<code>String</code></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Text-Read.html">Read</a>则是<code>Show</code>的反面，它们必须实现可以将<code>String</code>构造成其类型实例的函数</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#t:Integral">Integral</a>则代表像<code>Int</code>和<code>Integer</code>这样的整型</p></li>
+</ul>
+<h4 id="a-type-class-example一个类型类的例子">A type class example//一个类型类的例子</h4>
+<p>下面是一个我们自己实现的类型类的例子:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">class</span> <span class="token constant">Listable</span> <span class="token hvariable">a</span> <span class="token keyword">where</span>
+  <span class="token hvariable">toList</span> <span class="token operator">::</span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token punctuation">[</span><span class="token constant">Int</span><span class="token punctuation">]</span></code></pre>
+<p>我们可以把<code>Listable</code>看作是一类可以被转化成一个<code>Int</code>列表的类型，它需要实现<code>toList</code>函数:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">toList</span> <span class="token operator">::</span> <span class="token constant">Listable</span> <span class="token hvariable">a</span> <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token punctuation">[</span><span class="token constant">Int</span><span class="token punctuation">]</span></code></pre>
+<p>然后我们可以定义一些<code>Listable</code>的实例了，首先，一个<code>Int</code>肯定能被直接转化成<code>[Int]</code>，只要把它自己作为该列表的唯一元素就好；而<code>Bool</code>可以一样转换，只要先把<code>True</code>变成<code>1</code>，<code>False</code>变成<code>0</code>:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">instance</span> <span class="token constant">Listable</span> <span class="token constant">Int</span> <span class="token keyword">where</span>
+  <span class="token comment">-- toList :: Int -> [Int]</span>
+  <span class="token hvariable">toList</span> <span class="token hvariable">x</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token hvariable">x</span><span class="token punctuation">]</span>
+
+<span class="token keyword">instance</span> <span class="token constant">Listable</span> <span class="token constant">Bool</span> <span class="token keyword">where</span>
+  <span class="token hvariable">toList</span> <span class="token constant">True</span>  <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+  <span class="token hvariable">toList</span> <span class="token constant">False</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span></code></pre>
+<p><code>[Int]</code>本身不需要任何转化就能变成<code>[Int]</code>，所以它也是<code>Listable</code>的实例:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">instance</span> <span class="token constant">Listable</span> <span class="token punctuation">[</span><span class="token constant">Int</span><span class="token punctuation">]</span> <span class="token keyword">where</span>
+  <span class="token hvariable">toList</span> <span class="token operator">=</span> <span class="token builtin">id</span></code></pre>
+<p>一个二叉树也可以被拍平成一个列表:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">data</span> <span class="token constant">Tree</span> <span class="token hvariable">a</span> <span class="token operator">=</span> <span class="token constant">Empty</span> <span class="token operator">|</span> <span class="token constant">Node</span> <span class="token hvariable">a</span> <span class="token punctuation">(</span><span class="token constant">Tree</span> <span class="token hvariable">a</span><span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token constant">Tree</span> <span class="token hvariable">a</span><span class="token punctuation">)</span>
+
+<span class="token keyword">instance</span> <span class="token constant">Listable</span> <span class="token punctuation">(</span><span class="token constant">Tree</span> <span class="token constant">Int</span><span class="token punctuation">)</span> <span class="token keyword">where</span>
+  <span class="token hvariable">toList</span> <span class="token constant">Empty</span>        <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+  <span class="token hvariable">toList</span> <span class="token punctuation">(</span><span class="token constant">Node</span> <span class="token hvariable">x</span> <span class="token hvariable">l</span> <span class="token hvariable">r</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">toList</span> <span class="token hvariable">l</span> <span class="token operator">++</span> <span class="token punctuation">[</span><span class="token hvariable">x</span><span class="token punctuation">]</span> <span class="token operator">++</span> <span class="token hvariable">toList</span> <span class="token hvariable">r</span></code></pre>
+<p>如果我们用<code>toList</code>来实现其他函数，那么它们也会包含<code>Listable</code>这一类型约束，比如对于:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token comment">-- to compute sumL, first convert to a list of Ints, then sum</span>
+<span class="token hvariable">sumL</span> <span class="token hvariable">x</span> <span class="token operator">=</span> <span class="token builtin">sum</span> <span class="token punctuation">(</span><span class="token hvariable">toList</span> <span class="token hvariable">x</span><span class="token punctuation">)</span></code></pre>
+<p>ghci会告诉我们<code>sumL</code>的类型是:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">sumL</span> <span class="token operator">::</span> <span class="token constant">Listable</span> <span class="token hvariable">a</span> <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Int</span></code></pre>
+<p>即<code>sumL</code>只能对<code>Listable</code>的成员类生效，因为它的实现依赖了<code>toList</code>，而<code>toList</code>只对<code>Listable</code>成员类起效。再看看下面这个函数:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">foo</span> <span class="token hvariable">x</span> <span class="token hvariable">y</span> <span class="token operator">=</span> <span class="token builtin">sum</span> <span class="token punctuation">(</span><span class="token hvariable">toList</span> <span class="token hvariable">x</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token builtin">sum</span> <span class="token punctuation">(</span><span class="token hvariable">toList</span> <span class="token hvariable">y</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token hvariable">x</span> <span class="token operator">&lt;</span> <span class="token hvariable">y</span></code></pre>
+<p>ghci告诉我们<code>foo</code>的类型是:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">foo</span> <span class="token operator">::</span> <span class="token punctuation">(</span><span class="token constant">Listable</span> <span class="token hvariable">a</span><span class="token punctuation">,</span> <span class="token constant">Ord</span> <span class="token hvariable">a</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token hvariable">a</span> <span class="token operator">-></span> <span class="token constant">Bool</span></code></pre>
+<p>即<code>foo</code>只能对既是<code>Listable</code>又是<code>Ord</code>的类型起作用，因为它同时用到了<code>toList</code>和比较函数</p>
+<p>最后也是最复杂的例子:</p>
+<pre class="language-haskell" data-language="haskell"><code class="language-haskell"><span class="token keyword">instance</span> <span class="token punctuation">(</span><span class="token constant">Listable</span> <span class="token hvariable">a</span><span class="token punctuation">,</span> <span class="token constant">Listable</span> <span class="token hvariable">b</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token constant">Listable</span> <span class="token punctuation">(</span><span class="token hvariable">a</span><span class="token punctuation">,</span><span class="token hvariable">b</span><span class="token punctuation">)</span> <span class="token keyword">where</span>
+  <span class="token hvariable">toList</span> <span class="token punctuation">(</span><span class="token hvariable">x</span><span class="token punctuation">,</span><span class="token hvariable">y</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token hvariable">toList</span> <span class="token hvariable">x</span> <span class="token operator">++</span> <span class="token hvariable">toList</span> <span class="token hvariable">y</span></code></pre>
+<p>看一看我们如何把实例和函数类型声明为<code>Listable</code>的成员，这段定义的意思是当一个<code>pair</code>类型包含的两个类<code>a,b</code>都是<code>Listable</code>时，这个<code>pair</code>类型<code>(a,b)</code>也是<code>Listable</code>，且它的<code>toList</code>的结果基于<code>a</code>和<code>b</code>的<code>toList</code>的拼接</p>
+<h3 id="assignment课后作业">Assignment//课后作业</h3>
+<p><a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/hw/05-type-classes.pdf">Homework5</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/extras/05-type-classes/ExprT.hs">ExprT.hs</a>, <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/extras/05-type-classes/Parser.hs">Parser.hs</a>, <a target="_blank" rel="noopener" href="https://www.seas.upenn.edu/~cis194/spring13/extras/05-type-classes/StackVM.hs">StackVM.hs</a></p>
+<p>My Answers[Todo]</p>
+<blockquote>
+<p>译者注: 一些链接可能指向外网，如果国内无法打开请先尝试自行解决，实在无法解决再联系我</p>
+</blockquote>
+
+  
+    <blockquote style="font-style:normal;padding:1em">
+  作者: BlackCloud
+  <br>
+  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
+</blockquote>
+  
+  <p><a class="classtest-link" href="/tags/CIS194/" rel="tag">CIS194</a>, <a class="classtest-link" href="/tags/Haskell/" rel="tag">Haskell</a>, <a class="classtest-link" href="/tags/Haskell-%E5%85%A5%E9%97%A8/" rel="tag">Haskell 入门</a>, <a class="classtest-link" href="/tags/Haskell-%E6%95%99%E7%A8%8B/" rel="tag">Haskell 教程</a>, <a class="classtest-link" href="/tags/Translation/" rel="tag">Translation</a> — Apr 19, 2021</p>
+  
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
+
+
+<!--  -->
+
+  
+    
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+          <div class="row mt-2">
+  
+    
+    <div class="eight columns">
+      <p id="madewith">Made with 
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/BlackCloud37" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://www.linkedin.com/in/%E5%AE%B8-%E5%8F%B6-b473b71b6/" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="LinkedIn">
+        <svg class="linkedin svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      
+
+      
+
+      
+
+    </div>
+
+
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>
