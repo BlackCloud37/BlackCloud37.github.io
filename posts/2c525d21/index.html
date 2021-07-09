@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>Database System Concepts笔记</title>
+  
+  <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
+  
+  <link rel="canonical" href="https://blackcloud37.tech/posts/2c525d21/">
+  
+  <meta name="description" content="目录  数据库理论：关系模型、关系代数、关系演算 CHP. 2, 6 数据库应用：SQL、JDBC CHP. 3, 4, 5 数据库设计：实体-联系图、关系范式 CHP7, 8 数据库实现：存贮、索引、查询、优化、事务、并发、恢复 CHP. 10-16  CH2 关系模型介绍 基础概念  数据库结构">
+  
+  
+  <meta name="author" content="Chen Ye">
+  
+  <meta property="og:image" content="https://blackcloud37.techundefined">
+  
+  <meta property="og:site_name" content="Blackcloud&#39;s Page" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Database System Concepts笔记" />
+  
+  <meta property="og:description" content="目录  数据库理论：关系模型、关系代数、关系演算 CHP. 2, 6 数据库应用：SQL、JDBC CHP. 3, 4, 5 数据库设计：实体-联系图、关系范式 CHP7, 8 数据库实现：存贮、索引、查询、优化、事务、并发、恢复 CHP. 10-16  CH2 关系模型介绍 基础概念  数据库结构">
+  
+  <meta property="og:url" content="https://blackcloud37.tech/posts/2c525d21/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Database System Concepts笔记">
+  
+  <meta name="twitter:description" content="目录  数据库理论：关系模型、关系代数、关系演算 CHP. 2, 6 数据库应用：SQL、JDBC CHP. 3, 4, 5 数据库设计：实体-联系图、关系范式 CHP7, 8 数据库实现：存贮、索引、查询、优化、事务、并发、恢复 CHP. 10-16  CH2 关系模型介绍 基础概念  数据库结构">
+  
+  
+  <meta name="twitter:image" content="https://blackcloud37.techundefined">
+  
+  <meta name="twitter:url" content="https://blackcloud37.tech/posts/2c525d21/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- SEO
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="baidu-site-verification" content="code-HW8U3Sxzda" />
+  
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.ico">
+  <link rel="manifest" href="image/site.webmanifest">
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    position: relative;
+    /* text-decoration-color: #3884ff; */
+    text-decoration: none;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #3884ff 50%
+    );
+  }
+  a:not(.icon)::after {
+    content: '';
+    width: 100%;
+    height: .4em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* background-color: ; */
+    z-index: -1;
+    opacity: .4;
+    background-color: #3884ff;
+  }
+  /* blockquote {
+    border-left: 8px solid #3884ff;
+  } */
+  .nanobar .bar {
+    background: #3884ff;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #3884ff;
+    border-color: #3884ff;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #3884ff;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+  <!-- Valine Comments-->
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      BlackCloud&#39;s Page
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+          
+          <a href="/About" class="ml">About</a>
+          
+        
+          
+          <a href="/Links" class="ml">Links</a>
+          
+        
+        
+          
+            <a href="mailto:yechenz37@163.com" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>Database System Concepts笔记</h2>
+
+  <h1 id="目录">目录</h1>
+<ul>
+<li>数据库理论：关系模型、关系代数、关系演算 CHP. 2, 6</li>
+<li>数据库应用：SQL、JDBC CHP. 3, 4, 5</li>
+<li>数据库设计：实体-联系图、关系范式 CHP7, 8</li>
+<li>数据库实现：存贮、索引、查询、优化、事务、并发、恢复 CHP. 10-16</li>
+</ul>
+<h1 id="ch2-关系模型介绍">CH2 关系模型介绍</h1>
+<h2 id="基础概念">基础概念</h2>
+<ul>
+<li>数据库结构
+<ul>
+<li>关系数据库： 表的集合</li>
+<li>表：元组的集合</li>
+<li>关系(Relation)：表</li>
+<li>元组(Tuple)：行</li>
+<li>属性(Attribute)：列</li>
+<li>数据库模式(Schema)：数据库的逻辑设计</li>
+<li>数据库实例(Instance)：数据库数据的快照</li>
+</ul></li>
+<li>键
+<ul>
+<li>超键(Superkey)：可以在一个关系中唯一标识一个元组的、一个或多个属性的集合</li>
+<li>候选键(Candidate key)：其任意真子集都不是Superkey的Superkey</li>
+<li>主键(Primary key)：被数据库设计者选中的Candidate key</li>
+<li>外键(Foreign key)：一个关系模式中构成另一个关系模式Primary key的属性</li>
+</ul></li>
+</ul>
+<h1 id="ch3-sql">CH3 SQL</h1>
+<h2 id="sql组成">3.1 SQL组成</h2>
+<ul>
+<li>数据定义语言(DDL)
+<ul>
+<li>完整性(Integrity)</li>
+<li>视图定义(View definition)</li>
+<li>授权(Authorization)</li>
+</ul></li>
+<li>数据操纵语言(DML)</li>
+<li>事务控制</li>
+<li>嵌入式SQL和动态SQL</li>
+</ul>
+<h2 id="sql数据定义">3.2 SQL数据定义</h2>
+<ul>
+<li><p>基本数据类型</p>
+<ul>
+<li>char(n), varchar(n), int, smallint, numeric(p, d), real, double precision, float(n)</li>
+<li>null</li>
+</ul></li>
+<li><p>基本模式定义</p>
+<ul>
+<li><p><code>create table</code></p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> table_name <span class="token punctuation">(</span>
+  attr_name1 type_name<span class="token punctuation">,</span>
+  attr_name2 type_name<span class="token punctuation">,</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+  attr_nameN type_name<span class="token punctuation">,</span>
+	<span class="token operator">&lt;</span>完整性约束<span class="token number">1</span><span class="token operator">></span><span class="token punctuation">,</span>
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+  <span class="token operator">&lt;</span>完整性约束K<span class="token operator">></span>
+<span class="token punctuation">)</span>
+
+</code></pre>
+<ul>
+<li>完整性约束包含
+<ul>
+<li><code>primary key(attr_name1, ..., attr_nameN)</code></li>
+<li><code>foreign key(attr_name1, attr_nameN) references table_name</code></li>
+<li><code>not null</code></li>
+</ul></li>
+</ul></li>
+<li><p><code>insert into</code></p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> table_name <span class="token keyword">values</span> <span class="token punctuation">(</span>
+  val1<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> valN
+<span class="token punctuation">)</span></code></pre></li>
+<li><p><code>delete from table_name</code> 删除表中所有元组</p></li>
+<li><p><code>drop table table_name</code> 从数据库中删除表</p></li>
+<li><p><code>alter table table_name add attr_name, attr_val</code></p></li>
+</ul></li>
+</ul>
+<h2 id="sql查询">3.3 SQL查询</h2>
+<ul>
+<li>查询基本结构 <code>select a1, a2, ... from r1, r2, ... where p</code>
+<ul>
+<li><code>r1, r2, ...</code>之间取笛卡尔积构成最终关系(元组集合)</li>
+<li>可以理解为先构造<code>from</code>中的集合的笛卡尔积，然后在其中以<code>where</code>的谓词筛选元组，最后用<code>select</code>的列名输出结果</li>
+<li><code>select</code>子句
+<ul>
+<li><code>distinct</code></li>
+<li>字面量</li>
+<li>算术符</li>
+</ul></li>
+</ul></li>
+<li>自然连接
+<ul>
+<li>关系上的运算，返回一个新关系</li>
+<li>将共同属性相同的元组对组合</li>
+<li><code>... from r1 natural join r2</code></li>
+<li><code>r1 join r2 using (attr_name)</code>，指定选用的共同属性的自然连接</li>
+</ul></li>
+</ul>
+<h2 id="附加运算">3.4 附加运算</h2>
+<ul>
+<li><code>as</code> 更名运算
+<ul>
+<li>可以在<code>select</code>和<code>from</code>子句中使用</li>
+</ul></li>
+<li>字符串运算
+<ul>
+<li><code>like</code>
+<ul>
+<li><code>%</code> 任意字符串</li>
+<li><code>_</code> 任意字符</li>
+<li><code>escape</code> 定义转义字符</li>
+</ul></li>
+</ul></li>
+<li><code>order by</code> 排列元组次序</li>
+<li><code>where</code>子句谓词
+<ul>
+<li><code>between ... and ...</code></li>
+<li><code>()</code> 元组</li>
+</ul></li>
+<li><code>is null, not null</code></li>
+</ul>
+<h2 id="集合运算">3.5 集合运算</h2>
+<ul>
+<li><code>union [all], intersect [all], except [all]</code></li>
+</ul>
+<h2 id="空值">3.6 空值</h2>
+<ul>
+<li>逻辑运算含<code>null</code> 返回 <code>unknown</code>
+<ul>
+<li>逻辑运算含<code>unknown</code>可能返回<code>unknown</code></li>
+<li>可以把<code>unknown</code>理解为可真可假，参与逻辑运算</li>
+</ul></li>
+</ul>
+<h2 id="聚集函数">3.7 聚集函数</h2>
+<ul>
+<li><code>avg</code></li>
+<li><code>min</code></li>
+<li><code>max</code></li>
+<li><code>sum</code></li>
+<li><code>count</code></li>
+<li><code>group by &lt;condition&gt;</code>分组聚集
+<ul>
+<li>根据条件分组</li>
+<li>对每个分组应用聚集函数</li>
+<li><code>select</code>子句中没有被聚集的属性必须出现在<code>group by</code>中</li>
+</ul></li>
+<li><code>having &lt;P&gt;</code></li>
+</ul>
+<h2 id="嵌套子查询">3.8 嵌套子查询</h2>
+<ul>
+<li><code>where</code>子查询
+<ul>
+<li><code>(not) in</code> 测试成员资格</li>
+<li><code>some, all</code></li>
+<li><code>exists</code> 空关系测试</li>
+<li><code>unique</code> 重复元组存在性测试
+<ul>
+<li><code>unique</code>为假当且仅当关系中存在两个元组相等。而包含<code>null</code>的元组必不相等，故即使一个元组有多个副本，只要其中有属性为空，<code>unique</code>就可能为真</li>
+</ul></li>
+</ul></li>
+<li><code>from</code>子查询
+<ul>
+<li><code>lateral</code> 子句，使内部子句能访问外部</li>
+</ul></li>
+<li><code>with</code> 定义暂时的关系
+<ul>
+<li><code>with R(A1, A2, ...) as &lt;E&gt;</code></li>
+</ul></li>
+<li>标量子查询 返回一个元组的子查询可以出现在返回单个值的表达式能出现的任何地方</li>
+</ul>
+<h2 id="数据库的修改">3.9 数据库的修改</h2>
+<ul>
+<li><code>delete from ... where ...</code></li>
+<li><code>insert into ... values (...)</code></li>
+<li><code>update R set A = E where P</code>
+<ul>
+<li><code>set A = case when P then E1 else E2 end</code></li>
+</ul></li>
+</ul>
+<h1 id="ch4-中级sql">CH4 中级SQL</h1>
+<h2 id="连接表达式">4.1 连接表达式</h2>
+<ul>
+<li>连接类型
+<ul>
+<li><code>[inner] join</code></li>
+<li><code>(left | right | full) outer join</code></li>
+</ul></li>
+<li>连接条件 <code>R1 join R2 on P using (A, ...)</code></li>
+<li>外连接 保留未匹配元组
+<ul>
+<li><code>&lt;left | right | full&gt; outer join</code></li>
+<li>左外连接保留连接左侧的元组</li>
+</ul></li>
+<li>除法
+<ul>
+<li></li>
+</ul></li>
+</ul>
+<h2 id="视图">4.2 视图</h2>
+<ul>
+<li>基于实际关系的虚关系</li>
+<li><code>create view v as &lt;query expression&gt;</code></li>
+</ul>
+<h2 id="事务">4.3 事务</h2>
+<ul>
+<li><code>start transaction</code></li>
+<li><code>commit</code></li>
+<li><code>rollback</code></li>
+<li><code>begin atomic ... end</code></li>
+</ul>
+<h2 id="完整性约束">4.4 完整性约束</h2>
+<ul>
+<li><code>not null</code></li>
+<li><code>unique</code></li>
+<li><code>check (&lt;p&gt;)</code></li>
+<li>参照完整性
+<ul>
+<li><code>foreign key (A) reference R [on delete &lt;action&gt;, on update &lt;action&gt;]</code></li>
+</ul></li>
+</ul>
+<h2 id="sql数据类型与模式">4.5 SQL数据类型与模式</h2>
+<ul>
+<li>原生数据类型</li>
+<li>用户定义数据类型
+<ul>
+<li><code>create type type_name as &lt;type definition&gt; [final]</code></li>
+<li><code>create domain ...</code></li>
+<li><code>domain</code> 可以包含约束</li>
+</ul></li>
+</ul>
+<h2 id="授权">4.6 授权</h2>
+<ul>
+<li><code>create user &lt;un&gt; password &lt;pw&gt;</code></li>
+<li><code>alter user &lt;un&gt; set password &lt;npw&gt;</code></li>
+<li><code>drop user &lt;un&gt;</code></li>
+<li><code>grant &lt;权限列表&gt; on &lt;关系或视图&gt; to &lt;用户/角色列表&gt; [with grant option]</code></li>
+<li><code>revoke &lt;&gt; on &lt;&gt; from &lt;&gt; [restrict | cascade]</code></li>
+<li>授权图
+<ul>
+<li>根为数据库所有者</li>
+<li>当且仅当有根到用户节点的路径时，该权限有效</li>
+</ul></li>
+</ul>
+<h1 id="ch5-高级sql">CH5 高级SQL</h1>
+<ul>
+<li><p>JDBC</p></li>
+<li><p>ODBC</p></li>
+<li><p>函数与过程约束</p></li>
+<li><p>触发器</p>
+<ul>
+<li><p>什么时候触发</p>
+<ul>
+<li><code>after update of R on A</code></li>
+</ul></li>
+<li><p>做什么</p>
+<pre class="language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">trigger</span> trigger_name 
+before <span class="token keyword">update</span> <span class="token keyword">of</span> R
+referencing new <span class="token keyword">row</span> <span class="token keyword">as</span> nrow
+referencing old <span class="token keyword">row</span> <span class="token keyword">as</span> orow
+<span class="token keyword">for each row</span>
+<span class="token keyword">when</span> <span class="token punctuation">(</span>nrow<span class="token punctuation">.</span>grade <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">)</span>
+<span class="token keyword">begin</span> atomic
+	<span class="token keyword">set</span> nrow<span class="token punctuation">.</span>grade <span class="token operator">=</span> <span class="token boolean">null</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span></code></pre></li>
+</ul></li>
+<li><p>递归查询</p></li>
+</ul>
+<h1 id="ch6-关系代数">CH6 关系代数</h1>
+<h2 id="运算符">6.1 运算符</h2>
+<ul>
+<li><p>选择 (select)： <span class="math inline">\(\sigma_{&lt;predicate&gt;}(r)\)</span></p></li>
+<li><p>投影 (project)：<span class="math inline">\(\Pi_{&lt;attrs&gt;}(r)\)</span></p></li>
+<li><p>并 (union)：<span class="math inline">\(r_1 \cup r_2\)</span></p>
+<ul>
+<li><span class="math inline">\(r_1, r_2\)</span>的属性必须相同</li>
+</ul></li>
+<li><p>差(set-difference)：<span class="math inline">\(r_1 - r_2\)</span></p></li>
+<li><p>笛卡尔积(Cartesian-product)：<span class="math inline">\(r_1\times r_2\)</span></p></li>
+<li><p>更名运算(rename)：<span class="math inline">\(\rho_{x(A_1,A_2,...,A_n)}(E)\)</span></p></li>
+<li><p>集合交(intersection)：<span class="math inline">\(r_1\cap r_2\)</span></p></li>
+<li><p>自然连接(natural join)：<span class="math inline">\(r_1 \Join r_2\)</span></p></li>
+<li><p>赋值(assign)：<span class="math inline">\(var \leftarrow E\)</span></p></li>
+<li><p>除法: <span class="math inline">\(r÷s=\Pi_{R-S}(r)-\Pi_{R-S}((\Pi_{R-S}(r)\times s)-\Pi_{R-S,S}(r))\)</span></p></li>
+<li><p>外连接: <span class="math inline">\(⟕, ⟖, ⟗\)</span></p></li>
+<li><p>广义投影</p>
+<ul>
+<li><p>引入数学运算符和<code>as</code></p>
+<p><span class="math inline">\(\Pi_{customer\_name, (limit - credit\_balance)~as~credit\_available}(credit\_info)\)</span></p></li>
+</ul></li>
+<li><p>聚集：<span class="math inline">\(_{G_1,G_2,...,G_n}g_{F_1(A_1),...,F_n(A_m)}(E)\)</span></p></li>
+</ul>
+<h2 id="元组关系演算">6.2 元组关系演算</h2>
+<p><span class="math inline">\(\{t|P(t)\}\)</span></p>
+<h2 id="域关系演算">6.3 域关系演算</h2>
+<h1 id="ch7-数据库设计和e-r模型">CH7 数据库设计和E-R模型</h1>
+<ul>
+<li>ER模型构成
+<ul>
+<li>实体集</li>
+<li>联系集
+<ul>
+<li>度</li>
+<li>一对一、一对多、多对多</li>
+<li>全参与、部分参与</li>
+</ul></li>
+<li>属性</li>
+</ul></li>
+<li>弱实体集
+<ul>
+<li>没有足够的属性来构成primary key</li>
+<li>存在依赖于其他实体集(标识实体集)</li>
+<li>自己有分辨符(discriminator)，与其标识实体集主码共同唯一标识一个tuple</li>
+</ul></li>
+<li>角色
+<ul>
+<li>实体集参与联系的角色(联系集中标识实体集的方式)</li>
+</ul></li>
+</ul>
+<h1 id="ch8-关系数据库设计">CH8 关系数据库设计</h1>
+<ul>
+<li><p>第一关系范式</p>
+<ul>
+<li>原子域</li>
+</ul></li>
+<li><p>函数依赖<span class="math inline">\(\alpha \rightarrow \beta\)</span>：若<span class="math inline">\(t_1[\alpha] = t_2[\alpha]\)</span>，则<span class="math inline">\(t_1[\beta]=t_2[\beta]\)</span></p></li>
+<li><p>若<span class="math inline">\(K\rightarrow R\)</span>在<span class="math inline">\(r(R)\)</span>上成立，则<span class="math inline">\(K\)</span>是<span class="math inline">\(r(R)\)</span>的一个superkey</p></li>
+<li><p><span class="math inline">\(F^+\)</span>依赖集闭包，从依赖集合推导出的所有依赖的集合</p></li>
+<li><p>BCNF</p>
+<ul>
+<li>定义：对<span class="math inline">\(F^+\)</span>中所有形如<span class="math inline">\(\alpha\rightarrow \beta\)</span>的函数依赖，下面至少有一项成立
+<ul>
+<li><span class="math inline">\(\alpha \rightarrow \beta\)</span>是平凡的</li>
+<li><span class="math inline">\(\alpha\)</span>是模式的一个superkey</li>
+</ul></li>
+<li>BCNF分解
+<ul>
+<li><span class="math inline">\(R\)</span>不是BCNF，则存在至少一个非平凡<span class="math inline">\(\alpha\rightarrow\beta\)</span>且<span class="math inline">\(\alpha\)</span>不是superkey，用以下两个模式替换<span class="math inline">\(R\)</span>
+<ul>
+<li><span class="math inline">\((\alpha \cup \beta)\)</span></li>
+<li><span class="math inline">\(R-(\beta - \alpha)\)</span></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>3NF</p>
+<ul>
+<li><p>定义：对<span class="math inline">\(F^+\)</span>中所有形如<span class="math inline">\(\alpha\rightarrow \beta\)</span>的函数依赖，下面至少有一项成立</p>
+<ul>
+<li><span class="math inline">\(\alpha \rightarrow \beta\)</span>是平凡的</li>
+<li><span class="math inline">\(\alpha\)</span>是模式的一个superkey</li>
+<li><span class="math inline">\(\beta-\alpha\)</span>中的每个属性<span class="math inline">\(A\)</span>都包含于<span class="math inline">\(R\)</span>的一个候选码中</li>
+</ul></li>
+<li><p>3NF分解</p>
+<p><img src="/Users/blackcloud/Library/Application Support/typora-user-images/image-20210612170916410.png" alt="image-20210612170916410" style="zoom:33%;" /></p></li>
+</ul></li>
+<li><p>2NF</p>
+<ul>
+<li>定义
+<ul>
+<li>每个属性<span class="math inline">\(A\)</span>要么出现在候选码中，要么不是部分依赖于候选码中</li>
+</ul></li>
+</ul></li>
+<li><p>逻辑蕴含</p>
+<ul>
+<li>公理
+<ul>
+<li>自反律: <span class="math inline">\(\beta \sube \alpha\)</span>则<span class="math inline">\(\alpha \rightarrow\beta\)</span></li>
+<li>增补律: <span class="math inline">\(\alpha\rightarrow\beta\)</span>则<span class="math inline">\(\gamma\alpha\rightarrow\gamma\beta\)</span></li>
+<li>传递律: <span class="math inline">\(A \rightarrow B, B\rightarrow C \Rightarrow A\rightarrow C\)</span></li>
+<li>合并律:<span class="math inline">\(\alpha\rightarrow\beta,\alpha\rightarrow\gamma\Rightarrow\alpha\rightarrow\beta\gamma\)</span></li>
+<li>分解律: 逆上一条</li>
+<li>伪传递律</li>
+</ul></li>
+<li>求函数依赖闭包<span class="math inline">\(F^+\)</span>
+<ul>
+<li>循环1 自反+增补</li>
+<li>循环2 配对，传递</li>
+</ul></li>
+</ul></li>
+<li><p>函数确定</p>
+<ul>
+<li>求被<span class="math inline">\(\alpha\)</span>函数确定的所有属性集合<span class="math inline">\(\alpha^+\)</span>
+<ul>
+<li>对每一个<span class="math inline">\(F\)</span>中的<span class="math inline">\(\beta\rightarrow\gamma\)</span>，如果<span class="math inline">\(\beta\sube result\)</span>则<span class="math inline">\(result:=result\cup \gamma\)</span></li>
+</ul></li>
+</ul></li>
+<li><p>正则覆盖: 求有相同闭包的函数依赖简化集</p>
+<ul>
+<li>任何函数依赖都没有无关属性，左半部分唯一</li>
+<li>无关属性
+<ul>
+<li>如果<span class="math inline">\(A\in \beta\)</span>
+<ul>
+<li><span class="math inline">\(F&#39;=(F-\{\alpha\rightarrow\beta\})\cup(\alpha\rightarrow(\beta-A))\)</span></li>
+<li>计算<span class="math inline">\(F&#39;\)</span>下<span class="math inline">\(\alpha^+\)</span>，如果<span class="math inline">\(\alpha^+\)</span>包含<span class="math inline">\(A\)</span>，则<span class="math inline">\(A\)</span>在<span class="math inline">\(\beta\)</span>中无关</li>
+</ul></li>
+<li>如果<span class="math inline">\(A\in\alpha\)</span>
+<ul>
+<li><span class="math inline">\(\gamma=\alpha-A\)</span></li>
+<li>计算<span class="math inline">\(F\)</span>下<span class="math inline">\(\gamma^+\)</span>，如果<span class="math inline">\(\gamma^+\)</span>包含<span class="math inline">\(\beta\)</span>中所有属性，则<span class="math inline">\(A\)</span>在<span class="math inline">\(\alpha\)</span>中无关</li>
+</ul></li>
+</ul></li>
+<li>求正则覆盖
+<ul>
+<li>循环
+<ul>
+<li>合并<span class="math inline">\(\alpha_1\rightarrow\beta_1, \alpha_1\rightarrow\beta_2\)</span></li>
+<li>找到当前函数依赖集中的所有无关属性并剔除</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="ch10-存储">CH10 存储</h1>
+<ul>
+<li><p>存储形式</p></li>
+<li><p>块</p></li>
+<li><p>缓存</p>
+<ul>
+<li>替换策略
+<ul>
+<li>LRU
+<ul>
+<li>双层嵌套循环时表现差</li>
+</ul></li>
+<li>pinned block</li>
+<li>Toss-immediate</li>
+<li>MRU
+<ul>
+<li>pin正在使用的块</li>
+<li>使用完毕后变成MRU块</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>文件组织</p>
+<ul>
+<li><p>顺序</p></li>
+<li><p>空闲链表</p></li>
+<li><p>单条记录组织</p>
+<ul>
+<li>variable-length records
+<ul>
+<li>头部4字节一个属性，存储位置及长度</li>
+<li>null bitmap(1字节)</li>
+</ul></li>
+</ul></li>
+<li><p>slotted page structure</p>
+<ul>
+<li><p>左头右记录，中间空闲</p>
+<p><img src="/Users/blackcloud/Library/Application Support/typora-user-images/image-20210612172520236.png" alt="image-20210612172520236" style="zoom: 33%;" /></p></li>
+</ul></li>
+<li><p>文件内组织</p>
+<ul>
+<li>堆</li>
+<li>顺序(按search key)
+<ul>
+<li>链表组织</li>
+<li>删除</li>
+<li>插入
+<ul>
+<li>溢出</li>
+</ul></li>
+<li>重组</li>
+</ul></li>
+<li>哈希</li>
+</ul></li>
+</ul></li>
+<li><p>系统目录存储</p></li>
+</ul>
+<h1 id="ch11-索引与散列">CH11 索引与散列</h1>
+<ul>
+<li>顺序索引
+<ul>
+<li>主索引
+<ul>
+<li>按序直接指向元素</li>
+</ul></li>
+<li>次级索引
+<ul>
+<li>指向符合条件的桶</li>
+</ul></li>
+<li>密集索引
+<ul>
+<li>每个search key都有索引</li>
+</ul></li>
+<li>稀疏索引</li>
+<li>多级索引
+<ul>
+<li>当内存放不下主索引时</li>
+</ul></li>
+<li>删除</li>
+<li>插入</li>
+</ul></li>
+<li>B+ tree
+<ul>
+<li>结构
+<ul>
+<li>n 指针数</li>
+<li>内节点ceil(n/2)到n个孩子</li>
+<li>叶子ceil((n-1)/2)到n-1个孩子</li>
+<li>根非叶时，至少2孩子，否则0到n-1孩子</li>
+<li><span class="math inline">\(P_i &lt; K_i &lt;= P_{i+1}\)</span></li>
+</ul></li>
+<li>查询</li>
+<li>插入
+<ul>
+<li>分裂
+<ul>
+<li>叶子
+<ul>
+<li>左边ceil(n/2)个，剩下的到右边(新节点)</li>
+<li>在父节点插入新节点的最小值</li>
+</ul></li>
+<li>内部
+<ul>
+<li>左边ceil((n+1)/2)-1个节点，剩下到右边(新节点)</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>删除
+<ul>
+<li>合并
+<ul>
+<li>合并左右两节点</li>
+<li>在父节点删除消失的索引</li>
+</ul></li>
+<li>再分配</li>
+</ul></li>
+</ul></li>
+<li>静态Hash
+<ul>
+<li>桶</li>
+<li>溢出</li>
+<li>静态体现在桶个数不变</li>
+</ul></li>
+<li>动态Hash
+<ul>
+<li>hash函数产生32位整数</li>
+</ul></li>
+<li>位图索引
+<ul>
+<li>高效索引多键</li>
+</ul></li>
+<li>SQL Index
+<ul>
+<li><code>create [unique] index &lt;name&gt; on &lt;relation&gt; (&lt;attrs&gt;)</code></li>
+</ul></li>
+</ul>
+<h1 id="ch12-查询处理">CH12 查询处理</h1>
+<ul>
+<li><p>执行流程</p>
+<ul>
+<li>parser</li>
+<li>关系代数表达式</li>
+<li>优化器
+<ul>
+<li>评估代价
+<ul>
+<li>磁盘
+<ul>
+<li>寻道数<span class="math inline">\(t_S\)</span></li>
+<li>块传输数<span class="math inline">\(t_T\)</span></li>
+<li><span class="math inline">\(b*t_T+S*t_S\)</span></li>
+</ul></li>
+<li>CPU</li>
+<li>网络</li>
+</ul></li>
+<li>选择算法</li>
+<li>组合算法</li>
+</ul></li>
+<li>执行计划</li>
+<li>执行</li>
+</ul></li>
+<li><p>选择</p>
+<ul>
+<li>线性扫描
+<ul>
+<li><span class="math inline">\(关系的块数次块传输+1寻道\)</span></li>
+<li>当搜索的是key时，前者减半</li>
+</ul></li>
+<li>主索引，键等值取单记录
+<ul>
+<li><span class="math inline">\((h_i+1)*(t_T+t_S)\)</span></li>
+</ul></li>
+<li>主索引，非键等值取多记录
+<ul>
+<li><span class="math inline">\(h_i*(t_T+t_S)+t_S+t_T*b\)</span></li>
+</ul></li>
+<li>次级索引，非键等值
+<ul>
+<li>单记录<span class="math inline">\((h_i+1)*(t_T+t_S)\)</span></li>
+<li>多记录<span class="math inline">\((h_i+n)*(t_T+t_S)\)</span></li>
+</ul></li>
+<li>主索引，比较
+<ul>
+<li>... 表格</li>
+</ul></li>
+</ul>
+<p><img src="/Users/blackcloud/Library/Application Support/typora-user-images/image-20210613005551356.png" alt="image-20210613005551356" style="zoom:25%;" /></p>
+<p><img src="/Users/blackcloud/Library/Application Support/typora-user-images/image-20210613005613713.png" alt="image-20210613005613713" style="zoom:25%;" /></p></li>
+<li><p>排序</p>
+<ul>
+<li>外部排序
+<ul>
+<li>先按内存大小(M块)逐部分排序，得到N块有序块</li>
+<li>N路归并排序
+<ul>
+<li>N&lt;M时 N块输入buffer，一块输出buffer</li>
+<li>N&gt;M时 每次块数除以M-1(把相邻的M-1块合成一块)</li>
+</ul></li>
+<li>代价
+<ul>
+<li>初始化<span class="math inline">\(2b_r\)</span>次块传输</li>
+<li>需要<span class="math inline">\(\text{ceil}(log_{M-1}(b_r/M))\)</span>次传递，每次传递<span class="math inline">\(2b_r\)</span></li>
+<li>总共<span class="math inline">\(b_r(2\text{ceil}(log_{M-1}(b_r/M))+1)\)</span></li>
+<li>寻道<span class="math inline">\(2ceil(b_r/M)+b_r(2ceil(log_{M-1}(b_r/M))-1)\)</span></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>连接</p>
+<ul>
+<li>嵌套循环
+<ul>
+<li>最差情况
+<ul>
+<li><span class="math inline">\(n_r*b_s+b_r\)</span>块传输</li>
+<li><span class="math inline">\(n_r+b_r\)</span>寻道</li>
+</ul></li>
+<li>如果内存够，将小关系放在内层
+<ul>
+<li>2寻道，<span class="math inline">\(b_r+b_s\)</span>块传输</li>
+</ul></li>
+</ul></li>
+<li>块嵌套循环
+<ul>
+<li>最差情况
+<ul>
+<li><span class="math inline">\(b_r*b_s+b_r\)</span>块传输</li>
+<li><span class="math inline">\(2*b_r\)</span>寻道</li>
+</ul></li>
+<li>最好情况
+<ul>
+<li><span class="math inline">\(b_r+b_s\)</span>块传输+2寻道</li>
+</ul></li>
+</ul></li>
+<li>索引嵌套循环
+<ul>
+<li>equi-join或自然连接，内部关系有索引</li>
+<li>对每个外部tuple，利用索引找到内部关系里满足条件的tuple</li>
+<li>最坏情况
+<ul>
+<li>buffer只有一个page放r</li>
+<li><span class="math inline">\(b_r(t_T+t_S)+n_r*c\)</span> <span class="math inline">\(c\)</span>是在<span class="math inline">\(s\)</span>上选择的估计代价</li>
+</ul></li>
+</ul></li>
+<li>归并
+<ul>
+<li>先按join属性排序，再归并</li>
+<li><span class="math inline">\(b_r+b_s\)</span>块传输</li>
+<li><span class="math inline">\(ceil(b_r/b_b)+ceil(b_s/b_b)\)</span>寻道</li>
+<li>排序时间</li>
+</ul></li>
+<li>哈希
+<ul>
+<li></li>
+</ul></li>
+</ul></li>
+<li><p>物化估计</p></li>
+<li><p>流水线</p></li>
+</ul>
+<h1 id="ch13-查询优化">CH13 查询优化</h1>
+<ul>
+<li><p>流程</p>
+<ul>
+<li><p>等价规则</p></li>
+<li><p>等价表达式</p>
+<ul>
+<li>通过等价规则生成</li>
+</ul></li>
+<li><p>估计每个表达式的开销</p>
+<ul>
+<li>统计信息</li>
+</ul></li>
+</ul></li>
+<li><p>结果集大小估计</p>
+<ul>
+<li>选择
+<ul>
+<li>A=v
+<ul>
+<li><span class="math inline">\(n_r/V(A,r)\)</span></li>
+</ul></li>
+<li>A&lt;=v
+<ul>
+<li>如果min(A,r) max(A,r)可用
+<ul>
+<li>0</li>
+<li><span class="math inline">\(n_r\frac{v-min(A,r)}{max(A,r)-min(A,r)}\)</span></li>
+</ul></li>
+<li>直方</li>
+<li><span class="math inline">\(n_r/2\)</span>平均</li>
+</ul></li>
+<li>多选择 选择率
+<ul>
+<li><span class="math inline">\(n_r*\frac{s_1*...*s_n}{n_r^n}\)</span></li>
+<li><span class="math inline">\(n_r*(1-(1-\frac{s_1}{n_r})*()...*())\)</span></li>
+</ul></li>
+</ul></li>
+<li>连接
+<ul>
+<li><span class="math inline">\(R\cap S=\{A\}\)</span>不是键
+<ul>
+<li><span class="math inline">\(n_r*(n_s/V(A,s))\)</span></li>
+<li><span class="math inline">\(n_s*(n_r/V(A,r))\)</span></li>
+</ul></li>
+</ul></li>
+<li>投影</li>
+<li>聚合</li>
+<li>集合操作</li>
+<li>外连接</li>
+</ul></li>
+<li><p>不同取值个数估计</p></li>
+<li><p>优化算法</p>
+<ul>
+<li>动态规划</li>
+<li>启发式
+<ul>
+<li>先selection</li>
+<li>先projection</li>
+<li>严格的selection和join优先</li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="ch14-事务">CH14 事务</h1>
+<ul>
+<li>原子性
+<ul>
+<li>事务</li>
+<li>恢复机制</li>
+</ul></li>
+<li>隔离性
+<ul>
+<li>并发控制</li>
+<li>隔离级别</li>
+</ul></li>
+<li>串行性
+<ul>
+<li>冲突串行性
+<ul>
+<li>优先图
+<ul>
+<li>顶点是transaction</li>
+<li>有向边是冲突</li>
+<li>可串行化当且仅当无环，拓扑排序即为串行结果</li>
+</ul></li>
+</ul></li>
+<li>视图串行
+<ul>
+<li>最先读的、最后写的、一个读另一个写</li>
+</ul></li>
+<li>可恢复
+<ul>
+<li>A读了B写的数据，则B的commit必须比A早</li>
+<li>级联回滚</li>
+</ul></li>
+<li>无级联
+<ul>
+<li>每一对事务(A,B)，A读了B写的数据，B的commit在A读之前</li>
+</ul></li>
+</ul></li>
+<li>隔离
+<ul>
+<li>等级
+<ul>
+<li>serializable 防止脏读、不可重复读、幻读</li>
+<li>repeatalbe read 防止脏读、不可重复读</li>
+<li>read committed 防止脏读</li>
+<li>read uncommitted 可以脏读</li>
+</ul></li>
+<li>隔离实现
+<ul>
+<li>锁</li>
+<li>快照隔离</li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="ch15-并发控制">CH15 并发控制</h1>
+<ul>
+<li>锁
+<ul>
+<li>锁类型</li>
+<li>锁授予</li>
+<li>两阶段封锁协议
+<ul>
+<li>可以保证冲突串行性（不保证无级联，不保证无死锁）</li>
+<li>增长阶段 只能拿锁</li>
+<li>缩减阶段 只能放锁</li>
+<li>严格strict 排他锁只能在commit/abort后放掉</li>
+<li>严厉rigorous 所有锁只能在commit/abort后放掉</li>
+</ul></li>
+<li>自动锁
+<ul>
+<li>读时自动加锁</li>
+<li>写时加/升级锁</li>
+</ul></li>
+<li>锁实现
+<ul>
+<li>锁表</li>
+<li>图协议
+<ul>
+<li>数据项偏序集 顶点</li>
+<li>边(A,B)代表同时访问两个数据的必须先A再B</li>
+</ul></li>
+</ul></li>
+<li>死锁处理
+<ul>
+<li>预防
+<ul>
+<li>所有数据一开始就上锁</li>
+<li>图协议</li>
+<li>时间戳
+<ul>
+<li>非抢占式，年轻的回滚</li>
+<li>抢占式，老的回滚</li>
+<li>回滚后时间戳不变</li>
+</ul></li>
+<li>超时</li>
+</ul></li>
+<li>检测、恢复
+<ul>
+<li>等待图
+<ul>
+<li>环</li>
+</ul></li>
+<li>回滚</li>
+</ul></li>
+</ul></li>
+<li>多粒度
+<ul>
+<li>树状粒度</li>
+<li>意图锁</li>
+</ul></li>
+</ul></li>
+<li>时间戳协议
+<ul>
+<li>创建时间戳 TS</li>
+<li>全局 写时间戳 读时间戳</li>
+<li>读
+<ul>
+<li>TS在最后写之前，重新读</li>
+<li>否则直接读，更新最后读</li>
+</ul></li>
+<li>写
+<ul>
+<li>TS在最后读之前，拒绝写，回滚</li>
+<li>TS在最后写之前，拒绝写，回滚</li>
+<li>否则直接写，更新最后写</li>
+</ul></li>
+<li>级联
+<ul>
+<li>提交依赖</li>
+<li>读前commit</li>
+</ul></li>
+<li>托马斯
+<ul>
+<li>过时写：TS &lt; W-Timestamp</li>
+<li>忽略这个写而非回滚</li>
+</ul></li>
+</ul></li>
+<li>快照隔离</li>
+</ul>
+<h1 id="ch16-恢复">CH16 恢复</h1>
+<ul>
+<li>错误分类
+<ul>
+<li>事务失败
+<ul>
+<li>逻辑</li>
+<li>系统</li>
+</ul></li>
+<li>系统错误</li>
+<li>磁盘错误</li>
+</ul></li>
+<li>恢复算法
+<ul>
+<li></li>
+</ul></li>
+</ul>
+
+  
+    <blockquote style="font-style:normal;padding:1em">
+  作者: BlackCloud
+  <br>
+  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
+</blockquote>
+  
+  <p><a class="classtest-link" href="/tags/Database/" rel="tag">Database</a> — Jun 8, 2021</p>
+  
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
+
+
+<!--  -->
+
+  
+    
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+          <div class="row mt-2">
+  
+    
+    <div class="eight columns">
+      <p id="madewith">Made with 
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/BlackCloud37" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://www.linkedin.com/in/%E5%AE%B8-%E5%8F%B6-b473b71b6/" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="LinkedIn">
+        <svg class="linkedin svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      
+
+      
+
+      
+
+    </div>
+
+
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>

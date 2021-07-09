@@ -11,36 +11,36 @@
   <meta charset="utf-8">
 
   
-  <title>All Posts - Chen Ye</title>
+  <title>IM占坑</title>
   
   <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
   
-  <link rel="canonical" href="https://blackcloud37.tech/archives/">
+  <link rel="canonical" href="https://blackcloud37.tech/posts/d876b0cf/">
   
-  <meta name="description" content="">
+  <meta name="description" content="昨天交了安卓大作业，确实是写过的最痛苦的大作业之一 作业内容是IM软件，聊天+动态(pyq)，功能点照着vx抄就好。本来以为这种工程性的作业没有什么难度，只要花够时间总能拿出成果。但我还是太嫩了 他一个安卓大作业，后端要自己实现，导致三个人的小组有一个人力要去做后端，于是安卓大作业我几乎没写到安卓x">
   
   
   <meta name="author" content="Chen Ye">
   
-  <meta property="og:image" content="https://blackcloud37.tech/images/thumbnail.jpg">
+  <meta property="og:image" content="https://blackcloud37.techundefined">
   
   <meta property="og:site_name" content="Blackcloud&#39;s Page" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="All Posts - Chen Ye" />
+  <meta property="og:title" content="IM占坑" />
   
-  <meta property="og:description" content="">
+  <meta property="og:description" content="昨天交了安卓大作业，确实是写过的最痛苦的大作业之一 作业内容是IM软件，聊天+动态(pyq)，功能点照着vx抄就好。本来以为这种工程性的作业没有什么难度，只要花够时间总能拿出成果。但我还是太嫩了 他一个安卓大作业，后端要自己实现，导致三个人的小组有一个人力要去做后端，于是安卓大作业我几乎没写到安卓x">
   
-  <meta property="og:url" content="https://blackcloud37.tech/archives/" />
+  <meta property="og:url" content="https://blackcloud37.tech/posts/d876b0cf/" />
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="All Posts - Chen Ye">
+  <meta name="twitter:title" content="IM占坑">
   
-  <meta name="twitter:description" content="">
+  <meta name="twitter:description" content="昨天交了安卓大作业，确实是写过的最痛苦的大作业之一 作业内容是IM软件，聊天+动态(pyq)，功能点照着vx抄就好。本来以为这种工程性的作业没有什么难度，只要花够时间总能拿出成果。但我还是太嫩了 他一个安卓大作业，后端要自己实现，导致三个人的小组有一个人力要去做后端，于是安卓大作业我几乎没写到安卓x">
   
   
-  <meta name="twitter:image" content="https://blackcloud37.tech/images/thumbnail.jpg">
+  <meta name="twitter:image" content="https://blackcloud37.techundefined">
   
-  <meta name="twitter:url" content="https://blackcloud37.tech/archives/" />
+  <meta name="twitter:url" content="https://blackcloud37.tech/posts/d876b0cf/" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -214,188 +214,101 @@
 </div>
 
         <div class="trans">
-          
-<h2>All Posts</h2>
+            <h2>IM占坑</h2>
+
+  <p>昨天交了安卓大作业，确实是写过的最痛苦的大作业之一</p>
+<p>作业内容是IM软件，聊天+动态(pyq)，功能点照着vx抄就好。本来以为这种工程性的作业没有什么难度，只要花够时间总能拿出成果。但我还是太嫩了</p>
+<p>他一个安卓大作业，后端要自己实现，导致三个人的小组有一个人力要去做后端，于是安卓大作业我几乎没写到安卓xd</p>
+<p>写后端期间帮前端开好了项目，Readme里写了startup和分支规范，和前端约定了接口和模型后就放养了，相信同学们都大三了，总不会闹出什么大幺蛾子</p>
+<blockquote>
+<h2 id="开发流程规范">开发流程规范</h2>
+<ul>
+<li>要开发新需求时，切到新分支，命名尽量规范但不强制，如:
+<ul>
+<li>feat/setting_page</li>
+<li>fix/login</li>
+</ul></li>
+<li>需求开发过程中，使用commitizen规范commit message</li>
+<li>需求开发完成后，拉取最新develop分支，在需求分支上git rebase develop</li>
+<li>解决conflict，自测功能</li>
+<li>提develop到master的merge request，合并稳定代码</li>
+</ul>
+<p>master不允许直接push，只允许mr，避免污染</p>
+<p>日常开发时只要关注develop分支并保持清爽的commit记录即可，活用git rebase的edit和squash</p>
+</blockquote>
+<p>直到某一天，我在群里看到他们发</p>
+<blockquote>
+<p>我push到 xxx_5_22上了</p>
+</blockquote>
+<p>分支命名是自己的名字缩写加日期</p>
+<p>又有某一天，我想看看前端代码看能不能也来写一点，然后pull了develop发现up-to-date，develop和我初始化项目时一样，没有任何代码被合到这个分支，但此时开发已经进行了一个多月了</p>
+<p>又有一天，在项目里想改一个magic number，全局一搜发现它出现了40多次，</p>
+<p>然后在交作业前，俩同学合代码，期间不下三次说“我代码怎么没合进来”，“怎么合完我写的代码全没了”</p>
+<p>扶额</p>
+<p>建议本专业开一门必修课，就叫<code>版本管理工具使用基础与进阶</code>，以GIT为例讲解这种工具的用法，1学分，设置作业+考试。像现在每门课都讲GIT的用法，结果到大三了连这都不会用，还搁着Top2学子，丢人🐎。大作业一堆一堆地做，结果连写代码的基本原则都不懂，magic number到处飞，处处都是copy-paste的痕迹，那么在软工这个专业学四年究竟学到了什么呢</p>
+<p>所以决定了，等这学期课上完开始自己做一个IM，作为对这个世界不屈的抗争(x</p>
+<p>前端大概走IOS Native，后端想试Koa，占坑了</p>
+
+  
+    <blockquote style="font-style:normal;padding:1em">
+  作者: BlackCloud
+  <br>
+  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
+</blockquote>
+  
+  <p> — Jun 24, 2021</p>
+  
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
 
 
-    <article>
-      <div class="row">
+<!--  -->
 
-        <div class="three columns left lit">
-          <p class="bottom">Jul 9, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/f78bc27f/" class="">
-            
-              Rust Quiz
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Jun 24, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/d876b0cf/" class="">
-            
-              IM占坑
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Jun 8, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/2c525d21/" class="">
-            
-              Database System Concepts笔记
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 19, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/db537e15/" class="">
-            
-              CIS194中文翻译 Week5 更多的多态与Type class
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 12, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/a3f48c69/" class="">
-            
-              CIS194中文翻译 Week4 高阶编程与类型接口
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 11, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/5f294974/" class="">
-            
-              CIS194中文翻译 Week3 递归模板，多态与Prelude
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 9, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/786f7a8f/" class="">
-            
-              CIS194中文翻译 Week2 代数数据类型
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 8, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/fb3ef408/" class="">
-            
-              CIS194中文翻译 Week1 Haskell基础
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 7, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/80494ea8/" class="">
-            
-              纯CSS Footer吸底
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-    <article>
-      <div class="row">
-
-        <div class="three columns left lit">
-          <p class="bottom">Apr 6, 2021</p>
-        </div>
-        <div class="nine columns left mb-3">
-          <a href="/posts/eb9441fe/" class="">
-            
-              Hexo添加LaTeX支持
-            
-          </a>
-        </div>
-      </div>
-    </article>
-
-<div class="pagination-bar">
-  <ul class="pagination">
+  
     
-    
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
 
-    <a class="" href="/archives/page/2/">
-      <span>Older</span>
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z" />
-      </svg>
-    </a>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
 
-    
-  </ul>
-</div>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
+  
           <div class="row mt-2">
   
     

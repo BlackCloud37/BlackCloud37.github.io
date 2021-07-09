@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Minima -->
+  <!-- Hexo theme created by @adisaktijrs -->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+
+  
+  <title>Rust Quiz</title>
+  
+  <link rel="sitemap" href="https://blackcloud37.techsitemap.xml" />
+  
+  <link rel="canonical" href="https://blackcloud37.tech/posts/f78bc27f/">
+  
+  <meta name="description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: The program is guaranteed to output: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pat">
+  
+  
+  <meta name="author" content="Chen Ye">
+  
+  <meta property="og:image" content="https://blackcloud37.techundefined">
+  
+  <meta property="og:site_name" content="Blackcloud&#39;s Page" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Rust Quiz" />
+  
+  <meta property="og:description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: The program is guaranteed to output: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pat">
+  
+  <meta property="og:url" content="https://blackcloud37.tech/posts/f78bc27f/" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rust Quiz">
+  
+  <meta name="twitter:description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: The program is guaranteed to output: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pat">
+  
+  
+  <meta name="twitter:image" content="https://blackcloud37.techundefined">
+  
+  <meta name="twitter:url" content="https://blackcloud37.tech/posts/f78bc27f/" />
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Preload fonts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preload" href="../fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- SEO
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="baidu-site-verification" content="code-HW8U3Sxzda" />
+  
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<link rel="stylesheet" href="/css/normalize.css">
+
+  
+<link rel="stylesheet" href="/css/skeleton.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+<link rel="stylesheet" href="/css/prism-dracula.css">
+
+  
+<link rel="stylesheet" href="/css/prism-line-numbers.css">
+
+  <!-- User css -->
+  
+  
+<link rel="stylesheet" href="/css/user.css">
+
+  
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="/images/favicon.ico">
+  <link rel="manifest" href="image/site.webmanifest">
+  <!-- Custom Theme Color Style
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <style>
+  a:not(.icon) {
+    position: relative;
+    /* text-decoration-color: #3884ff; */
+    text-decoration: none;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      #3884ff 50%
+    );
+  }
+  a:not(.icon)::after {
+    content: '';
+    width: 100%;
+    height: .4em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* background-color: ; */
+    z-index: -1;
+    opacity: .4;
+    background-color: #3884ff;
+  }
+  /* blockquote {
+    border-left: 8px solid #3884ff;
+  } */
+  .nanobar .bar {
+    background: #3884ff;
+  }
+  .button.button-primary:hover,
+  button.button-primary:hover,
+  input[type="submit"].button-primary:hover,
+  input[type="reset"].button-primary:hover,
+  input[type="button"].button-primary:hover,
+  .button.button-primary:focus,
+  button.button-primary:focus,
+  input[type="submit"].button-primary:focus,
+  input[type="reset"].button-primary:focus,
+  input[type="button"].button-primary:focus {
+    background-color: #3884ff;
+    border-color: #3884ff;
+  }
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  input[type="search"]:focus,
+  input[type="text"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    border: 1px solid #3884ff;
+  }
+</style>
+
+  <!-- Google Analytics (With Privacy Settings On)
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+
+  <!-- Valine Comments-->
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div>
+
+        <div class="row">
+  <div class="two columns" style="max-width: 50px">
+    <h1 class="mt-2 mode">
+      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+      <script >
+        if (localStorage.getItem('preferredTheme') == 'dark') {
+          setDarkMode(true)
+        }
+        function setDarkMode(isDark) {
+          var darkBtn = document.getElementById('darkBtn')
+          var lightBtn = document.getElementById('lightBtn')
+          if (isDark) {
+            lightBtn.style.display = "block"
+            darkBtn.style.display = "none"
+            localStorage.setItem('preferredTheme', 'dark');
+          } else {
+            lightBtn.style.display = "none"
+            darkBtn.style.display = "block"
+            localStorage.removeItem('preferredTheme');
+          }
+          document.body.classList.toggle("darkmode");
+        }
+      </script>
+    </h1>
+  </div>
+
+  <div class="six columns ml-1">
+    <h1 class="mt-2">
+      BlackCloud&#39;s Page
+    </h1>
+  </div>
+
+  <div class="twelve columns">
+    <div class="row">
+      <div class="nine columns left">
+        <a href="/">Home</a>
+        
+          
+          <a href="/Works" class="ml">Works</a>
+          
+        
+          
+          <a href="/About" class="ml">About</a>
+          
+        
+          
+          <a href="/Links" class="ml">Links</a>
+          
+        
+        
+          
+            <a href="mailto:yechenz37@163.com" target="_blank" class="ml">Email</a>
+          
+        
+      </div>
+    </div>
+    <hr style="margin-bottom: 2.6rem">
+  </div>
+</div>
+
+        <div class="trans">
+            <h2>Rust Quiz</h2>
+
+  <p><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/1">Rust Quiz</a>的个人笔记</p>
+<h3 id="rust-quiz-1"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/1">Rust Quiz #1</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> The program is guaranteed to output: 112</p>
+</blockquote>
+<ul>
+<li><p>在宏里，<code>$(...)*</code>代表接受0或多个被包裹的<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/rust-by-example/macros/designators.html#designators">Designators</a>(相应的，<code>$(...)+</code>则是一个或多个)，也可以在其中插入分隔符的pattern，以下是一些例子</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token punctuation">(</span>$<span class="token punctuation">(</span><span class="token variable">$s</span><span class="token punctuation">:</span><span class="token fragment-specifier punctuation">stmt</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">)</span>           <span class="token function">matches</span> <span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>   <span class="token comment">// &#123;&#125; is stmt</span>
+<span class="token punctuation">(</span><span class="token variable">$x</span><span class="token punctuation">:</span><span class="token fragment-specifier punctuation">expr</span><span class="token punctuation">,</span> $<span class="token punctuation">(</span><span class="token variable">$y</span><span class="token punctuation">:</span><span class="token fragment-specifier punctuation">expr</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token punctuation">)</span>  <span class="token function">matches</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token number">1</span><span class="token punctuation">)</span>     <span class="token comment">// the last two `1` matches $y twice</span>
+<span class="token punctuation">(</span><span class="token variable">$x</span><span class="token punctuation">:</span><span class="token fragment-specifier punctuation">expr</span><span class="token punctuation">,</span> $<span class="token punctuation">(</span><span class="token variable">$y</span><span class="token punctuation">:</span><span class="token fragment-specifier punctuation">expr</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token operator">+</span><span class="token punctuation">)</span> <span class="token function">matches</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>    <span class="token comment">// almost same as previous one, but has `,` in pattern</span></code></pre>
+<p>因此，题中的宏能匹配多个statement，它们之间不需要分隔符</p></li>
+<li><p><code>$(...)&lt;Token&gt;*</code>语法用于展开上条中通配符收集的Designators，以题目中的宏为例，展开的例子如下(来自quiz的官方解答)</p>
+<p>Suppose we call this macro with three of the statements shown above as input.</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token macro property">m!</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token type-definition class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token keyword">u64</span> <span class="token punctuation">&#125;</span>
+    <span class="token keyword">let</span> <span class="token keyword">mut</span> s <span class="token operator">=</span> <span class="token class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span>
+    s<span class="token punctuation">.</span>x <span class="token operator">+</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>The macro expands to:</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token punctuation">&#123;</span> <span class="token macro property">stringify!</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token type-definition class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token keyword">u64</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span>
+    <span class="token operator">&lt;&lt;</span> <span class="token punctuation">&#123;</span> <span class="token macro property">stringify!</span><span class="token punctuation">(</span><span class="token keyword">let</span> <span class="token keyword">mut</span> s <span class="token operator">=</span> <span class="token class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span>
+    <span class="token operator">&lt;&lt;</span> <span class="token punctuation">&#123;</span> <span class="token macro property">stringify!</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span>x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span></code></pre>
+<p>Each of the <code>stringify</code>s expands to a string literal:</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token punctuation">&#123;</span> <span class="token string">"struct S &#123; x: u64 &#125;"</span><span class="token punctuation">;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span>
+    <span class="token operator">&lt;&lt;</span> <span class="token punctuation">&#123;</span> <span class="token string">"let mut s = S &#123; x: 1 &#125;"</span><span class="token punctuation">;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span>
+    <span class="token operator">&lt;&lt;</span> <span class="token punctuation">&#123;</span> <span class="token string">"s.x + 1"</span><span class="token punctuation">;</span> <span class="token number">1</span> <span class="token punctuation">&#125;</span></code></pre></li>
+<li><p>由于展开后的每个<code>block stmt</code>都是一个返回<code>1</code>的<code>expr</code>，因此上面的展开结果等价于<code>1 &lt;&lt; 1 &lt;&lt; 1</code>，即<code>2^(3-1)=4</code>，即该宏会返回<code>2^(n-1)</code>，<code>n</code>是调用宏时匹配到的语句个数，因此需要考虑题目中三处调用的语句数目</p></li>
+<li><p>考虑题目中给的三处宏调用</p>
+<ul>
+<li><code>return || true</code> 是单条语句，语义为返回一个函数closure: <code>|| true</code></li>
+<li><code>(return) || true</code> 是单条语句，语义为<code>(return) logic-or true</code>，<code>(return)</code>是一个表达式</li>
+<li><code>&#123;return&#125; || true</code> 是两条语句<code>&#123;return&#125;</code>和<code>|| true</code>，因为前者是单独的块语句</li>
+</ul></li>
+<li><p>因此答案为<code>112</code></p></li>
+</ul>
+<h3 id="rust-quiz-2"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/2">Rust Quiz #2</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> The program is guaranteed to output: 123</p>
+</blockquote>
+<p><code>i()</code>等价于</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token closure-params"><span class="token closure-punctuation punctuation">|</span><span class="token closure-punctuation punctuation">|</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token operator">&amp;</span><span class="token class-name">S</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></code></pre>
+<p>其中并没有调用<code>bitand</code>，<code>&amp;</code>被作为引用符使用</p>
+<h3 id="rust-quiz-3"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/3">Rust Quiz #3</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> The program is guaranteed to output: 32</p>
+</blockquote>
+<p><code>const</code>声明的常量的每一次使用都会用其内联值替代，因此原程序等价为</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token keyword">fn</span> <span class="token function-definition function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> v <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token keyword">mut</span> <span class="token punctuation">(</span><span class="token class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    v<span class="token punctuation">.</span>x <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>x <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"&#123;&#125;&#123;&#125;"</span><span class="token punctuation">,</span> v<span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token class-name">S</span> <span class="token punctuation">&#123;</span> x<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<h3 id="rust-quiz-4"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/4">Rust Quiz #4</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> The program is guaranteed to output: 54</p>
+</blockquote>
+<ul>
+<li><p>在<code>rhs</code>部分，<code>..</code>是一个操作符<code>RangeFull</code></p></li>
+<li><p>在<code>lhs</code>部分，<code>..</code>是模式匹配的占位符</p></li>
+<li><p>因此最终执行的<code>print</code>语句为</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"&#123;&#125;"</span><span class="token punctuation">,</span> <span class="token string">b"066"</span><span class="token punctuation">[</span><span class="token punctuation">..</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// outputs ascii value of '6'</span></code></pre></li>
+</ul>
+<h3 id="rust-quiz-5"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/5">Rust Quiz #5</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> The program is guaranteed to output: 112</p>
+</blockquote>
+<p>// TODO</p>
+
+  
+    <blockquote style="font-style:normal;padding:1em">
+  作者: BlackCloud
+  <br>
+  本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>许可协议
+</blockquote>
+  
+  <p><a class="classtest-link" href="/tags/Rust/" rel="tag">Rust</a> — Jul 9, 2021</p>
+  
+  <hr>
+  <div id="vcomments"></div>
+  <script>
+    var requiredFields = ['nick', 'mail'];
+    new Valine({
+      el: '#vcomments',
+      appId: 'EmdtHUQQhlOw5gHS3YdMittf-gzGzoHsz',
+      appKey: 'aQCOIoyoRsToRl7AFfV945fH',
+      placeholder: 'Gubba nub nub doo rah kah',
+      avatar: 'retro',
+      pageSize: parseInt('10'),
+      requiredFields: requiredFields,
+      visitor: 'true',
+      lang: 'en',
+    })
+  </script>
+
+
+<!--  -->
+
+  
+    
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+          <div class="row mt-2">
+  
+    
+    <div class="eight columns">
+      <p id="madewith">Made with 
+        <a class="footer-link icon" href="https://hexo.io" target="_blank" style="text-decoration: none;" rel="noreferrer" aria-label="Hexo.io">
+        <svg class="hexo svg-hov" width="14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Hexo.js</title><path d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z"/></svg>
+        </a>
+        
+    </div>
+
+    <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+    <div class="four columns mb-3 posisi" >
+      
+      <a class="ml-0 footer-link icon" href="https://github.com/BlackCloud37" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+        <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      
+
+      
+      <a class="ml-0 footer-link icon" href="https://www.linkedin.com/in/%E5%AE%B8-%E5%8F%B6-b473b71b6/" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="LinkedIn">
+        <svg class="linkedin svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      
+
+      
+
+      
+
+    </div>
+
+
+  
+</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <script src="/js/nanobar.min.js"></script>
+  <script>
+    var options = {
+      classname: 'nanobar',
+      id: 'myNanobar'
+    };
+    var nanobar = new Nanobar(options);
+    nanobar.go(30);
+    nanobar.go(76);
+    nanobar.go(100);
+  </script>
+
+</body>
+
+</html>
