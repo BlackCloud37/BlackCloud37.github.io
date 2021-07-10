@@ -17,7 +17,7 @@
   
   <link rel="canonical" href="https://blackcloud37.tech/posts/f78bc27f/">
   
-  <meta name="description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: The program is guaranteed to output: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pat">
+  <meta name="description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pattern，以下是一些例子 ($($s:stmt)*)           ">
   
   
   <meta name="author" content="Chen Ye">
@@ -28,14 +28,14 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Rust Quiz" />
   
-  <meta property="og:description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: The program is guaranteed to output: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pat">
+  <meta property="og:description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pattern，以下是一些例子 ($($s:stmt)*)           ">
   
   <meta property="og:url" content="https://blackcloud37.tech/posts/f78bc27f/" />
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Rust Quiz">
   
-  <meta name="twitter:description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: The program is guaranteed to output: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pat">
+  <meta name="twitter:description" content="Rust Quiz的个人笔记 Rust Quiz #1  Answer: 112   在宏里，$(...)*代表接受0或多个被包裹的Designators(相应的，$(...)+则是一个或多个)，也可以在其中插入分隔符的pattern，以下是一些例子 ($($s:stmt)*)           ">
   
   
   <meta name="twitter:image" content="https://blackcloud37.techundefined">
@@ -219,7 +219,7 @@
   <p><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/1">Rust Quiz</a>的个人笔记</p>
 <h3 id="rust-quiz-1"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/1">Rust Quiz #1</a></h3>
 <blockquote>
-<p><strong>Answer:</strong> The program is guaranteed to output: 112</p>
+<p><strong>Answer:</strong> 112</p>
 </blockquote>
 <ul>
 <li><p>在宏里，<code>$(...)*</code>代表接受0或多个被包裹的<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/rust-by-example/macros/designators.html#designators">Designators</a>(相应的，<code>$(...)+</code>则是一个或多个)，也可以在其中插入分隔符的pattern，以下是一些例子</p>
@@ -253,7 +253,7 @@
 </ul>
 <h3 id="rust-quiz-2"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/2">Rust Quiz #2</a></h3>
 <blockquote>
-<p><strong>Answer:</strong> The program is guaranteed to output: 123</p>
+<p><strong>Answer:</strong> 123</p>
 </blockquote>
 <p><code>i()</code>等价于</p>
 <pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token closure-params"><span class="token closure-punctuation punctuation">|</span><span class="token closure-punctuation punctuation">|</span></span> <span class="token punctuation">&#123;</span>
@@ -263,7 +263,7 @@
 <p>其中并没有调用<code>bitand</code>，<code>&amp;</code>被作为引用符使用</p>
 <h3 id="rust-quiz-3"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/3">Rust Quiz #3</a></h3>
 <blockquote>
-<p><strong>Answer:</strong> The program is guaranteed to output: 32</p>
+<p><strong>Answer:</strong> 32</p>
 </blockquote>
 <p><code>const</code>声明的常量的每一次使用都会用其内联值替代，因此原程序等价为</p>
 <pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token keyword">fn</span> <span class="token function-definition function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
@@ -274,7 +274,7 @@
 <span class="token punctuation">&#125;</span></code></pre>
 <h3 id="rust-quiz-4"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/4">Rust Quiz #4</a></h3>
 <blockquote>
-<p><strong>Answer:</strong> The program is guaranteed to output: 54</p>
+<p><strong>Answer:</strong> 54</p>
 </blockquote>
 <ul>
 <li><p>在<code>rhs</code>部分，<code>..</code>是一个操作符<code>RangeFull</code></p></li>
@@ -284,9 +284,197 @@
 </ul>
 <h3 id="rust-quiz-5"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/5">Rust Quiz #5</a></h3>
 <blockquote>
-<p><strong>Answer:</strong> The program is guaranteed to output: 112</p>
+<p><strong>Answer:</strong> 112</p>
+<p>注：并不很确定下面的解释是否正确，因为没太理解官方的解释，也没找到其他题解</p>
 </blockquote>
-<p>// TODO</p>
+<p>此处为两种函数指针实现了<code>Trait</code></p>
+<ul>
+<li><code>fn(T)</code></li>
+<li><code>for&lt;'a&gt; fn(&amp;'a T)</code></li>
+</ul>
+<p>而在<code>main</code>中，使用三个函数指针指向<code>f, g</code>两个函数，编译器会自动推断其中的<code>_</code>为对应类型，并根据推断结果选择其<code>Trait</code>的表现</p>
+<ul>
+<li><code>let a: fn(_) = f;</code> 由于<code>f(_: u8)</code>，此处<code>_ = u8</code>，因此<code>a: fn(u8)</code>适用第一个<code>Trait</code></li>
+<li><code>let b: fn(_) = g;</code> 由于<code>g(_: &amp;'x u8)</code>，此处<code>_ = &amp;'x u8</code>，生命周期参数<code>'x</code>确定推断自<code>g</code>，因此<code>&amp;'x u8</code>即对应了一个具体类型<code>T</code>，适用第一个<code>Trait</code></li>
+<li><code>let c: fn(&amp;'a _) = g;</code> 此处<code>_ = u8</code>，此处的<code>'a</code>需要推断自<code>c</code>，<code>c</code>本身也就构成了一个高阶闭包类型，因此<code>c: for&lt;a'&gt; fn(&amp;'a u8)</code>，适用于第二个<code>Trait</code></li>
+</ul>
+<h3 id="rust-quiz-6"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/6">Rust Quiz #6</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> 0</p>
+</blockquote>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token comment">// 程序中有两行声明，均声明了`a`这个变量，因此后者会shadowing前者，此处显式地区分二者</span>
+<span class="token keyword">use</span> <span class="token namespace">std<span class="token punctuation">::</span></span>mem<span class="token punctuation">;</span>
+
+<span class="token keyword">fn</span> <span class="token function-definition function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> a1<span class="token punctuation">;</span>                   <span class="token comment">// a1 的类型待推断</span>
+    <span class="token keyword">let</span> a2 <span class="token operator">=</span> a1 <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>       <span class="token comment">// a1 = true 为一个赋值语句，为a1推断出了bool类型</span>
+  														<span class="token comment">// 		赋值语句的返回值是()，因此 a2 = ()</span>
+    <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"&#123;&#125;"</span><span class="token punctuation">,</span> <span class="token namespace">mem<span class="token punctuation">::</span></span><span class="token function">size_of_val</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// size of () is 0</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>关于类型的内存大小，参考<a target="_blank" rel="noopener" href="https://doc.rust-lang.org/reference/type-layout.html">type layout</a></p>
+<h3 id="rust-quiz-7"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/7">Rust Quiz #7</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> 1</p>
+</blockquote>
+<p>此处的枚举确实等价于</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token attribute attr-name">#[repr(u8)]</span>
+<span class="token keyword">enum</span> <span class="token type-definition class-name">Enum</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">First</span> <span class="token operator">=</span> <span class="token number">0u8</span><span class="token punctuation">,</span>
+    <span class="token class-name">Second</span> <span class="token operator">=</span> <span class="token number">1u8</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>所以<code>transmute(1u8)</code>对应的也确实是<code>Enum::Second</code>，但结果仍然是1，因为<code>match</code>块的写法</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token keyword">match</span> <span class="token keyword">self</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">First</span> <span class="token operator">=></span> <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token class-name">Second</span> <span class="token operator">=></span> <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>这里的<code>First</code>并不是<code>Enum::First</code>这个pattern，而是接受任意pattern并将其绑定到名为<code>First</code>的变量上，所以第一个match arm永远会被选择</p>
+<h3 id="rust-quiz-8"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/8">Rust Quiz #8</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> 1214</p>
+</blockquote>
+<p>宏在处理pattern时会将其中符合<a target="_blank" rel="noopener" href="https://docs.rs/syn/0.15.22/syn/token/index.html#structs">Rust token</a>的符号<strong>组合</strong>到一起，然后施行匹配，在<strong>组合</strong>过程中从左到右、从长到短匹配符合的token，比如下面这几个pattern会被处理为</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token operator">&lt;&lt;=</span> 对应 <span class="token operator">&lt;&lt;=</span>   <span class="token comment">// &lt;&lt;=本身就是一个token，代表左移赋值</span>
+<span class="token operator">=</span><span class="token operator">&lt;&lt;</span> 对应 <span class="token operator">=</span> <span class="token operator">&lt;&lt;</span>  <span class="token comment">// 从左到右，从长到短，依次检查=&lt;&lt;, =&lt;, =，发现=是token，拿走，然后对剩余部分继续</span>
+
+<span class="token operator">==</span><span class="token operator">></span>   对应 <span class="token operator">==</span> <span class="token operator">></span>
+<span class="token operator">=</span> <span class="token operator">=</span> <span class="token operator">></span> 对应 <span class="token operator">=</span> <span class="token operator">=</span> <span class="token operator">></span>
+<span class="token operator">==</span> <span class="token operator">></span>  对应 <span class="token operator">==</span> <span class="token operator">></span>
+<span class="token operator">=</span> <span class="token operator">=></span>  对应 <span class="token operator">=</span> <span class="token operator">=></span></code></pre>
+<p>回头看<code>macro_rules</code>，可以知道它们匹配的pattern实际是</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token macro property">macro_rules!</span> m <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">(</span><span class="token operator">==</span> <span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token operator">=</span> <span class="token operator">=</span> <span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token operator">==</span> <span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">(</span><span class="token operator">=</span> <span class="token operator">=></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token macro property">print!</span><span class="token punctuation">(</span><span class="token string">"4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></code></pre>
+<p>而在将一个pattern传递给<code>m!</code>的时候，也会做上述组合过程，因此第三个pattern arm永远不会被执行，因为它的pattern和第一条一样</p>
+<h3 id="rust-quiz-9"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/9">Rust Quiz #9</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>21</p>
+</blockquote>
+<p>从<code>t!</code>开始展开宏</p>
+<pre class="language-rust" data-language="rust"><code class="language-rust"><span class="token macro property">t!</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> 
+<span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token macro property">e!</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token macro property">m!</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">// 两个 1 都是 token tree</span>
+<span class="token operator">=></span> <span class="token punctuation">&#123;</span> <span class="token macro property">m!</span><span class="token punctuation">(</span><span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token macro property">m!</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span> <span class="token comment">// $e是expr，它会被evaluate成1，但expr对于macro是不可见(opaque)的，即在其被执行之前，程序都不知道这个表达式是1，因此也不会被匹配到 m! 的第一个arm</span></code></pre>
+<p>以下宏参数都是<strong>不可见(opaque)</strong>的</p>
+<ul>
+<li><code>$:block</code></li>
+<li><code>$:expr</code></li>
+<li><code>$:item</code></li>
+<li><code>$:literal</code></li>
+<li><code>$:meta</code></li>
+<li><code>$:pat</code></li>
+<li><code>$:path</code></li>
+<li><code>$:stmt</code></li>
+<li><code>$:ty</code></li>
+</ul>
+<p>而这些是可见的</p>
+<ul>
+<li><code>$:ident</code></li>
+<li><code>$:lifetime</code></li>
+<li><code>$:tt</code></li>
+</ul>
+<h3 id="rust-quiz-10">❓<a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/10">Rust Quiz #10</a></h3>
+<blockquote>
+<p><strong>Answer: </strong> 22222</p>
+<p>有点看不懂，直接Reveal了 : (</p>
+</blockquote>
+<h3 id="rust-quiz-11"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/11">Rust Quiz #11</a></h3>
+<blockquote>
+<p><strong>Answer: </strong> The program does not compile</p>
+</blockquote>
+<pre class="language-none"><code class="language-none">error: cannot specify lifetime arguments explicitly if late bound lifetime parameters are present
+ --&gt; questions&#x2F;011.rs:5:18
+  |
+5 |     let pf &#x3D; f::&lt;&#39;static&gt; as fn();
+  |                  ^^^^^^^
+  |</code></pre>
+<p>关于late bound和early bound，参考<a target="_blank" rel="noopener" href="http://smallcultfollowing.com/babysteps/blog/2013/10/29/intermingled-parameter-lists/#early--vs-late-bound-lifetimes">Intermingled parameter lists</a></p>
+<h3 id="rust-quiz-12"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/12">Rust Quiz #12</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>1243</p>
+</blockquote>
+<p>考察<code>D</code>被销毁的时机，<code>D(1)</code>出现的地方，解构赋值取走<code>x</code>后，右边的<code>S</code>不再有任何owner，因此即刻被销毁</p>
+<p>而<code>D(3)</code>出现的地方，由于<code>ref x</code>借用了右侧<code>S</code>的成员，因此<code>S</code>直到<code>ref x</code>被销毁后才销毁</p>
+<h3 id="rust-quiz-13"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/13">Rust Quiz #13</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>1</p>
+</blockquote>
+<p>创建一个<code>[S, S]</code>，然后检查两个<code>S</code>的指针是否一样</p>
+<p>因为<code>S</code>是<code>unit struct</code>，其占用的内存大小是0，而一个<code>zero sized type</code>的<code>array</code>占用内存也是0，因此两个<code>S</code>所在的地址相同，因此其指针相同</p>
+<h3 id="rust-quiz-14"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/14">Rust Quiz #14</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>10</p>
+</blockquote>
+<p>trait的<code>impl</code>在任何位置都会在整个作用域上生效(always in scope)，因此<code>char</code>的<code>Trait</code>也在作用域中生效，<code>'?'.is_reference()</code>会输出0</p>
+<p>而<code>0.is_reference()</code>会输出1是因为Rust的auto-ref规则，参考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/28519997/what-are-rusts-exact-auto-dereferencing-rules">What are Rust's exact auto-dereferencing rules?</a>，在试图调用<code>is_reference</code>时，先从调用者类型<code>int</code>开始找是否有相应的trait提供了此方法，但并没有找到(<code>int</code>并没有实现<code>Trait</code>)，然后开始auto-ref，结果是在<code>&amp;0</code>类型上发现了<code>is_referencing</code>方法，并最终调用<code>(&amp;0).is_reference()</code>，输出1</p>
+<h3 id="rust-quiz-15"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/15">Rust Quiz #15</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>1</p>
+</blockquote>
+<p>对<code>x</code>做类型推断，可知<code>x: &amp;&#123;integer&#125;</code>，<code>integer</code>的具体类型需要在<code>x.f()</code>推断</p>
+<p>试图在<code>x</code>上找到<code>f</code>方法，并借此确定<code>integer</code>的类型</p>
+<ul>
+<li>假设推断<code>integer: i32</code>，即<code>x: &amp;'a i32</code>，此时<code>x</code>被实现了<code>Trait</code>，但其上并没有以<code>self</code>为caller的<code>f</code>方法，因此<code>x.f</code>不存在</li>
+<li>假设推断<code>integer: u32</code>，则<code>x: &amp;u32</code>，此时由于<code>u32</code>被实现了<code>Trait</code>，且其上有<code>&amp;self</code>为caller的<code>f</code>方法，因此满足</li>
+</ul>
+<p>所以<code>x.f()</code>最终调用<code>u32</code>的<code>Trait</code>的方法</p>
+<h3 id="rust-quiz-16"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/16">Rust Quiz #16</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>44</p>
+</blockquote>
+<p>Rust没有自增或自减，<code>--x</code>会被理解为<code>-(-x)</code>，即一个值为<code>x</code>的表达式</p>
+<h3 id="rust-quiz-17"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/17">Rust Quiz #17</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>2</p>
+</blockquote>
+<p>同#16</p>
+<p>由于<code>--</code>不是Rust的token，因此<code>a-- - --b</code>等于<code>a-----b</code>等于<code>a-(-(-(-(-b))))= 5-3 = 2</code></p>
+<h3 id="rust-quiz-18"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/18">Rust Quiz #18</a></h3>
+<blockquote>
+<p><strong>Answer: </strong>1</p>
+</blockquote>
+<p>所有形如<code>.f()</code>的调用都只会寻找调用者的方法，也即如果<code>S</code>上没有<code>f</code>方法但有<code>f</code>这个成员，后者也不会被调用，程序会编译失败</p>
+<p>想调用<code>S</code>的<code>f</code>成员，需要写成<code>(S &#123;f: print2&#125;.f)()</code></p>
+<h3 id="rust-quiz-19"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/19">Rust Quiz #19</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> 21</p>
+</blockquote>
+<p><code>let _ = s;</code>可以理解为什么都没干（这取决于<code>_</code>在Rust中的语义，可以看<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rust/issues/10488">rust-lang/rust#10488</a>），没有所有权转移，也没有<code>s</code>的复制，什么都没发生，因此程序先输出<code>2</code>，然后<code>s</code> out of scope被销毁，输出<code>1</code></p>
+<blockquote>
+<ul>
+<li>如果把<code>_</code>替换成一个普通的变量名，如<code>a</code>，那么<code>s</code>的所有权就会在<code>let a = s;</code>处转移（因为我们没有为<code>S</code>提供<code>Copy</code> trait），不过此时仍然只有一个<code>S</code>，只不过其所有权被交给了<code>a</code>，程序依然会输出<code>21</code></li>
+<li>如果把<code>let _ = s;</code>替换成<code>s = S</code>这种move without binding的语句，则前一个<code>S</code>会在此处立刻被drop</li>
+</ul>
+</blockquote>
+<h3 id="rust-quiz-20"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/20">Rust Quiz #20</a></h3>
+<blockquote>
+<p><strong>Answer:</strong> 121</p>
+</blockquote>
+<p>考虑四个函数的语义</p>
+<ul>
+<li><p><code>fn return1</code></p>
+<p><code>if</code>的条件是<code>(return &#123; print!("1") &#125;)</code>这样一个表达式，该表达式返回<code>()</code>，且在求表达式结果的过程中<code>print!</code>被执行</p></li>
+<li><p><code>fn return2</code></p>
+<p>同<code>return1</code>，<code>return</code>的优先级高，可以把这个高优先级理解为包一层括号</p></li>
+<li><p><code>fn break1</code></p>
+<p>由于有括号，括号内的语句被解释为break-with-value expression，因此为了<code>break</code>，要先求其value，进而执行<code>print!</code></p></li>
+<li><p><code>fn break2</code></p>
+<p>由于没有括号，此处的<code>break</code>语句本身被作为<code>if</code>的条件，因此在<code>print!</code>前循环就已退出</p></li>
+</ul>
+<h3 id="rust-quiz-21"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/21">Rust Quiz #21</a></h3>
+<h3 id="rust-quiz-22"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/22">Rust Quiz #22</a></h3>
+<h3 id="rust-quiz-23"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/23">Rust Quiz #23</a></h3>
+<h3 id="rust-quiz-24"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/24">Rust Quiz #24</a></h3>
+<h3 id="rust-quiz-25"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/25">Rust Quiz #25</a></h3>
+<h3 id="rust-quiz-26"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/26">Rust Quiz #26</a></h3>
+<h3 id="rust-quiz-27"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/27">Rust Quiz #27</a></h3>
+<h3 id="rust-quiz-28"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/28">Rust Quiz #28</a></h3>
+<h3 id="rust-quiz-29"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/29">Rust Quiz #29</a></h3>
+<h3 id="rust-quiz-30"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/30">Rust Quiz #30</a></h3>
+<h3 id="rust-quiz-31"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/31">Rust Quiz #31</a></h3>
+<h3 id="rust-quiz-32"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/32">Rust Quiz #32</a></h3>
+<h3 id="rust-quiz-33"><a target="_blank" rel="noopener" href="https://dtolnay.github.io/rust-quiz/33">Rust Quiz #33</a></h3>
 
   
     <blockquote style="font-style:normal;padding:1em">
