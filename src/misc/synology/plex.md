@@ -25,7 +25,6 @@ services:
       - /volume2/Series:/media/Series
       - /volume2/Music:/media/Music
       - /volume2/Video:/media/Video
-      - /volume2/Porn:/media/Porn
       - /volume2/Anime:/media/Anime
     devices:
       - /dev/dri:/dev/dri
