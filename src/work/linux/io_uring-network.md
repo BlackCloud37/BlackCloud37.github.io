@@ -339,3 +339,10 @@ void add_socket_recv_multishot(struct io_uring *ring, int fd, unsigned flags)
 说了那么多，尝试用 io_uring 写了 TCP echo 吞吐测试，发现在连接数较低或者默认模式下，io_uring 性能不如 epoll，只有在连接数较多且配合 defer taskrun 的情况下，io_uring 才有优势。用 multishot 也有少量收益，但不如 defer taskrun 大，而且必须配合 provide buffer 也增加了使用难度。
 
 在实际项目里，用 io_uring，结合 defer taskrun 并支持 fast poll，不启用 multishot 和 provide buffer 的情景下，性能比 epoll 差 :/
+
+网上也有一些相关的讨论
+- [io_uring vs. epoll – Which Is Better in Network Programming?](https://www.alibabacloud.com/blog/io-uring-vs--epoll-which-is-better-in-network-programming_599544#:~:text=epoll%3A%20s%20%2B%20w-,io_uring%3A%20(t%20%2B%20s)%20%2F%20n,scenario%20is%20better%20than%20epoll's)
+- https://github.com/axboe/liburing/issues/189
+- https://github.com/frevib/io_uring-echo-server/issues/8
+
+总之，我认为 io_uring 在网络场景下不一定能得到预期收益，建议结合实际场景测试后再决定是否使用。
