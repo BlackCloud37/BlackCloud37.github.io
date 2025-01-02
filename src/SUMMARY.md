@@ -10,6 +10,7 @@
     - [simdjson](./work/benchmarks/simdjson.md)
 - [Programming]()
     - [C/C++]()
+        - [Pointer to member](./work/programming/c_c++/pointer_to_member.md)
         - [Idioms](./work/programming/c_c++/idioms.md)
         - [lambda, std::function, etc](./work/programming/c_c++/function.md)
         - [malloc c++ class 而不调用构造函数引发的 segfault](./work/programming/c_c++/malloc_cpp_class_cause_segfault.md)
