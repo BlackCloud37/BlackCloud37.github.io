@@ -1,0 +1,369 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>wolfSSL 使用</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../README.zh.html">介绍</a></li><li class="chapter-item expanded affix "><li class="part-title">工作</li><li class="chapter-item expanded "><a href="../../work/benchmarks.html"><strong aria-hidden="true">1.</strong> Benchmarks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../work/benchmarks/latency.html"><strong aria-hidden="true">1.1.</strong> Latency Numbers Every Programmer Should Know</a></li><li class="chapter-item "><a href="../../work/benchmarks/strhash.html"><strong aria-hidden="true">1.2.</strong> String Hash</a></li><li class="chapter-item "><a href="../../work/benchmarks/map.html"><strong aria-hidden="true">1.3.</strong> Map</a></li><li class="chapter-item "><a href="../../work/benchmarks/simdjson.html"><strong aria-hidden="true">1.4.</strong> simdjson</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Programming</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><div><strong aria-hidden="true">2.1.</strong> C/C++</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../work/programming/c_c++/pointer_to_member.html"><strong aria-hidden="true">2.1.1.</strong> Pointer to member</a></li><li class="chapter-item "><a href="../../work/programming/c_c++/idioms.html"><strong aria-hidden="true">2.1.2.</strong> Idioms</a></li><li class="chapter-item "><a href="../../work/programming/c_c++/function.html"><strong aria-hidden="true">2.1.3.</strong> lambda, std::function, etc</a></li><li class="chapter-item "><a href="../../work/programming/c_c++/malloc_cpp_class_cause_segfault.html"><strong aria-hidden="true">2.1.4.</strong> malloc c++ class 而不调用构造函数引发的 segfault</a></li><li class="chapter-item "><a href="../../work/programming/c_c++/priority_queue_with_updatable_priority.html"><strong aria-hidden="true">2.1.5.</strong> priority queue with updatable priority</a></li><li class="chapter-item "><a href="../../work/programming/c_c++/atomic.html"><strong aria-hidden="true">2.1.6.</strong> atomic</a></li><li class="chapter-item "><a href="../../work/programming/c_c++/libwebsocket.html"><strong aria-hidden="true">2.1.7.</strong> libwebsocket server 开发的坑</a></li></ol></li><li class="chapter-item "><div><strong aria-hidden="true">2.2.</strong> Python</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../work/programming/python/gc_performance.html"><strong aria-hidden="true">2.2.1.</strong> gc的性能问题</a></li></ol></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Linux</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../work/linux/network-timestamping.html"><strong aria-hidden="true">3.1.</strong> Linux 网络时间戳</a></li><li class="chapter-item "><a href="../../work/linux/io_uring-network.html"><strong aria-hidden="true">3.2.</strong> io_uring 网络场景使用</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Misc</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../work/misc/tcpdump-tshark-websocket-secure.html"><strong aria-hidden="true">4.1.</strong> 用 tcpdump 和 tshark 分析 wss 流量</a></li><li class="chapter-item expanded "><a href="../../work/misc/wolfssl.html" class="active"><strong aria-hidden="true">4.2.</strong> wolfSSL 使用</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">杂七杂八</li><li class="chapter-item expanded "><a href="../../misc/deploy-mdbook.html"><strong aria-hidden="true">5.</strong> 部署 mdbook 到 github pages</a></li><li class="chapter-item expanded "><a href="../../misc/ipv4-byr.html"><strong aria-hidden="true">6.</strong> 实现校外 IPv4 访问北邮人</a></li><li class="chapter-item expanded "><a href="../../misc/data-protection.html"><strong aria-hidden="true">7.</strong> 数据安全</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Arch Linux</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/arch/arch-hibernate.html"><strong aria-hidden="true">8.1.</strong> Arch 休眠到交换文件</a></li><li class="chapter-item "><a href="../../misc/arch/wechat.html"><strong aria-hidden="true">8.2.</strong> Wechat</a></li><li class="chapter-item "><a href="../../misc/arch/i3wm2sway.html"><strong aria-hidden="true">8.3.</strong> i3wm 切换到 sway</a></li><li class="chapter-item "><a href="../../misc/arch/vscode-auth.html"><strong aria-hidden="true">8.4.</strong> vscode 无法记住登录</a></li><li class="chapter-item "><a href="../../misc/arch/bluetooth-mouse-laggy.html"><strong aria-hidden="true">8.5.</strong> 蓝牙鼠标在静止不动之后重新唤醒会卡顿</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> MacOS</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/macos/auto-auth-thu.html"><strong aria-hidden="true">9.1.</strong> 自动认证 Tsinghua Wifi</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> 硬件</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/hardware/5600x-oc.html"><strong aria-hidden="true">10.1.</strong> 5600x超频</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> TrueNAS Scale</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/truenas/plex.html"><strong aria-hidden="true">11.1.</strong> Plex</a></li><li class="chapter-item "><a href="../../misc/truenas/app-deploying.html"><strong aria-hidden="true">11.2.</strong> APP 持续 deploying 问题</a></li><li class="chapter-item "><a href="../../misc/truenas/clusterissuer.html"><strong aria-hidden="true">11.3.</strong> 用 clusterissuer 自动申请 SSL 证书</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> Synology</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/synology/m2-ssd.html"><strong aria-hidden="true">12.1.</strong> M2 SSD 作为存储盘</a></li><li class="chapter-item "><a href="../../misc/synology/plex.html"><strong aria-hidden="true">12.2.</strong> Plex</a></li><li class="chapter-item "><a href="../../misc/synology/qbittorrent.html"><strong aria-hidden="true">12.3.</strong> qBittorrent</a></li><li class="chapter-item "><a href="../../misc/synology/acme-self-signed-cert.html"><strong aria-hidden="true">12.4.</strong> acme + letsencrypt 自动申请证书并自动续期</a></li><li class="chapter-item "><a href="../../misc/synology/btrfs-repair.html"><strong aria-hidden="true">12.5.</strong> btrfs 修复</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> selfhosted</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/selfhosted/network-topology.html"><strong aria-hidden="true">13.1.</strong> selfhosted 整体组网方案</a></li><li class="chapter-item "><a href="../../misc/router/arch-router.html"><strong aria-hidden="true">13.2.</strong> Arch as Router</a></li><li class="chapter-item "><a href="../../misc/qnap/auththu.html"><strong aria-hidden="true">13.3.</strong> auththu</a></li><li class="chapter-item "><a href="../../misc/qnap/crontab.html"><strong aria-hidden="true">13.4.</strong> Crontab</a></li><li class="chapter-item "><a href="../../misc/qnap/hlink.html"><strong aria-hidden="true">13.5.</strong> Hlink Docker</a></li><li class="chapter-item "><a href="../../misc/qnap/qBittorrent.html"><strong aria-hidden="true">13.6.</strong> qBittorrent</a></li><li class="chapter-item "><a href="../../misc/qnap/lede.html"><strong aria-hidden="true">13.7.</strong> LEDE 旁路由</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">14.</strong> Mikrotik</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/mikrotik/port-forwarding-with-srcip.html"><strong aria-hidden="true">14.1.</strong> 端口转发保留 srcip</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">15.</strong> 库克</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../misc/cook/bolognese.html"><strong aria-hidden="true">15.1.</strong> 番茄肉酱(意面)</a></li><li class="chapter-item "><a href="../../misc/cook/番茄牛腩.html"><strong aria-hidden="true">15.2.</strong> 番茄牛腩</a></li><li class="chapter-item "><a href="../../misc/cook/toast.html"><strong aria-hidden="true">15.3.</strong> 吐司</a></li><li class="chapter-item "><a href="../../misc/cook/bagel.html"><strong aria-hidden="true">15.4.</strong> 贝果</a></li><li class="chapter-item "><a href="../../misc/cook/basque.html"><strong aria-hidden="true">15.5.</strong> 巴斯克</a></li><li class="chapter-item "><a href="../../misc/cook/padan-coconut-cake.html"><strong aria-hidden="true">15.6.</strong> 斑斓椰汁糕</a></li><li class="chapter-item "><a href="../../misc/cook/half-baked-cheese.html"><strong aria-hidden="true">15.7.</strong> 半熟芝士(仿好利来)</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="wolfssl-使用"><a class="header" href="#wolfssl-使用">wolfSSL 使用</a></h1>
+<h2 id="背景"><a class="header" href="#背景">背景</a></h2>
+<p>c++ 写 TLS 客户端，openssl 实在是有些丑，另外也希望优化加解密性能，遂研究了一下 <a href="https://www.wolfssl.com/">wolfSSL</a> 的使用，因为看它：</p>
+<ul>
+<li><a href="https://www.wolfssl.com/documentation/manuals/wolfssl/index.html">文档</a>齐全</li>
+<li>有个<a href="https://www.wolfssl.com/forums/">支持社区</a>且上面有人回答</li>
+<li>据说性能比 openssl 好，参见 <a href="https://www.wolfssl.com/docs/benchmarks/">benchmark</a></li>
+</ul>
+<h2 id="安装及编译选项"><a class="header" href="#安装及编译选项">安装及编译选项</a></h2>
+<h3 id="源码拉取"><a class="header" href="#源码拉取">源码拉取</a></h3>
+<p>官网有个 <a href="https://www.wolfssl.com/download/">Download</a> 页面，可以下载源码，其 <a href="https://github.com/wolfSSL/wolfssl/releases/tag/v5.7.4-stable">github release</a> 页也能拉源码，二者在 <code>configure</code> 时略有不同：前者可以直接 <code>configure</code>，后者需要先 <code>./autogen.sh</code></p>
+<p>以后者为例</p>
+<pre><code class="language-bash">wget https://github.com/wolfSSL/wolfssl/archive/refs/tags/v5.7.4-stable.tar.gz -O wolfssl-5.7.4-stable.tar.gz
+tar -xf wolfssl-5.7.4-stable.tar.gz
+cd wolfssl-5.7.4-stable &amp;&amp; ./autogen.sh
+</code></pre>
+<h3 id="编译"><a class="header" href="#编译">编译</a></h3>
+<p>大概是因为 wolfSSL 在设计之初是考虑给嵌入式设备用的，支持非常多的编译选项，所以非常可定制，当然也会导致刚开始用的时候也会比较 confusing，所有选项参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter02.html">Building wolfSSL</a></p>
+<p>根据我的用例，我选择了如下选项，它们的作用分别是</p>
+<ul>
+<li><code>--enable-tls13</code> 启用 tls1.3</li>
+<li><code>--disable-harden</code> (性能)禁用安全强化</li>
+<li><code>--enable-intelasm</code> (性能)启用 intel 指令集加速，在我的 intel 机器上测试性能改进很显著</li>
+<li><code>--enable-aesni --enable-sp --enable-sp-asm</code> (性能)启用各种加速，不过这些在我的测试中并没有带来显著提升</li>
+<li><code>--enable-singlethreaded</code> (性能)如果能保证进程不会并发访问 wolfssl，可以启用</li>
+<li><code>--enable-ed25519</code> 因为用到了 ed25519 相关功能</li>
+<li><code>--enable-opensslall</code> 因为旧的代码是 openssl 写的，启用这个后会暴露非常多 openssl 的兼容接口，基本上可以无缝迁移
+<ul>
+<li><code>--enable-opensslextra</code> 我没有启用这个选项，但是提一嘴，因为它实际上是暴露比 <code>opensslall</code> 更多的兼容接口(<code>opensslall</code> 虽然叫 all 但不是它的超集)</li>
+</ul>
+</li>
+<li><code>CFLAGS=&quot;-DLARGE_STATIC_BUFFERS&quot;</code> 启用这个选项后可以减少 <code>malloc</code>，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter09.html">Library Design</a> 的 Input and Output Buffers 章节</li>
+<li><code>--libdir=/usr/local/lib64</code> 指定安装路径</li>
+</ul>
+<p>上面的选项里，性能相关的选项，除了 <code>enable-intelasm</code> 测试后有明显提升，其他选项均是看文档写了可能提升 performance 才启用的，但实际测试改进可能不显著，建议自己写个 benchmark 然后每启用一个选项测试一遍</p>
+<p>另外我只关心 TLS Application 相关的性能，即握手完成后对称加解密的过程，所以只测了这个</p>
+<p>完整的 configure 命令如下，包含了编译安装</p>
+<pre><code class="language-bash">./configure --enable-tls13 \
+    --disable-harden \
+    --enable-intelasm \      
+    --enable-aesni \
+    --enable-sp --enable-sp-asm \
+    --enable-singlethreaded \
+    --enable-opensslall \
+    --enable-ed25519 \
+    --libdir=/usr/local/lib64 \
+    CFLAGS=&quot;-DLARGE_STATIC_BUFFERS&quot;
+
+make -j8 &amp;&amp; make install
+</code></pre>
+<h3 id="使用"><a class="header" href="#使用">使用</a></h3>
+<p>参考 <a href="https://github.com/wolfSSL/wolfssl-examples/tree/master">wolfssl-examples</a>，用例非常全</p>
+<p>在我的使用场景中，基本上只要把 openssl 头文件换成</p>
+<pre><code class="language-c">#include &lt;wolfssl/options.h&gt; // 必须在所有 wolfssl include 之前
+#include &lt;wolfssl/ssl.h&gt;
+</code></pre>
+<p>然后编译链接时把 <code>-lcrypto -lssl</code> 换成 <code>-lwolfssl</code> 即可，由于启用了 <code>--enable-opensslall</code>，所以基本上绝大多数 openssl 的 symbol 都可以直接使用，其会被替换成 wolfssl 的，例如</p>
+<pre><code class="language-c">#define SSL_CTX WOLFSSL_CTX
+#define SSL_new wolfSSL_new
+</code></pre>
+<h4 id="io-callback"><a class="header" href="#io-callback">I/O Callback</a></h4>
+<p>原本的 openssl 的代码里，I/O 用了 BIO，在启用 <code>--enable-opensslall</code> 后，wolfSSL 也提供 BIO 接口，也是可以无缝迁移的</p>
+<p>但是看文档发现它还提供了 I/O Callback 接口，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter05.html">Portability</a> 的 Custom Input/Output Abstraction Layer 章节</p>
+<p>此外，在看源码时发现，其所有 I/O 都是以 I/O Callback 实现的，例如设置 BIO 其实只是设置了 BIO callback，在需要读写时将数据写到 BIO 层。直接用 callback 相比 BIO 应该少了一次 memcpy，出于性能的考量打算使用这个接口</p>
+<p>使用也比较简单，可以参考 <a href="https://github.com/wolfSSL/wolfssl-examples/blob/master/custom-io-callbacks">wolfssl-examples/custom-io-callbacks</a>，它实现了通过文件而非 socket 作为 I/O 进行 SSL 通信的例子</p>
+<p>两个 callback 的定义如下</p>
+<pre><code class="language-c">typedef int (*CallbackIORecv)(WOLFSSL *ssl, char *buf, int sz, void *ctx);
+typedef int (*CallbackIOSend)(WOLFSSL *ssl, char *buf, int sz, void *ctx);
+</code></pre>
+<p>这两个 callback 的语义是</p>
+<ul>
+<li>CallbackIORecv: 当 SSL 希望读取数据时，会调这个 cb
+<ul>
+<li>其中 buf 是 SSL 内部的 buffer，sz 是 SSL 希望读取的字节数，我们需要将读到的指定字节数写入 buf</li>
+<li>返回实际读到的字节数或者 <code>WOLFSSL_CBIO_ERR_WANT_READ</code> 表示暂无数据</li>
+<li>例如，在 <code>SSL_connect</code> 之后，或者调用 <code>SSL_read</code> 时，即 ssl 希望读取控制消息或者 application data 时，会调用这个 cb</li>
+<li>在握手完成后的 <code>SSL_read</code> 过程中，wolfSSL 通常会先调一次 sz 为 5 的 cb 来试图读取消息头，然后再根据消息头的数据长度来读剩下的 payload</li>
+</ul>
+</li>
+<li>CallbackIOSend: 当 SSL 希望发送数据时，会调这个 cb
+<ul>
+<li>其中 buf 是 SSL 希望发出的数据(加密后)</li>
+<li>返回实际发送的字节数或者 WOLFSSL_CBIO_ERR_WANT_WRITE 表示需要重试即可</li>
+<li>例如，在调用 <code>SSL_connect</code> 之后，或者调用 <code>SSL_write</code> 时，即 ssl 希望发送控制消息或者加密后的 application data 时，会调用这个 cb</li>
+</ul>
+</li>
+</ul>
+<p><code>ctx</code> 则是用户自己设置的 userdata</p>
+<p>在实现了自己的 callback 后，通过如下代码设置即可</p>
+<pre><code class="language-cpp">wolfSSL_SSLSetIORecv(ssl, CBIORecv);
+wolfSSL_SSLSetIOSend(ssl, CBIOSend);
+// wolfSSL_SetIOReadCtx(ssl, userdata);
+// wolfSSL_SetIOWriteCtx(ssl, userdata);
+</code></pre>
+<h4 id="减少-malloc"><a class="header" href="#减少-malloc">减少 malloc</a></h4>
+<p>wolfSSL 支持自定义 allocator(malloc, free, realloc)，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter05.html">Portability</a> 的 Memory Use 章节</p>
+<pre><code class="language-c">int wolfSSL_SetAllocators(wolfSSL_Malloc_cb  malloc_function,
+                         wolfSSL_Free_cb    free_function,
+                         wolfSSL_Realloc_cb realloc_function);
+</code></pre>
+<p>也因此，我尝试用一个包含调用计数的 malloc 来观察 malloc 的次数，然后发现在不启用 <code>LARGE_STATIC_BUFFERS</code> 的情况下，除了握手阶段以外，每次读或者写 SSL 都会出现一次 malloc(和相应的 free)</p>
+<ul>
+<li>相关讨论 <a href="https://www.wolfssl.com/forums/post8115.html">Best practice to avoid dynamic memory allocations</a></li>
+</ul>
+<p>如果启用 <code>LARGE_STATIC_BUFFERS</code>，每个 <code>SSL</code> 都会有一个固定大小的 <code>staticBuffer</code>，其大小应该是 <code>MAX_RECORD_SIZE</code>，即 16KB，在读写数据时只要这个 buffer 够用，就不会出现 malloc</p>
+<p>另一个方法则复杂一些，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter04.html#enabling-static-buffer-allocation">Features</a> 的 Static Buffer Allocation Option 章节，大概流程是：</p>
+<ul>
+<li>在 <code>configure</code> 时启用 <code>--enable-staticmemory</code></li>
+<li>预先分配两个内存区域，并传递给 wolfSSL，需要调用两遍 <code>wolfSSL_CTX_load_static_memory</code>
+<ul>
+<li>下面这个 example 是 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter04.html#enabling-static-buffer-allocation">Features</a> 里抄的，但 <code>WOLFMEM_IO_FIXED</code> 应该改成 <code>WOLFMEM_IO_POOL_FIXED</code>
+<pre><code class="language-c">WOLFSSL_CTX* ctx = NULL; /* pass NULL to generate WOLFSSL_CTX */
+int ret;
+
+#define MAX_CONCURRENT_TLS  0
+#define MAX_CONCURRENT_IO   0
+
+unsigned char GEN_MEM[GEN_MEM_SIZE];
+unsigned char IO_MEM[IO_MEM_SIZE];　
+
+/* set up a general-purpose buffer and generate WOLFSSL_CTX from it on the first call. */
+ret = wolfSSL_CTX_load_static_memory(
+        &amp;ctx,                               /* set NULL to ctx */
+        wolfSSLv23_client_method_ex(),  /* use function with &quot;_ex&quot; */
+        GEN_MEM, GEN_MEM_SIZE,            /* buffer and its size */
+        WOLFMEM_GENERAL,                  /* general purpose */
+        MAX_CONCURRENT_TLS);              /* max concurrent objects */
+
+/* set up a I/O-purpose buffer on the second call. */
+ret = wolfSSL_CTX_load_static_memory(
+        &amp;ctx,                /* make sure ctx is holding the object */
+        NULL,                           /* pass it to NULL this time */
+        IO_MEM, IO_MEM_SIZE,                /* buffer and its size */
+        WOLFMEM_IO_FIXED,                             /* I/O purpose */
+        MAX_CONCURRENT_IO);               /* max concurrent objects */
+
+if (ret != 0)
+{
+    auto error = wolfSSL_ERR_get_error();
+    if (error != WOLFSSL_ERROR_NONE)
+    {
+        char error_str[256];
+        wolfSSL_ERR_error_string(error, error_str);
+        throw std::runtime_error(&quot;wolfSSL_CTX_load_static_memory error: &quot; + std::string(error_str));
+    }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>之后的使用应该不需要修改，在 <code>statcmemory</code> 够大的情况下，wolfSSL 会自动在上面拿内存，本质上就是实现了一个预分配的 malloc
+<ul>
+<li>如果内存不够，可能会回退到 malloc，好像可以通过 <code>WOLFSSL_NO_MALLOC</code> 来强制禁止，参考 <a href="https://www.wolfssl.com/crypto-without-mallocs/">Doing Crypto Without Malloc’s</a></li>
+</ul>
+</li>
+</ul>
+<p>不过其实 <code>staticmemory</code> 本质上还是要每次都分配内存(只是在预分配的区域上分配)，相比 <code>LARGE_STATIC_BUFFERS</code> 在理想情况下可以完全不分配内存，后者应该更符合我的需求</p>
+<p>在我的测试里，在收发数据包较小(因此单次 malloc 成本很低)的情况下，性能表现 <code>LARGE_STATIC_BUFFERS</code> &gt; <code>malloc</code> &gt; <code>staticmemory</code></p>
+<h2 id="benchmark"><a class="header" href="#benchmark">Benchmark</a></h2>
+<p>简单测试了 TLS Client 端，在 TLS1.3 用 <code>TLS_AES_128_GCM_SHA256</code> cipher 的情况下，连续收发 256B payload，加解密的耗时(ns)</p>
+<p>openssl 作为 baseline, 在使用 BIO 的情况下</p>
+<pre><code>encryption_costs: min: 357, max: 11197, avg: 388, p50: 370, p99: 546
+decryption_costs: min: 316, max: 16816, avg: 350, p50: 330, p99: 532
+</code></pre>
+<p>wolfSSL 不启用 <code>intelasm</code> 且使用 BIO</p>
+<pre><code>encryption_costs: min: 1074, max: 16198, avg: 1132, p50: 1098, p99: 1335
+decryption_costs: min: 1143, max: 16839, avg: 1205, p50: 1169, p99: 1427
+</code></pre>
+<p>启用 <code>--disable-harden</code>，没有观察到提升</p>
+<pre><code>encryption_costs: min: 1067, max: 11969, avg: 1127, p50: 1092, p99: 1338
+decryption_costs: min: 1139, max: 21007, avg: 1206, p50: 1168, p99: 1433
+</code></pre>
+<p>启用 <code>--enable-intelasm</code>，性能提升显著</p>
+<pre><code>encryption_costs: min: 200, max: 10915, avg: 228, p50: 214, p99: 304
+decryption_costs: min: 263, max: 8928, avg: 309, p50: 296, p99: 407
+</code></pre>
+<p>启用 <code>--enable-sp-asm</code>，没有观察到提升</p>
+<pre><code>encryption_costs: min: 205, max: 16980, avg: 244, p50: 235, p99: 319
+decryption_costs: min: 258, max: 15187, avg: 300, p50: 286, p99: 388
+</code></pre>
+<p>启用 <code>--enable-singlethreaded</code>，提升不大，但似乎是有些提升</p>
+<pre><code>encryption_costs: min: 211, max: 10392, avg: 249, p50: 240, p99: 331
+decryption_costs: min: 238, max: 12050, avg: 281, p50: 261, p99: 373
+</code></pre>
+<p>在发送方向上用 Callback，接收方向上仍然用 BIO，且启用 <code>LARGE_STATIC_BUFFERS</code>，提升较大</p>
+<pre><code>encryption_costs: min: 124, max: 10720, avg: 131, p50: 131, p99: 138
+decryption_costs: min: 172, max: 11071, avg: 184, p50: 183, p99: 208
+</code></pre>
+<p>再启用 <code>fast-math</code> 和 <code>fast-huge-math</code>，没有观察到提升</p>
+<pre><code>encryption_costs: min: 124, max: 17766, avg: 132, p50: 131, p99: 147
+decryption_costs: min: 172, max: 16989, avg: 184, p50: 183, p99: 208
+</code></pre>
+<p>总结就是使用 IOCallback，启用 <code>LARGE_STATIC_BUFFERS</code>，启用 <code>intelasm</code> 和 <code>singlethreaded</code>(如果确认不会多线程使用)，能达到比较好的加解密性能，比 openssl 快</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../work/misc/tcpdump-tshark-websocket-secure.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../misc/deploy-mdbook.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../work/misc/tcpdump-tshark-websocket-secure.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../misc/deploy-mdbook.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
