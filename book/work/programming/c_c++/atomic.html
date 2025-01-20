@@ -1,0 +1,273 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>atomic</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../../highlight.css">
+        <link rel="stylesheet" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../../README.zh.html">介绍</a></li><li class="chapter-item expanded affix "><li class="part-title">工作</li><li class="chapter-item expanded "><a href="../../../work/benchmarks.html"><strong aria-hidden="true">1.</strong> Benchmarks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../work/benchmarks/latency.html"><strong aria-hidden="true">1.1.</strong> Latency Numbers Every Programmer Should Know</a></li><li class="chapter-item "><a href="../../../work/benchmarks/strhash.html"><strong aria-hidden="true">1.2.</strong> String Hash</a></li><li class="chapter-item "><a href="../../../work/benchmarks/map.html"><strong aria-hidden="true">1.3.</strong> Map</a></li><li class="chapter-item "><a href="../../../work/benchmarks/simdjson.html"><strong aria-hidden="true">1.4.</strong> simdjson</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Programming</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">2.1.</strong> C/C++</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../work/programming/c_c++/idioms.html"><strong aria-hidden="true">2.1.1.</strong> Idioms</a></li><li class="chapter-item "><a href="../../../work/programming/c_c++/function.html"><strong aria-hidden="true">2.1.2.</strong> lambda, std::function, etc</a></li><li class="chapter-item "><a href="../../../work/programming/c_c++/malloc_cpp_class_cause_segfault.html"><strong aria-hidden="true">2.1.3.</strong> malloc c++ class 而不调用构造函数引发的 segfault</a></li><li class="chapter-item "><a href="../../../work/programming/c_c++/priority_queue_with_updatable_priority.html"><strong aria-hidden="true">2.1.4.</strong> priority queue with updatable priority</a></li><li class="chapter-item expanded "><a href="../../../work/programming/c_c++/atomic.html" class="active"><strong aria-hidden="true">2.1.5.</strong> atomic</a></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">杂七杂八</li><li class="chapter-item expanded "><a href="../../../misc/deploy-mdbook.html"><strong aria-hidden="true">3.</strong> 部署 mdbook 到 github pages</a></li><li class="chapter-item expanded "><a href="../../../misc/ipv4-byr.html"><strong aria-hidden="true">4.</strong> 实现校外 IPv4 访问北邮人</a></li><li class="chapter-item expanded "><a href="../../../misc/data-protection.html"><strong aria-hidden="true">5.</strong> 数据安全</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Arch Linux</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../misc/arch/arch-hibernate.html"><strong aria-hidden="true">6.1.</strong> Arch 休眠到交换文件</a></li><li class="chapter-item "><a href="../../../misc/arch/wechat.html"><strong aria-hidden="true">6.2.</strong> Wechat</a></li><li class="chapter-item "><a href="../../../misc/arch/i3wm2sway.html"><strong aria-hidden="true">6.3.</strong> i3wm 切换到 sway</a></li><li class="chapter-item "><a href="../../../misc/arch/vscode-auth.html"><strong aria-hidden="true">6.4.</strong> vscode 无法记住登录</a></li><li class="chapter-item "><a href="../../../misc/arch/bluetooth-mouse-laggy.html"><strong aria-hidden="true">6.5.</strong> 蓝牙鼠标在静止不动之后重新唤醒会卡顿</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> MacOS</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../misc/macos/auto-auth-thu.html"><strong aria-hidden="true">7.1.</strong> 自动认证 Tsinghua Wifi</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 硬件</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../misc/hardware/5600x-oc.html"><strong aria-hidden="true">8.1.</strong> 5600x超频</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> TrueNAS Scale</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../misc/truenas/plex.html"><strong aria-hidden="true">9.1.</strong> Plex</a></li><li class="chapter-item "><a href="../../../misc/truenas/app-deploying.html"><strong aria-hidden="true">9.2.</strong> APP 持续 deploying 问题</a></li><li class="chapter-item "><a href="../../../misc/truenas/clusterissuer.html"><strong aria-hidden="true">9.3.</strong> 用 clusterissuer 自动申请 SSL 证书</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> selfhosted</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../misc/selfhosted/network-topology.html"><strong aria-hidden="true">10.1.</strong> selfhosted 整体组网方案</a></li><li class="chapter-item "><a href="../../../misc/router/arch-router.html"><strong aria-hidden="true">10.2.</strong> Arch as Router</a></li><li class="chapter-item "><a href="../../../misc/qnap/auththu.html"><strong aria-hidden="true">10.3.</strong> auththu</a></li><li class="chapter-item "><a href="../../../misc/qnap/crontab.html"><strong aria-hidden="true">10.4.</strong> Crontab</a></li><li class="chapter-item "><a href="../../../misc/qnap/hlink.html"><strong aria-hidden="true">10.5.</strong> Hlink Docker</a></li><li class="chapter-item "><a href="../../../misc/qnap/qBittorrent.html"><strong aria-hidden="true">10.6.</strong> qBittorrent</a></li><li class="chapter-item "><a href="../../../misc/qnap/lede.html"><strong aria-hidden="true">10.7.</strong> LEDE 旁路由</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 库克</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../../../misc/cook/bolognese.html"><strong aria-hidden="true">11.1.</strong> 番茄肉酱(意面)</a></li><li class="chapter-item "><a href="../../../misc/cook/番茄牛腩.html"><strong aria-hidden="true">11.2.</strong> 番茄牛腩</a></li><li class="chapter-item "><a href="../../../misc/cook/toast.html"><strong aria-hidden="true">11.3.</strong> 吐司</a></li><li class="chapter-item "><a href="../../../misc/cook/bagel.html"><strong aria-hidden="true">11.4.</strong> 贝果</a></li><li class="chapter-item "><a href="../../../misc/cook/basque.html"><strong aria-hidden="true">11.5.</strong> 巴斯克</a></li><li class="chapter-item "><a href="../../../misc/cook/padan-coconut-cake.html"><strong aria-hidden="true">11.6.</strong> 斑斓椰汁糕</a></li><li class="chapter-item "><a href="../../../misc/cook/half-baked-cheese.html"><strong aria-hidden="true">11.7.</strong> 半熟芝士(仿好利来)</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="stdatomic-memory_order-含义"><a class="header" href="#stdatomic-memory_order-含义">std::atomic memory_order 含义</a></h1>
+<p>主要参考并翻译自 <a href="https://gcc.gnu.org/wiki/Atomic/GCCMM/AtomicSync">Memory model synchronization modes</a></p>
+<h3 id="sequentially-consistent"><a class="header" href="#sequentially-consistent">Sequentially Consistent</a></h3>
+<p>严格的顺序执行，不知道如何描述，看例子</p>
+<pre><code> -Thread 1-       -Thread 2-
+ y = 1            if (x.load() == 2)
+ x.store (2);        assert (y == 1)
+</code></pre>
+<p>上例中如果 T2 <code>if</code> 触发，即它<strong>看到了</strong> T1 的 <code>x.store(2)</code> 动作，那么可以保证 T1 已经完成了 y 的赋值</p>
+<pre><code>             a = 0
+             y = 0
+             b = 1
+ -Thread 1-              -Thread 2-
+ x = a.load()            while (y.load() != b)
+ y.store (b)                ;
+ while (a.load() == x)   a.store(1)
+    ;
+</code></pre>
+<p>上例中，如果 T2 的 loop 结束，即它看到了 T1 对 y 的 store，则 T1 一定完成了 <code>x = a.load()</code>，而当 T2 完成 a 的 store 后，T1 的 loop 才会结束</p>
+<pre><code> -Thread 1-       -Thread 2-                   -Thread 3-
+ y.store (20);    if (x.load() == 10) {        if (y.load() == 10)
+ x.store (10);      assert (y.load() == 20)      assert (x.load() == 10)
+                    y.store (10)
+                  }
+</code></pre>
+<p>上例的几个 assertion 均成立</p>
+<h3 id="relaxed"><a class="header" href="#relaxed">Relaxed</a></h3>
+<p>memory_order_seq_cst 模型提供的是 <em>happens-before</em> 约束，relaxed 则去除了这一约束</p>
+<p>例子</p>
+<pre><code>-Thread 1-
+y.store (20, memory_order_relaxed)
+x.store (10, memory_order_relaxed)
+
+-Thread 2-
+if (x.load (memory_order_relaxed) == 10)
+  {
+    assert (y.load(memory_order_relaxed) == 20) /* assert A */
+    y.store (10, memory_order_relaxed)
+  }
+
+-Thread 3-
+if (y.load (memory_order_relaxed) == 10)
+  assert (x.load(memory_order_relaxed) == 10) /* assert B */
+</code></pre>
+<p>这是刚才的例子，但在 relaxed 模型下两个 assertion 均可能 FAIL。例如当 T2 观测到 x == 10 时，T1 可能并未将 20 写到 y</p>
+<p>但即使在 relaxed 的模型下，对<strong>同一变量</strong>的多次修改仍然是顺序的，例如</p>
+<pre><code>x = 0
+
+-Thread 1-
+x.store (1, memory_order_relaxed)
+x.store (2, memory_order_relaxed)
+
+-Thread 2-
+y = x.load (memory_order_relaxed)
+z = x.load (memory_order_relaxed)
+assert (y &lt;= z)
+</code></pre>
+<p>这个例子中的 assertion 永远不会 FAIL，如果在 T2 中 x load 到了 2，那么一定不会再 load 到 1</p>
+<h3 id="acquirerelease"><a class="header" href="#acquirerelease">Acquire/Release</a></h3>
+<p>是前面两个模型的混合，Acquire/Release 只对互相依赖的变量保证 <em>happens-before</em>，没太看懂原文的例子，参考 <a href="https://stackoverflow.com/questions/59626494/understanding-memory-order-acquire-and-memory-order-release-in-c11">Understanding <code>memory_order_acquire</code> and <code>memory_order_release</code> in C++11</a></p>
+<p>memory_order_release 可以提交本线程在此之前的所有变更，而 acquire 到的线程一定能见到被 release 的变更。这里的变更包括非 atomic 变量，即当作 memory barrier 用</p>
+<h3 id="consume"><a class="header" href="#consume">Consume</a></h3>
+<p>比 Acquire/Release 更松的模型，Acquire/Release 下所有 load 之后的读写都不许被移动到 load 之前，即在 load 时强制同步，但 Consume 模式下只有依赖原子变量的读写才会保证在 load 之后</p>
+<pre><code>n = 0
+m = 0
+
+-Thread 1-
+ n = 1
+ m = 1
+ p.store (&amp;n, memory_order_release)
+
+ -Thread 2-
+ t = p.load (memory_order_acquire);
+ assert( *t == 1 &amp;&amp; m == 1 );
+
+ -Thread 3-
+ t = p.load (memory_order_consume);
+ assert( *t == 1 &amp;&amp; m == 1 );
+</code></pre>
+<p>T2 中的 assertion 一定 PASS，因为 Acquire load 一定会同步 <code>n = 1; m = 1</code></p>
+<p>T3 中的 assertion 可能 FAIL，因为 Consume load 只会同步 <code>n = 1</code>，不保证同步 m</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../work/programming/c_c++/priority_queue_with_updatable_priority.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../../misc/deploy-mdbook.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../work/programming/c_c++/priority_queue_with_updatable_priority.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../../misc/deploy-mdbook.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

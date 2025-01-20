@@ -1,0 +1,2396 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="README.zh.html">介绍</a></li><li class="chapter-item expanded affix "><li class="part-title">工作</li><li class="chapter-item expanded "><a href="work/benchmarks.html"><strong aria-hidden="true">1.</strong> Benchmarks</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="work/benchmarks/latency.html"><strong aria-hidden="true">1.1.</strong> Latency Numbers Every Programmer Should Know</a></li><li class="chapter-item "><a href="work/benchmarks/strhash.html"><strong aria-hidden="true">1.2.</strong> String Hash</a></li><li class="chapter-item "><a href="work/benchmarks/map.html"><strong aria-hidden="true">1.3.</strong> Map</a></li><li class="chapter-item "><a href="work/benchmarks/simdjson.html"><strong aria-hidden="true">1.4.</strong> simdjson</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Programming</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><div><strong aria-hidden="true">2.1.</strong> C/C++</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="work/programming/c_c++/idioms.html"><strong aria-hidden="true">2.1.1.</strong> Idioms</a></li><li class="chapter-item "><a href="work/programming/c_c++/function.html"><strong aria-hidden="true">2.1.2.</strong> lambda, std::function, etc</a></li><li class="chapter-item "><a href="work/programming/c_c++/malloc_cpp_class_cause_segfault.html"><strong aria-hidden="true">2.1.3.</strong> malloc c++ class 而不调用构造函数引发的 segfault</a></li><li class="chapter-item "><a href="work/programming/c_c++/priority_queue_with_updatable_priority.html"><strong aria-hidden="true">2.1.4.</strong> priority queue with updatable priority</a></li><li class="chapter-item "><a href="work/programming/c_c++/atomic.html"><strong aria-hidden="true">2.1.5.</strong> atomic</a></li></ol></li></ol></li><li class="chapter-item expanded "><li class="part-title">杂七杂八</li><li class="chapter-item expanded "><a href="misc/deploy-mdbook.html"><strong aria-hidden="true">3.</strong> 部署 mdbook 到 github pages</a></li><li class="chapter-item expanded "><a href="misc/ipv4-byr.html"><strong aria-hidden="true">4.</strong> 实现校外 IPv4 访问北邮人</a></li><li class="chapter-item expanded "><a href="misc/data-protection.html"><strong aria-hidden="true">5.</strong> 数据安全</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Arch Linux</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="misc/arch/arch-hibernate.html"><strong aria-hidden="true">6.1.</strong> Arch 休眠到交换文件</a></li><li class="chapter-item "><a href="misc/arch/wechat.html"><strong aria-hidden="true">6.2.</strong> Wechat</a></li><li class="chapter-item "><a href="misc/arch/i3wm2sway.html"><strong aria-hidden="true">6.3.</strong> i3wm 切换到 sway</a></li><li class="chapter-item "><a href="misc/arch/vscode-auth.html"><strong aria-hidden="true">6.4.</strong> vscode 无法记住登录</a></li><li class="chapter-item "><a href="misc/arch/bluetooth-mouse-laggy.html"><strong aria-hidden="true">6.5.</strong> 蓝牙鼠标在静止不动之后重新唤醒会卡顿</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> MacOS</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="misc/macos/auto-auth-thu.html"><strong aria-hidden="true">7.1.</strong> 自动认证 Tsinghua Wifi</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> 硬件</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="misc/hardware/5600x-oc.html"><strong aria-hidden="true">8.1.</strong> 5600x超频</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> TrueNAS Scale</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="misc/truenas/plex.html"><strong aria-hidden="true">9.1.</strong> Plex</a></li><li class="chapter-item "><a href="misc/truenas/app-deploying.html"><strong aria-hidden="true">9.2.</strong> APP 持续 deploying 问题</a></li><li class="chapter-item "><a href="misc/truenas/clusterissuer.html"><strong aria-hidden="true">9.3.</strong> 用 clusterissuer 自动申请 SSL 证书</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> selfhosted</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="misc/selfhosted/network-topology.html"><strong aria-hidden="true">10.1.</strong> selfhosted 整体组网方案</a></li><li class="chapter-item "><a href="misc/router/arch-router.html"><strong aria-hidden="true">10.2.</strong> Arch as Router</a></li><li class="chapter-item "><a href="misc/qnap/auththu.html"><strong aria-hidden="true">10.3.</strong> auththu</a></li><li class="chapter-item "><a href="misc/qnap/crontab.html"><strong aria-hidden="true">10.4.</strong> Crontab</a></li><li class="chapter-item "><a href="misc/qnap/hlink.html"><strong aria-hidden="true">10.5.</strong> Hlink Docker</a></li><li class="chapter-item "><a href="misc/qnap/qBittorrent.html"><strong aria-hidden="true">10.6.</strong> qBittorrent</a></li><li class="chapter-item "><a href="misc/qnap/lede.html"><strong aria-hidden="true">10.7.</strong> LEDE 旁路由</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> 库克</div><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="misc/cook/bolognese.html"><strong aria-hidden="true">11.1.</strong> 番茄肉酱(意面)</a></li><li class="chapter-item "><a href="misc/cook/番茄牛腩.html"><strong aria-hidden="true">11.2.</strong> 番茄牛腩</a></li><li class="chapter-item "><a href="misc/cook/toast.html"><strong aria-hidden="true">11.3.</strong> 吐司</a></li><li class="chapter-item "><a href="misc/cook/bagel.html"><strong aria-hidden="true">11.4.</strong> 贝果</a></li><li class="chapter-item "><a href="misc/cook/basque.html"><strong aria-hidden="true">11.5.</strong> 巴斯克</a></li><li class="chapter-item "><a href="misc/cook/padan-coconut-cake.html"><strong aria-hidden="true">11.6.</strong> 斑斓椰汁糕</a></li><li class="chapter-item "><a href="misc/cook/half-baked-cheese.html"><strong aria-hidden="true">11.7.</strong> 半熟芝士(仿好利来)</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="介绍"><a class="header" href="#介绍">介绍</a></h1>
+<p>BlackCloud 的博客</p>
+<p>Powered by <a href="https://github.com/rust-lang/mdBook">mdbook</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="benchmarks"><a class="header" href="#benchmarks">Benchmarks</a></h1>
+<p>记录一下经常用到的算法/容器的 Benchmark (主要使用 C++)</p>
+<p>随用随测, 可能不会特别准确, 工作侧重于<strong>在特定负载下选择最好的算法/容器</strong>, 所以主要记录不同选择的相对性能</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="latency-numbers-every-programmer-should-know"><a class="header" href="#latency-numbers-every-programmer-should-know">Latency Numbers Every Programmer Should Know</a></h1>
+<p>Reference: <a href="https://gist.github.com/jboner/2841832">Latency Numbers Every Programmer Should Know</a></p>
+<pre><code>Latency Comparison Numbers (~2012)
+----------------------------------
+L1 cache reference                           0.5 ns
+Branch mispredict                            5   ns
+L2 cache reference                           7   ns                      14x L1 cache
+Mutex lock/unlock                           25   ns
+Main memory reference                      100   ns                      20x L2 cache, 200x L1 cache
+Compress 1K bytes with Zippy             3,000   ns        3 us
+Send 1K bytes over 1 Gbps network       10,000   ns       10 us
+Read 4K randomly from SSD*             150,000   ns      150 us          ~1GB/sec SSD
+Read 1 MB sequentially from memory     250,000   ns      250 us
+Round trip within same datacenter      500,000   ns      500 us
+Read 1 MB sequentially from SSD*     1,000,000   ns    1,000 us    1 ms  ~1GB/sec SSD, 4X memory
+Disk seek                           10,000,000   ns   10,000 us   10 ms  20x datacenter roundtrip
+Read 1 MB sequentially from disk    20,000,000   ns   20,000 us   20 ms  80x memory, 20X SSD
+Send packet CA-&gt;Netherlands-&gt;CA    150,000,000   ns  150,000 us  150 ms
+
+Notes
+-----
+1 ns = 10^-9 seconds
+1 us = 10^-6 seconds = 1,000 ns
+1 ms = 10^-3 seconds = 1,000 us = 1,000,000 ns
+
+Credit
+------
+By Jeff Dean:               http://research.google.com/people/jeff/
+Originally by Peter Norvig: http://norvig.com/21-days.html#answers
+
+Contributions
+-------------
+'Humanized' comparison:  https://gist.github.com/hellerbarde/2843375
+Visual comparison chart: http://i.imgur.com/k0t1e.png
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="string-hash"><a class="header" href="#string-hash">String Hash</a></h1>
+<ul>
+<li>4-16 个字符的短字符串</li>
+</ul>
+<pre><code>|               ns/op |                op/s |    err% |          ins/op |         bra/op |   miss% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------------:|---------------:|--------:|----------:|:----------
+|       11,094,427.00 |               90.14 |    0.4% |  111,833,763.00 |  12,383,248.00 |    4.0% |      0.12 | `CRC32`
+|        8,181,207.00 |              122.23 |    3.2% |   81,658,267.00 |  12,940,438.00 |    3.8% |      0.09 | `FNV`
+|        5,397,684.00 |              185.26 |    0.4% |   56,646,296.00 |   9,432,868.00 |    5.3% |      0.06 | `Murmur2`
+|        6,749,671.00 |              148.16 |    1.2% |   67,046,257.00 |   9,432,870.00 |    5.3% |      0.08 | `Murmur3_x86_32`
+|       11,833,767.00 |               84.50 |    0.5% |  128,028,092.00 |   5,949,857.00 |    8.5% |      0.13 | `Murmur3_x86_128`
+|        7,636,166.00 |              130.96 |    0.8% |   91,747,270.00 |   6,441,582.00 |    7.7% |      0.09 | `Murmur3_x64_128`
+</code></pre>
+<ul>
+<li>~200 个字符的中等长度字符串</li>
+</ul>
+<pre><code>|               ns/op |                op/s |    err% |          ins/op |         bra/op |   miss% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------------:|---------------:|--------:|----------:|:----------
+|      134,931,464.00 |                7.41 |    0.0% |1,235,797,487.00 |  80,973,317.00 |    1.2% |      1.48 | `CRC32`
+|      154,305,226.00 |                6.48 |    0.0% |1,250,489,432.00 | 179,927,192.00 |    0.6% |      1.70 | `FNV`
+|       41,743,783.00 |               23.96 |    0.0% |  474,381,552.00 |  50,949,403.00 |    1.8% |      0.46 | `Murmur2`
+|       44,541,974.00 |               22.45 |    0.1% |  446,744,071.00 |  51,629,173.00 |    1.8% |      0.49 | `Murmur3_x86_32`
+|       44,402,780.00 |               22.52 |    0.1% |  461,885,844.00 |  16,677,849.00 |    5.3% |      0.49 | `Murmur3_x86_128`
+|       26,934,988.00 |               37.13 |    0.2% |  307,733,470.00 |  16,584,743.00 |    5.3% |      0.30 | `Murmur3_x64_128`
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="map"><a class="header" href="#map">Map</a></h1>
+<ul>
+<li>完全随机的 int key, 做 find_or_insert 操作</li>
+</ul>
+<pre><code>|               ns/op |                op/s |    err% |          ins/op |         bra/op |   miss% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------------:|---------------:|--------:|----------:|:----------
+|       35,153,700.00 |               28.45 |    1.8% |  157,273,534.00 |  33,488,895.00 |    1.5% |      0.41 | `unordered_map:random`
+|      136,277,935.00 |                7.34 |    1.7% |  193,896,493.00 |  48,073,497.00 |   13.1% |      1.49 | `map:random`
+|       58,396,319.00 |               17.12 |    0.8% |  312,029,741.00 |  92,169,201.00 |    4.9% |      0.66 | `btree_map:random`
+|       12,382,928.00 |               80.76 |    0.8% |   92,646,655.00 |  12,036,977.00 |    5.7% |      0.14 | `robin_hood_map:random`
+|       17,489,723.00 |               57.18 |    1.2% |   90,160,012.00 |  17,922,242.00 |    4.4% |      0.20 | `dense_hash_map:random`
+|          810,089.00 |            1,234.43 |    3.2% |    3,600,629.00 |     300,147.00 |    0.0% |      0.01 | `array(test):random`
+</code></pre>
+<ul>
+<li>顺序出现的 int key, 每个 key 重复出现 32 次, 组与组之间略微打乱(比如 0 0 0 1 0 1 1 2 1 2 2 2 ... 这样的序列), 做 find_or_insert 操作</li>
+</ul>
+<pre><code>|               ns/op |                op/s |    err% |          ins/op |         bra/op |   miss% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------------:|---------------:|--------:|----------:|:----------
+|       19,428,866.00 |               51.47 |    1.2% |  137,639,829.00 |  26,979,609.00 |    1.2% |      0.22 | `unordered_map:sequential`
+|      305,547,283.00 |                3.27 |    0.5% |  494,128,064.00 | 130,782,008.00 |   17.3% |      3.34 | `map:sequential`
+|      183,810,512.00 |                5.44 |    0.4% |  973,906,327.00 | 302,459,238.00 |    4.8% |      2.03 | `btree_map:sequential`
+|       34,349,617.00 |               29.11 |    0.3% |  183,005,851.00 |  24,127,612.00 |   12.6% |      0.38 | `robin_hood_map:sequential`
+|       26,675,597.00 |               37.49 |    1.2% |  185,300,938.00 |  46,039,048.00 |    5.1% |      0.30 | `dense_hash_map:sequential`
+|        6,950,046.00 |              143.88 |    0.8% |   38,400,593.00 |   3,200,143.00 |    0.0% |      0.08 | `array(test):sequential`
+</code></pre>
+<ul>
+<li>查找短字符串(例如交易对字符串), 期望使用 std::string_view 来查找(例如解析 json 时)</li>
+</ul>
+<pre><code>|               ns/op |                op/s |    err% |     total | AliasMap
+|--------------------:|--------------------:|--------:|----------:|:---------
+|       15,420,964.00 |               64.85 |    0.2% |      0.17 | `std::map&lt;std::string, val&gt;`
+|        9,693,194.00 |              103.17 |    0.1% |      0.11 | `std::map&lt;uint64_t, val&gt; (with murmurhash64)`
+|        2,988,340.00 |              334.63 |    0.4% |      0.03 | `std::unordered_map&lt;uint64_t, val&gt; (with murmurhash64)`
+|        3,005,004.00 |              332.78 |    0.4% |      0.03 | `robin_hood::unordered_map&lt;uint64_t, val&gt; (with murmurhash64)`
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="simdjson"><a class="header" href="#simdjson">simdjson</a></h1>
+<h2 id="find_field-方式对比"><a class="header" href="#find_field-方式对比"><code>find_field</code> 方式对比</a></h2>
+<p>在 <code>simdjson::ondemand</code> 模型里, 可以通过 <code>find_field</code>, <code>find_field_unordered</code> 或 <code>operator[]</code> 来查字段, <code>find_field</code> 要求有序访问, 后两者则可以无序</p>
+<p>简单测试性能</p>
+<h3 id="结果o2"><a class="header" href="#结果o2">结果(O2)</a></h3>
+<pre><code>|               ns/op |                op/s |    err% |     total | benchmark
+|--------------------:|--------------------:|--------:|----------:|:----------
+|              118.30 |        8,452,987.49 |    0.6% |      0.01 | `find_in_order`
+|              127.27 |        7,857,332.54 |    1.0% |      0.01 | `find_unordered_in_order`
+|              217.35 |        4,600,790.26 |    0.5% |      0.01 | `find_unordered_unordered`
+|              130.00 |        7,692,027.51 |    1.2% |      0.01 | `operator [] in order`
+|              219.08 |        4,564,583.22 |    0.8% |      0.01 | `operator [] unordered`
+</code></pre>
+<h3 id="结论"><a class="header" href="#结论">结论</a></h3>
+<ul>
+<li>在有序访问的前提下, <code>find_field</code> 最快, 但和 <code>find_field_unordered</code> 差距不大</li>
+<li>无序访问导致 <code>rewind</code> 后开销会近乎翻倍(大概就是重新遍历的代价)</li>
+<li><code>operator[]</code> 和 <code>find_field_unordered</code> 差不多</li>
+</ul>
+<h3 id="代码"><a class="header" href="#代码">代码</a></h3>
+<pre><code class="language-cpp">#define ANKERL_NANOBENCH_IMPLEMENT
+#include &quot;nanobench.h&quot;
+#include &quot;simdjson.h&quot;
+
+auto json = R&quot;({&quot;e&quot;:&quot;ORDER_TRADE_UPDATE&quot;,&quot;T&quot;:1723542730357,&quot;E&quot;:1723542730357,&quot;o&quot;:{&quot;s&quot;:&quot;ADAUSDT&quot;,&quot;c&quot;:&quot;15570553482120512&quot;,&quot;S&quot;:&quot;BUY&quot;,&quot;o&quot;:&quot;LIMIT&quot;,&quot;f&quot;:&quot;GTX&quot;,&quot;q&quot;:&quot;900&quot;,&quot;p&quot;:&quot;0.33210&quot;,&quot;ap&quot;:&quot;0&quot;,&quot;sp&quot;:&quot;0&quot;,&quot;x&quot;:&quot;CANCELED&quot;,&quot;X&quot;:&quot;CANCELED&quot;,&quot;i&quot;:43631626214,&quot;l&quot;:&quot;0&quot;,&quot;z&quot;:&quot;0&quot;,&quot;L&quot;:&quot;0&quot;,&quot;n&quot;:&quot;0&quot;,&quot;N&quot;:&quot;USDT&quot;,&quot;T&quot;:1723542730357,&quot;t&quot;:0,&quot;b&quot;:&quot;598.14520&quot;,&quot;a&quot;:&quot;301.11419&quot;,&quot;m&quot;:false,&quot;R&quot;:false,&quot;wt&quot;:&quot;CONTRACT_PRICE&quot;,&quot;ot&quot;:&quot;LIMIT&quot;,&quot;ps&quot;:&quot;BOTH&quot;,&quot;cp&quot;:false,&quot;rp&quot;:&quot;0&quot;,&quot;pP&quot;:false,&quot;si&quot;:0,&quot;ss&quot;:0,&quot;V&quot;:&quot;EXPIRE_MAKER&quot;,&quot;pm&quot;:&quot;NONE&quot;,&quot;gtd&quot;:0}})&quot;_padded;
+
+int main()
+{
+    simdjson::ondemand::parser parser;
+
+    ankerl::nanobench::Bench().run(&quot;find_in_order&quot;, [&amp;](){
+        auto doc = parser.iterate(json);
+
+        std::string_view e = doc.find_field(&quot;e&quot;);
+        assert(e == &quot;ORDER_TRADE_UPDATE&quot;);
+
+        auto o = doc.find_field(&quot;o&quot;).get_object();
+
+        std::string_view s = o.find_field(&quot;s&quot;);
+        assert(s == &quot;ADAUSDT&quot;);
+
+        double q = o.find_field(&quot;q&quot;).get_double_in_string();
+        assert(q == 900);       
+    });
+
+    ankerl::nanobench::Bench().run(&quot;find_unordered_in_order&quot;, [&amp;](){
+        auto doc = parser.iterate(json);
+
+        std::string_view e = doc.find_field_unordered(&quot;e&quot;);
+        assert(e == &quot;ORDER_TRADE_UPDATE&quot;);
+
+        auto o = doc.find_field_unordered(&quot;o&quot;).get_object();
+
+        std::string_view s = o.find_field_unordered(&quot;s&quot;);
+        assert(s == &quot;ADAUSDT&quot;);
+
+        double q = o.find_field_unordered(&quot;q&quot;).get_double_in_string();
+        assert(q == 900);       
+    });
+
+    ankerl::nanobench::Bench().run(&quot;find_unordered_unordered&quot;, [&amp;](){
+        auto doc = parser.iterate(json);
+
+        std::string_view e = doc.find_field_unordered(&quot;e&quot;);
+        assert(e == &quot;ORDER_TRADE_UPDATE&quot;);
+
+        auto o = doc.find_field_unordered(&quot;o&quot;).get_object();
+
+        double q = o.find_field_unordered(&quot;q&quot;).get_double_in_string();
+        assert(q == 900);       
+
+        std::string_view s = o.find_field_unordered(&quot;s&quot;);
+        assert(s == &quot;ADAUSDT&quot;);
+    });
+
+    ankerl::nanobench::Bench().run(&quot;operator [] in order&quot;, [&amp;](){
+        auto doc = parser.iterate(json);
+
+        std::string_view e = doc[&quot;e&quot;];
+        assert(e == &quot;ORDER_TRADE_UPDATE&quot;);
+
+        auto o = doc[&quot;o&quot;];
+
+        std::string_view s = o[&quot;s&quot;];
+
+        double q = o[&quot;q&quot;].get_double_in_string();
+
+        assert(s == &quot;ADAUSDT&quot;);
+
+        assert(q == 900);
+    });
+
+    ankerl::nanobench::Bench().run(&quot;operator [] unordered&quot;, [&amp;](){
+        auto doc = parser.iterate(json);
+
+        std::string_view e = doc[&quot;e&quot;];
+        assert(e == &quot;ORDER_TRADE_UPDATE&quot;);
+
+        auto o = doc[&quot;o&quot;];
+
+        double q = o[&quot;q&quot;].get_double_in_string();
+
+        std::string_view s = o[&quot;s&quot;];
+
+        assert(s == &quot;ADAUSDT&quot;);
+
+        assert(q == 900);
+    });
+
+    return 0;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="idioms"><a class="header" href="#idioms">Idioms</a></h1>
+<h2 id="1-crtp"><a class="header" href="#1-crtp">1. CRTP</a></h2>
+<p>我想实现如下伪代码所示的编程模式, 其中 <code>Host</code> 代表 C/S 模型中的任何一个端点, <code>Server</code> 和 <code>Client</code> 都需要处理收到的包, 但对于每个类型的包, 它们有不同的处理方式. 收包的逻辑是相同的, 因此我希望复用 <code>handle_packet</code>. 最简单的方法就是用虚函数</p>
+<pre><code class="language-c++">class Host {
+    void handle_packet(...) {
+        // do receive packet
+        switch (packet_type) {
+        case (a):
+            handle_packet_a();
+            break;
+        case (b):
+            handle_packet_b();
+            break;
+        };
+    };
+    virtual void handle_packet_a();
+    virtual void handle_packet_b();
+};
+
+class Server: public Host {
+    virtual void handle_packet_a() override;
+    virtual void handle_packet_b() override;
+};
+
+class Client: public Host {
+    virtual void handle_packet_a() override;
+    virtual void handle_packet_b() override;
+};
+</code></pre>
+<p>但这样设计只是为了复用 <code>handle_packet</code> 的逻辑, 而没有动态绑定的需求, 因此引入虚函数增加了没有必要的开销</p>
+<p>这种编译期多态可以通过 CRTP 实现</p>
+<pre><code class="language-c++">template&lt;typename Derived&gt;
+class Host {
+    void handle_packet() {
+        switch (packet_type) {
+        case (a):
+            static_cast&lt;Derived&amp;&gt;(*this).handle_packet_a();
+            break;
+        case (b):
+            static_cast&lt;Derived&amp;&gt;(*this).handle_packet_b();
+            break;
+        };
+    }
+};
+
+class Server: public Host&lt;Server&gt; {
+    void handle_packet_a();
+    void handle_packet_b();
+};
+// ...
+</code></pre>
+<p>这样可以完全去除虚函数</p>
+<h2 id="2-sfinae"><a class="header" href="#2-sfinae">2. SFINAE</a></h2>
+<blockquote>
+<p><strong>S</strong>ubstitution <strong>F</strong>ailure <strong>I</strong>s <strong>N</strong>ot <strong>A</strong>n <strong>E</strong>rror</p>
+</blockquote>
+<p>起因是想在用 CRTP 时实现编译时检测子类是否具有某个方法, 仅当有方法时才调用的需求, 例如:</p>
+<!-- 如果不同的子类需要一些不同的逻辑, 比如如下伪码, 则可以通过 SFINAE 来实现, 见 2. SFINAE -->
+<pre><code class="language-c++">template&lt;typename D&gt;
+class Animal {
+    void live() {
+        while (true) {
+            static_cast&lt;D&amp;&gt;(*this).eat();
+            static_cast&lt;D&amp;&gt;(*this).sleep();
+            static_cast&lt;D&amp;&gt;(*this).bark(); // compile error! Cat will never bark
+            // Want: if constexpr (D has member `bark`) then call `bark`
+        }
+    }
+};
+
+class Cat: public Animal&lt;Cat&gt; {
+    void eat();
+    void sleep();
+};
+
+class Dog: public Animal&lt;Dog&gt; {
+    void eat();
+    void sleep();
+    void bark();
+};
+</code></pre>
+<p>这种在编译期模板实例化时确定模板参数是否有某种性质的行为被称为<a href="https://zh.m.wikipedia.org/zh-hans/%E5%86%85%E7%9C%81_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">内省</a>(introspection)</p>
+<p>包含模板的重载函数的候选集中的某些(或者全部)候选函数来自 模板实参替换模板形参 的模板实例化结果, 在这个过程中, 某些模板的实参替换可能会失败, 这种替换失败(Substitution Failure)并不会立即被当作编译错误(Error)抛出, 这个替换失败的模板会被从候选集中删除, 只要到最后存在成功的替换, 即重载函数候选集不为空, 则这个重载函数的解析就是成功的, 编译也能通过</p>
+<p>见来自 <a href="https://zh.m.wikipedia.org/zh-hans/%E6%9B%BF%E6%8D%A2%E5%A4%B1%E8%B4%A5%E5%B9%B6%E9%9D%9E%E9%94%99%E8%AF%AF">替换失败并非错误</a> 的例子:</p>
+<pre><code class="language-c++">struct Test {
+  typedef int foo;
+};
+
+template &lt;typename T&gt;
+void f(typename T::foo) {}  // Definition #1
+
+template &lt;typename T&gt;
+void f(T) {}  // Definition #2
+
+int main() {
+  f&lt;Test&gt;(10);  // Call #1.
+  f&lt;int&gt;(10);   // Call #2. 并无编译错误(即使没有 int::foo)
+                // thanks to SFINAE.
+}
+</code></pre>
+<p>在编译时, <code>f&lt;Test&gt;(10)</code> 会针对 <code>f</code> 的两个定义做两次 Substitution</p>
+<ol>
+<li>第一次替换得到的函数定义是 <code>void f(typename Test::foo) {}</code></li>
+<li>第二次替换得到的函数定义是 <code>void f(Test) {}</code>
+因此这个调用拥有两个可能的候选, 而根据实参 <code>10</code> 的类型可以推导得到只有 1. 符合要求, 因此最终会调用 1., 编译通过</li>
+</ol>
+<p><code>f&lt;int&gt;(10)</code> 也会针对 <code>f</code> 的两个定义做两次 Substitution</p>
+<ol>
+<li>得到 <code>void f(typename int::foo) {}</code>, 但 <code>int::foo</code> 并不存在, 因此这个替换失败了, 这个函数并不会进入候选集</li>
+<li>得到 <code>void f(int) {}</code>
+因此这个调用拥有一个可能的候选, 而实参 <code>10</code> 的类型可以匹配这个唯一的候选, 因此最终会调用 2., 编译通过</li>
+</ol>
+<p>上面的例子里, SFINAE 恰好干了在开头时我想干的事: 在编译时判断一个成员是否存在于 <code>struct/class</code> 中. </p>
+<p>经过修改可以得到以下真正实现了这个需求的代码, 检查类型 <code>T</code> 上是否有拥有 <code>bark</code> 成员函数:</p>
+<pre><code class="language-c++">template&lt;typename T&gt;
+struct has_member_bark {
+    private:
+        template&lt;typename U&gt; static auto check(int) 
+            -&gt; decltype(std::declval&lt;U&gt;().bark(), std::true_type());
+        template&lt;typename U&gt; static std::false_type check(...);
+    public:
+        enum {value = std::is_same&lt;decltype(check&lt;T&gt;(0)), std::true_type&gt;::value};
+};
+
+// 接上面 Animal 的例子...
+if constexpr (has_member_bark&lt;D&gt;::value) {
+    static_cast&lt;D&amp;&gt;(*this).bark();
+}
+</code></pre>
+<p>上述例子工作的原理是</p>
+<ol>
+<li>
+<p>编译时要对 <code>has_member_bark&lt;T&gt;::value</code> 求值, 其值等于 <code>std::is_same&lt;decltype(check&lt;T&gt;(0)), std::true_type&gt;::value</code></p>
+</li>
+<li>
+<p>需要推导 <code>decltype(check&lt;T&gt;(0))</code></p>
+</li>
+<li>
+<p><code>check&lt;T&gt;(0)</code> 有两个可选的模板</p>
+<ul>
+<li><code>template&lt;typename U&gt; static auto check(int) -&gt; decltype(std::declval&lt;U&gt;().bark(), std::true_type())</code></li>
+<li><code>template&lt;typename U&gt; static std::false_type check(...)</code></li>
+</ul>
+<p>其中后者由于指定了 <code>...</code> 作为参数, 因此拥有最低的匹配优先级, 所以编译器会优先尝试第一个定义</p>
+<p>第一个定义的返回值需要被推导, 其类型为 </p>
+<pre><code class="language-c++">decltype(std::declval&lt;U&gt;().bark(), std::true_type())
+</code></pre>
+<p><code>decltype</code> 内是一个 comma expr, 其值等于最后一个表达式的值, 但是求值是从前到后进行的, 因此必须先推导 <code>std::declval&lt;U&gt;().bark()</code> 的类型, 这时</p>
+<ul>
+<li>如果 <code>U::bark</code> 不存在, 则这个替换就会失败, 因此 <code>check</code> 的第一个模板就会被删除, 只留下第二个, 则 <code>decltype(check&lt;T&gt;(0))</code> 为 <code>false_type</code></li>
+<li>如果 <code>U::bark</code> 存在, 则这个替换成功, <code>check</code> 的第一个模板成为最终的选择, <code>decltype(check&lt;T&gt;(0))</code> 为 <code>true_type</code></li>
+</ul>
+</li>
+<li>
+<p>无论 <code>T::bark</code> 是否存在, 由于 SFINAE, 最终总有一个 <code>check</code> 被匹配, 如果 <code>T::bark</code> 存在, 则 <code>value</code> 最终为 <code>true_type</code>, 否则是 <code>false_type</code></p>
+</li>
+</ol>
+<p>一个完整的可编译的例子:</p>
+<pre><code class="language-c++">#include &lt;iostream&gt;
+
+template&lt;typename T&gt;
+struct has_member_bark {
+    private:
+        template&lt;typename U&gt; static auto check(int) 
+            -&gt; decltype(std::declval&lt;U&gt;().bark(), std::true_type());
+        template&lt;typename U&gt; static std::false_type check(...);
+    public:
+        enum {value = std::is_same&lt;decltype(check&lt;T&gt;(0)), std::true_type&gt;::value};
+};
+
+template&lt;typename D&gt;
+class Animal {
+public:
+    void live() {
+        // while (true) {
+            static_cast&lt;D&amp;&gt;(*this).eat();
+            static_cast&lt;D&amp;&gt;(*this).sleep();
+            if constexpr (has_member_bark&lt;D&gt;::value) {
+                static_cast&lt;D&amp;&gt;(*this).bark();   
+            }
+        // }
+    }
+};
+
+class Cat: public Animal&lt;Cat&gt; {
+public:
+    void eat() {
+        std::cout &lt;&lt; &quot;Cat eat&quot; &lt;&lt; std::endl;
+    }
+    void sleep() {
+        std::cout &lt;&lt; &quot;Cat sleep&quot; &lt;&lt; std::endl;
+    }
+};
+
+class Dog: public Animal&lt;Dog&gt; {
+public:
+    void eat() {
+        std::cout &lt;&lt; &quot;Dog eat&quot; &lt;&lt; std::endl;
+    }
+    void sleep() {
+        std::cout &lt;&lt; &quot;Dog sleep&quot; &lt;&lt; std::endl;
+    }
+    void bark() {
+        std::cout &lt;&lt; &quot;Woof!&quot; &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    Cat().live();
+    Dog().live();
+    return 0;
+}
+</code></pre>
+<p>输出</p>
+<pre><code>Cat eat
+Cat sleep
+Dog eat
+Dog sleep
+Woof!
+</code></pre>
+<h2 id="3-pimpl"><a class="header" href="#3-pimpl">3. PIMPL</a></h2>
+<blockquote>
+<p><strong>P</strong>ointer to <strong>IMPL</strong>ementation</p>
+</blockquote>
+<p>写了一个库, 起初供用户 include 的头文件里有这样的声明:</p>
+<pre><code class="language-c++">class Server {
+    public:
+        Server();
+        void start();
+    private:
+        void receive_packets();
+        void handle_packet();
+        void handle_packet_data();
+        void handle_packet_ping();
+        void handle_packet_pong();
+    private:
+        int socket;
+        // more members ...
+};
+</code></pre>
+<p>但首先, 暴露给用户的接口只有 <code>start</code>, 用户在看头文件时只需要看到他能使用的接口即可, 看到一堆其他的东西会干扰阅读, 其次暴露太多实现细节也不好</p>
+<p>可以用 pimpl 来实现 implementation 的隐藏, 原理比较简单, 只贴代码了:</p>
+<pre><code class="language-c++">// server.h
+class Server {
+    public:
+        Server();
+        void start();
+    private:
+        class ServerImpl;
+        std::unique_ptr&lt;ServerImpl&gt; impl;
+};
+
+// server.cpp
+Server::Server(): impl(std::make_unique&lt;ServerImpl&gt;()) {}
+void Server::start() {
+    while (true) {
+        impl-&gt;receive_packets();
+    }
+}
+
+class Server::ServerImpl {
+    public:
+        void receive_packets() {
+            // ...
+        }
+    private:
+        void handle_packet();
+        void handle_packet_data();
+        void handle_packet_ping();
+        void handle_packet_pong();
+    private:
+        int socket;
+        // more members ...
+}
+</code></pre>
+<p>这样所有的实现细节都被隐藏到 source file 里了</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lambda-stdfunction-etc"><a class="header" href="#lambda-stdfunction-etc">lambda, std::function, etc</a></h1>
+<h2 id="1-问题"><a class="header" href="#1-问题">1. 问题</a></h2>
+<p>之前写代码遇到了一些传递回调函数的需求, 例如:</p>
+<pre><code class="language-c++">receive_packet_and_handle([](const char* buf, int len){
+    // do sth. with buf
+});
+</code></pre>
+<p>这样 <code>receive_packet_and_handle</code> 有两种写法:</p>
+<ol>
+<li>
+<pre><code class="language-c++">template&lt;typename F&gt;
+void receive_packet_and_handle(F&amp;&amp; handler) {
+    // ...
+}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-c++">using handler_t = std::function&lt;void(const char*, int)&gt;;
+void receive_packet_and_handle(const handler_t&amp; handler) {
+    // ...
+}
+</code></pre>
+</li>
+</ol>
+<p>想知道两种传参有没有性能上的不同</p>
+<h2 id="2-结论"><a class="header" href="#2-结论">2. 结论</a></h2>
+<p>先说结论, <code>template</code> 风格性能通常比 <code>std::function</code> 风格好, 前者能 inline lambda, 后者通常不能 inline, 可能还需要构造 <code>std::function</code> 对象</p>
+<p>参考 <a href="https://stackoverflow.com/questions/42856707/can-be-stdfunction-inlined-or-should-i-use-different-approach">can-be-stdfunction-inlined-or-should-i-use-different-approach</a> 的回答</p>
+<blockquote>
+<p><code>std::function</code> is <strong>not</strong> a zero-runtime-cost abstraction. It is a type-erased wrapper that has a virtual-call like cost when invoking operator() and could also potentially heap-allocate (which could mean a cache-miss per call).</p>
+<p>The compiler will <strong>most likely not be able to inline it</strong>.</p>
+<p>If you want to store your function objects in such a way that does not introduce additional overhead and that allows the compiler to inline it, you should use a template parameters. This is not always possible, but might fit your use case.</p>
+</blockquote>
+<p>不过之前想用 <code>std::function</code> 的另一个原因是它能约束传入的 lambda 的参数及返回值, 用模板的话当传入的函数签名不符合预期时会有比较晦涩的报错, 而且函数使用者也很难直接从函数声明看出来到底要传入什么 lambda, 返回值如何, 可读性很差</p>
+<p>对于这个问题, 查到的解决办法是用 <code>std::invocable</code>, 参考 <a href="https://stackoverflow.com/questions/64029445/how-can-i-restrict-lambda-signatures-in-c17-template-arguments">how-can-i-restrict-lambda-signatures-in-c17-template-arguments</a></p>
+<h2 id="3-汇编"><a class="header" href="#3-汇编">3. 汇编</a></h2>
+<p>在 Compiler Explorer 上用 x86-64 gcc 12.2 测试如下代码</p>
+<pre><code class="language-c++">template&lt;typename F&gt;
+void with_tempalte(F&amp;&amp; f) {
+    f(10);
+}
+
+void with_function(std::function&lt;void(int x)&gt;&amp;&amp; f) {
+    f(10);
+}
+
+static volatile int a;
+void test() {
+    // #1
+    with_tempalte([](int x){
+        a = x;
+    });
+
+    // #2
+    with_function([](int x){
+        a = x;
+    });
+}
+</code></pre>
+<h3 id="o0"><a class="header" href="#o0">O0</a></h3>
+<h4 id="1-调用-with_template"><a class="header" href="#1-调用-with_template">1. 调用 <code>with_template</code></a></h4>
+<pre><code>lea     rax, [rbp-65]
+mov     rdi, rax
+call    void with_tempalte&lt;test()::{lambda(int)#1}&gt;(test()::{lambda(int)#1}&amp;&amp;)
+</code></pre>
+<h4 id="2-调用-with_function"><a class="header" href="#2-调用-with_function">2. 调用 <code>with_function</code></a></h4>
+<pre><code>lea     rdx, [rbp-17]
+lea     rax, [rbp-64]
+mov     rsi, rdx
+mov     rdi, rax
+call    std::function&lt;void (int)&gt;::function&lt;test()::{lambda(int)#2}, void&gt;(test()::{lambda(int)#2}&amp;&amp;)
+lea     rax, [rbp-64]
+mov     rdi, rax
+call    with_function(std::function&lt;void (int)&gt;&amp;&amp;)
+lea     rax, [rbp-64]
+mov     rdi, rax
+call    std::function&lt;void (int)&gt;::~function() [complete object destructor]
+jmp     .L19
+mov     rbx, rax
+lea     rax, [rbp-64]
+mov     rdi, rax
+call    std::function&lt;void (int)&gt;::~function() [complete object destructor]
+mov     rax, rbx
+mov     rdi, rax
+call    _Unwind_Resume
+</code></pre>
+<p>用 <code>std::function</code> 时会构造 <code>std::function</code> 对象, 后者显然更低效</p>
+<h3 id="o1"><a class="header" href="#o1">O1</a></h3>
+<h4 id="1"><a class="header" href="#1">1.</a></h4>
+<p>lambda 被直接内联了, 汇编只有</p>
+<pre><code>mov     DWORD PTR a[rip], 10
+</code></pre>
+<h4 id="2"><a class="header" href="#2">2.</a></h4>
+<pre><code>mov     rdi, rsp
+call    with_function(std::function&lt;void (int)&gt;&amp;&amp;)
+
+with_function(std::function&lt;void (int)&gt;&amp;&amp;):
+        sub     rsp, 24
+        mov     DWORD PTR [rsp+12], 10
+        cmp     QWORD PTR [rdi+16], 0
+        je      .L9
+        lea     rsi, [rsp+12]
+        call    [QWORD PTR [rdi+24]]
+        add     rsp, 24
+        ret
+.L9:
+        call    std::__throw_bad_function_call()
+</code></pre>
+<p>仍然存在对 <code>std::function</code> 对象的调用, 没有内联</p>
+<h3 id="o3"><a class="header" href="#o3">O3</a></h3>
+<pre><code>        mov     DWORD PTR a[rip], eax
+        ret
+with_function(std::function&lt;void (int)&gt;&amp;&amp;):
+        sub     rsp, 24
+        cmp     QWORD PTR [rdi+16], 0
+        mov     DWORD PTR [rsp+12], 10
+        je      .L10
+        lea     rsi, [rsp+12]
+        call    [QWORD PTR [rdi+24]]
+        add     rsp, 24
+        ret
+.L10:
+        call    std::__throw_bad_function_call()
+test():
+        mov     DWORD PTR a[rip], 10 # with_template
+        mov     DWORD PTR a[rip], 10 # with_function
+        ret
+</code></pre>
+<p>O3 情况下二者都被内联了, 但此时 <code>with_function</code> 仍然出现在了汇编结果里</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="malloc-c-class-而不调用构造函数引发的-segfault"><a class="header" href="#malloc-c-class-而不调用构造函数引发的-segfault">malloc c++ class 而不调用构造函数引发的 segfault</a></h1>
+<h2 id="背景"><a class="header" href="#背景">背景</a></h2>
+<p>原本有一个纯 C 的库，其某结构体内保存了一个函数指针作为 callback</p>
+<pre><code class="language-c">struct Foo {
+    int (*output)(...);
+};
+</code></pre>
+<p>为了在 C++ 中方便地使用 lambda 等，我自作主张地将其改成了</p>
+<pre><code class="language-c++">struct Foo {
+    std::function&lt;int(...)&gt; output;
+};
+</code></pre>
+<p>起初工作得很好，<code>std::function</code> 在替代函数指针方面非常方便。直到将代码放到另一套环境中时发现会随机 segfault，gdb 调试定位到了该回调相关的部分。一定是遇到了 Undefined Behavior 了</p>
+<h2 id="排查"><a class="header" href="#排查">排查</a></h2>
+<p>出现问题的代码片段位置不尽相同，但是总是出现在 <strong>给该结构体的 output 成员赋值</strong> 上，如</p>
+<pre><code class="language-c++">// when creating a empty Foo instance, give it's member a default value
+foo-&gt;output = std::function&lt;int(...)&gt;();
+</code></pre>
+<p>segfault 的 backtrace 最终总是</p>
+<pre><code>#0  0x0000000000404ce4 in std::_Function_base::~_Function_base (this=0x7fffffffc3c0, __in_chrg=&lt;optimized out&gt;)
+#1  0x000000000040ca7e in std::function&lt;int (...)&gt;::~function()
+#2  0x00000000004180df in std::function&lt;int(...)&gt;::operator=&lt;::&lt;lambda(...)&gt; &gt;::&lt;lambda(...)&gt; &gt;(struct {...} &amp;&amp;) 
+</code></pre>
+<p>即调用 <code>std::function</code> 的 <code>operator=</code> 赋值时，调用了某个 <code>std::function</code> 的析构函数，然后析构函数触发了 segfault。根据赋值的位置，应当是将新的 output 赋值到成员变量时，原本成员变量的 output 需要析构</p>
+<p>然后想到因为是纯 C 的库，申请 <code>Foo</code> 的位置均使用 <code>malloc</code>，<code>malloc</code> 默认不会构造结构体及其 member 的构造函数，因此得到的 <code>foo-&gt;output</code> 的位置上也是未初始化的、随意一段内存，却被当成了一个合法的 <code>std::function</code>。在这段随意的内存上试图调用 <code>std::function</code> 的函数则成为了 UB，导致了 segfault</p>
+<p>因此解决方式也很简单，在 <code>malloc</code> 之后手动 placement new 一下结构体（或者是单独初始化 output）即可</p>
+<pre><code class="language-c++">Foo* foo = (Foo*)malloc(sizeof(Foo));
+new (&amp;(foo-&gt;output)) std::function&lt;int(...)&gt;();
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="priority-queue-with-updatable-priority"><a class="header" href="#priority-queue-with-updatable-priority">priority queue with updatable priority</a></h1>
+<p>事情是这样的，我正在维护一组会话，每个会话每隔一段时间都需要被轮询，每个会话轮询的间隔都是不等且变化的 —— 每次轮询之后，它会告诉我下次什么时候来重新轮询</p>
+<p>当然，在那个它告诉我的 “下次轮询时间” 之前轮询它并不会有什么作用（也没有副作用），在那个时间之后轮询则会产生一点效率损失，比如会话上的包被更晚处理了，之类的</p>
+<p>因此一开始我的实现非常粗暴：持续地以一个非常小的时间间隔 tick，每个 tick 都遍历所有的会话并轮询它们。但假设一个会话 100ms 后才需要再次轮询，我却每 5ms 都轮询一遍所有会话，显然做了许多无用功</p>
+<p>于是我希望用优先队列来安排每个会话的轮询时间，当然，最先想到的就是 <code>std::priority_queue</code></p>
+<p>但还有一些需求无法被满足，因为会话的轮询还有一个变量：<strong>会话的下次轮询时间可能会改变</strong></p>
+<ul>
+<li>假如会话 A 原本计于 100ms 后被再次轮询，但其上产生了一个新的消息（或是什么事件），则会话 A 可能需要在 10ms 后就被轮询</li>
+</ul>
+<p>放到优先队列的语境里，即一个队列内元素的优先级可能会被改变，但 <code>std::priority_queue</code> 并不提供改变优先级的接口，事实上它也不能做到，因为它基于堆实现，想修改堆内任意一个元素的值而不破坏堆的性质，需要以 O(N) 的代价重建堆来实现，但我们期望一个 O(log n) 的更新手段</p>
+<p>类似的需求也在 Dijkstra 算法中被用到，其解决办法在 <a href="https://stackoverflow.com/a/27305600">Easiest way of using min priority queue with key update in C++</a> 中被提到：在 Dijkstra 算法对优先队列的需求中，可以通过 &quot;lazy deletion&quot; 来实现类似的功能，即不考虑更新元素的优先级，而是直接将更小优先级的元素插入队列中，新插入的元素总是会比旧元素更早被 <code>pop</code>，只需要加上去重逻辑，就变相 “更新” 了更新旧元素的优先级</p>
+<p>但是在本项目中，我觉得这个方法并不适用，因为在 Dijkstra 中图的大小是 bounded 的，而会话上消息的产生是 unbounded 的，如果每次有新消息产生并要更新会话优先级时，都插入一个新元素，那 priority queue 可能会爆掉，或者产生效率问题（比如 <code>pop</code> 的时候需要去除大量重复元素）</p>
+<p>因此，我希望有这样一个优先队列，它能够以某个优先级安排队列内所有元素的顺序，又可以快速地更新某个元素的优先级</p>
+<h2 id="实现"><a class="header" href="#实现">实现</a></h2>
+<p>一个简单的实现如下</p>
+<pre><code class="language-c++">template &lt;typename Priority, typename Val&gt;
+class UniquePriorityQueue
+{
+public:
+    void push_or_update(const Priority &amp;p, const Val &amp;v)
+    {
+        auto vp_it = _vp_map.find(v); // O(log n)
+        if (vp_it != _vp_map.end())
+        { // update
+            auto pv_it = _pv_map.find(vp_it-&gt;second); // O(log n)
+            assert(pv_it != _pv_map.end());
+            _pv_map.erase(pv_it); // O(1)
+
+            vp_it-&gt;second = p;
+            _pv_map.insert({vp_it-&gt;second, vp_it-&gt;first}); // O(log n)
+        }
+        else
+        {
+            auto [vp_it, success] = _vp_map.emplace(v, p); // O(log n)
+            assert(success);
+            _pv_map.insert({vp_it-&gt;second, vp_it-&gt;first}); // O(log n)
+        }
+    }
+
+    void pop()
+    {
+        auto pv_it = _pv_map.begin();
+        assert(pv_it != _pv_map.end());
+        auto vp_it = _vp_map.find(pv_it-&gt;second);
+        assert(vp_it != _vp_map.end());
+        _pv_map.erase(pv_it);
+        _vp_map.erase(vp_it);
+    }
+
+    const std::pair&lt;const Priority&amp;, const Val&amp;&gt; top() const {
+        auto pv_it = _pv_map.begin();
+        assert(pv_it != _pv_map.end());
+        return {pv_it-&gt;first, pv_it-&gt;second};
+    }
+
+    bool empty() const {
+        assert(_pv_map.size() == _vp_map.size());
+        return _vp_map.empty();
+    }
+private:
+    std::map&lt;Priority, const Val &amp;&gt; _pv_map;
+    std::unordered_map&lt;Val, Priority&gt; _vp_map;
+};
+</code></pre>
+<p>之所以叫 <code>UniquePriorityQueue</code>，是因为队列内的 <code>Val</code> 是不重复的，如果一个 <code>Val</code> 已经存在，那么 <code>push_or_update</code> 的语义就是更新其优先级</p>
+<p>各接口的复杂度为：</p>
+<ul>
+<li>O(1): <code>top()</code>, <code>empty()</code></li>
+<li>O(log n): <code>push_or_update()</code>, <code>pop()</code></li>
+</ul>
+<p>以下是一个完整可编译的程序(C++20), 模拟了刚才所说的安排会话的例子</p>
+<pre><code class="language-c++">#include &lt;map&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+#include &lt;memory&gt;
+#include &lt;cassert&gt;
+#include &lt;random&gt;
+
+template &lt;typename Priority, typename Val&gt;
+class UniquePriorityQueue
+{
+public:
+    void push_or_update(const Priority &amp;p, const Val &amp;v)
+    {
+        auto vp_it = _vp_map.find(v);
+        if (vp_it != _vp_map.end())
+        { // update
+            auto pv_it = _pv_map.find(vp_it-&gt;second);
+            assert(pv_it != _pv_map.end());
+            _pv_map.erase(pv_it);
+
+            vp_it-&gt;second = p;
+            _pv_map.insert({vp_it-&gt;second, vp_it-&gt;first});
+        }
+        else
+        {
+            auto [vp_it, success] = _vp_map.emplace(v, p);
+            assert(success);
+            _pv_map.insert({vp_it-&gt;second, vp_it-&gt;first});
+        }
+    }
+
+    void pop()
+    {
+        auto pv_it = _pv_map.begin();
+        assert(pv_it != _pv_map.end());
+        auto vp_it = _vp_map.find(pv_it-&gt;second);
+        assert(vp_it != _vp_map.end());
+        _pv_map.erase(pv_it);
+        _vp_map.erase(vp_it);
+    }
+
+    const std::pair&lt;const Priority&amp;, const Val&amp;&gt; top() const {
+        auto pv_it = _pv_map.begin();
+        assert(pv_it != _pv_map.end());
+        return {pv_it-&gt;first, pv_it-&gt;second};
+    }
+
+    bool empty() const {
+        assert(_pv_map.size() == _vp_map.size());
+        return _vp_map.empty();
+    }
+private:
+    std::map&lt;Priority, const Val &amp;&gt; _pv_map;
+    std::unordered_map&lt;Val, Priority&gt; _vp_map;
+};
+
+struct Job
+{
+    int id;
+    int i = 0;
+    std::vector&lt;int&gt; schedule;
+
+    Job(int id) : id(id) {}
+
+    int next()
+    {
+        if (i &lt; schedule.size())
+        {
+            return schedule[i++];
+        }
+        else
+        {
+            return INT32_MAX;
+        }
+    }
+};
+
+constexpr int JOBS = 1000;
+constexpr int ITERATIONS = 1000000;
+
+int main()
+{
+    std::srand(time(nullptr));
+
+    UniquePriorityQueue&lt;int, std::shared_ptr&lt;Job&gt;&gt; q;
+
+    std::vector&lt;std::shared_ptr&lt;Job&gt;&gt; jobs;
+    std::vector&lt;Job *&gt; schedule;
+
+    // generate N jobs
+    for (int i = 0; i &lt; JOBS; i++)
+    {
+        jobs.push_back(std::make_shared&lt;Job&gt;(i));
+    }
+
+    // tick ITERATIONS times, each tick one random job should be done, use `schedule` to record the order
+    for (int priority = 0; priority &lt; ITERATIONS; priority++)
+    {
+        auto job = jobs[std::rand() % JOBS];
+        schedule.push_back(job.get());
+
+        job-&gt;schedule.push_back(priority);
+    }
+
+    // init priority queue
+    for (auto&amp; job: jobs)
+    {
+        auto next = job-&gt;next();
+        q.push_or_update(next, job);
+    }
+
+    // tick, each tick get the job with the lowest priority, and update its priority
+    for (int i = 0; i &lt; ITERATIONS; i++)
+    {
+        printf(&quot;\rticking %d/%d&quot;, i, ITERATIONS);
+        const auto &amp;[p, job] = q.top();
+
+        // check if the order is correct
+        assert(p == i);
+        assert(job.get() == schedule[i]);
+
+        // schedule next
+        auto next = job-&gt;next();
+        assert(next &gt; p);
+
+        q.push_or_update(next, job);
+    }
+    assert(q.top().first == INT32_MAX);
+    return 0;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="stdatomic-memory_order-含义"><a class="header" href="#stdatomic-memory_order-含义">std::atomic memory_order 含义</a></h1>
+<p>主要参考并翻译自 <a href="https://gcc.gnu.org/wiki/Atomic/GCCMM/AtomicSync">Memory model synchronization modes</a></p>
+<h3 id="sequentially-consistent"><a class="header" href="#sequentially-consistent">Sequentially Consistent</a></h3>
+<p>严格的顺序执行，不知道如何描述，看例子</p>
+<pre><code> -Thread 1-       -Thread 2-
+ y = 1            if (x.load() == 2)
+ x.store (2);        assert (y == 1)
+</code></pre>
+<p>上例中如果 T2 <code>if</code> 触发，即它<strong>看到了</strong> T1 的 <code>x.store(2)</code> 动作，那么可以保证 T1 已经完成了 y 的赋值</p>
+<pre><code>             a = 0
+             y = 0
+             b = 1
+ -Thread 1-              -Thread 2-
+ x = a.load()            while (y.load() != b)
+ y.store (b)                ;
+ while (a.load() == x)   a.store(1)
+    ;
+</code></pre>
+<p>上例中，如果 T2 的 loop 结束，即它看到了 T1 对 y 的 store，则 T1 一定完成了 <code>x = a.load()</code>，而当 T2 完成 a 的 store 后，T1 的 loop 才会结束</p>
+<pre><code> -Thread 1-       -Thread 2-                   -Thread 3-
+ y.store (20);    if (x.load() == 10) {        if (y.load() == 10)
+ x.store (10);      assert (y.load() == 20)      assert (x.load() == 10)
+                    y.store (10)
+                  }
+</code></pre>
+<p>上例的几个 assertion 均成立</p>
+<h3 id="relaxed"><a class="header" href="#relaxed">Relaxed</a></h3>
+<p>memory_order_seq_cst 模型提供的是 <em>happens-before</em> 约束，relaxed 则去除了这一约束</p>
+<p>例子</p>
+<pre><code>-Thread 1-
+y.store (20, memory_order_relaxed)
+x.store (10, memory_order_relaxed)
+
+-Thread 2-
+if (x.load (memory_order_relaxed) == 10)
+  {
+    assert (y.load(memory_order_relaxed) == 20) /* assert A */
+    y.store (10, memory_order_relaxed)
+  }
+
+-Thread 3-
+if (y.load (memory_order_relaxed) == 10)
+  assert (x.load(memory_order_relaxed) == 10) /* assert B */
+</code></pre>
+<p>这是刚才的例子，但在 relaxed 模型下两个 assertion 均可能 FAIL。例如当 T2 观测到 x == 10 时，T1 可能并未将 20 写到 y</p>
+<p>但即使在 relaxed 的模型下，对<strong>同一变量</strong>的多次修改仍然是顺序的，例如</p>
+<pre><code>x = 0
+
+-Thread 1-
+x.store (1, memory_order_relaxed)
+x.store (2, memory_order_relaxed)
+
+-Thread 2-
+y = x.load (memory_order_relaxed)
+z = x.load (memory_order_relaxed)
+assert (y &lt;= z)
+</code></pre>
+<p>这个例子中的 assertion 永远不会 FAIL，如果在 T2 中 x load 到了 2，那么一定不会再 load 到 1</p>
+<h3 id="acquirerelease"><a class="header" href="#acquirerelease">Acquire/Release</a></h3>
+<p>是前面两个模型的混合，Acquire/Release 只对互相依赖的变量保证 <em>happens-before</em>，没太看懂原文的例子，参考 <a href="https://stackoverflow.com/questions/59626494/understanding-memory-order-acquire-and-memory-order-release-in-c11">Understanding <code>memory_order_acquire</code> and <code>memory_order_release</code> in C++11</a></p>
+<p>memory_order_release 可以提交本线程在此之前的所有变更，而 acquire 到的线程一定能见到被 release 的变更。这里的变更包括非 atomic 变量，即当作 memory barrier 用</p>
+<h3 id="consume"><a class="header" href="#consume">Consume</a></h3>
+<p>比 Acquire/Release 更松的模型，Acquire/Release 下所有 load 之后的读写都不许被移动到 load 之前，即在 load 时强制同步，但 Consume 模式下只有依赖原子变量的读写才会保证在 load 之后</p>
+<pre><code>n = 0
+m = 0
+
+-Thread 1-
+ n = 1
+ m = 1
+ p.store (&amp;n, memory_order_release)
+
+ -Thread 2-
+ t = p.load (memory_order_acquire);
+ assert( *t == 1 &amp;&amp; m == 1 );
+
+ -Thread 3-
+ t = p.load (memory_order_consume);
+ assert( *t == 1 &amp;&amp; m == 1 );
+</code></pre>
+<p>T2 中的 assertion 一定 PASS，因为 Acquire load 一定会同步 <code>n = 1; m = 1</code></p>
+<p>T3 中的 assertion 可能 FAIL，因为 Consume load 只会同步 <code>n = 1</code>，不保证同步 m</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="部署-mdbook-到-github-pages"><a class="header" href="#部署-mdbook-到-github-pages">部署 mdbook 到 github pages</a></h1>
+<p>本网站由 mdbook 生成，通过 github actions 持续集成到 github pages，以下为部署方式</p>
+<h2 id="1-为项目创建仓库"><a class="header" href="#1-为项目创建仓库">1. 为项目创建仓库</a></h2>
+<p>如 <a href="https://github.com/BlackCloud37/mdbook-blog">BlackCloud37/mdbook-blog</a>，其 master 分支为 mdbook 项目</p>
+<h2 id="2-添加-github-action"><a class="header" href="#2-添加-github-action">2. 添加 Github Action</a></h2>
+<p>参考 <a href="https://github.com/rust-lang/mdBook/wiki/Automated-Deployment%3A-GitHub-Actions#github-pages-deploy">GitHub Pages Deploy</a>，创建 <code>.github/workflows/deploy.yml</code>，内容为</p>
+<pre><code class="language-yaml">name: Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install mdbook
+      run: |
+        mkdir mdbook
+        curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.14/mdbook-v0.4.14-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
+        echo `pwd`/mdbook &gt;&gt; $GITHUB_PATH
+    - name: Deploy GitHub Pages
+      run: |
+        # This assumes your book is in the root of your repository.
+        # Just add a `cd` here if you need to change to another directory.
+        mdbook build
+        git worktree add gh-pages
+        git config user.name &quot;Deploy from CI&quot;
+        git config user.email &quot;&quot;
+        cd gh-pages
+        # Delete the ref to avoid keeping history.
+        git update-ref -d refs/heads/gh-pages
+        rm -rf *
+        mv ../book/* .
+        git add .
+        git commit -m &quot;Deploy $GITHUB_SHA to gh-pages&quot;
+        git push --force --set-upstream origin gh-pages
+</code></pre>
+<p>之后所有到 master 的 push 都会 build 当前的 mdbook，并将产物 push 到本仓库的 gh-pages 分支</p>
+<h2 id="3-访问网站"><a class="header" href="#3-访问网站">3. 访问网站</a></h2>
+<p>gh-pages 分支下的网页会被部署到 <code>&lt;Username&gt;.github.io/&lt;Reponame&gt;</code> 域名下，如本项目即为 <code>blackcloud37.github.io/mdbook-blog</code>，直接访问即可</p>
+<p>如果希望部署到 <code>&lt;Username&gt;.github.io</code>, 则仓库的名字需要为 <code>&lt;Username&gt;.github.io</code>，如 [BlackCloud37.github.io]</p>
+<h2 id="4-自定义域名"><a class="header" href="#4-自定义域名">4. 自定义域名</a></h2>
+<p>参考 <a href="https://docs.github.com/zh/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site">GitHub Pages Custom Domain</a></p>
+<ol>
+<li>在 master 的根目录下添加 <code>CNAME</code> 文件，内容为顶级域名，如 <code>blackcloud37.com</code></li>
+<li>部署脚本里 copy CNAME 到 gh-pages
+<pre><code class="language-bash">mv ../book/* .
+cp ../CNAME . # COPY CNAME
+git add .
+</code></pre>
+</li>
+<li>添加两条 DNS 记录, 指向 github pages 的服务器</li>
+</ol>
+<ul>
+<li><code>A, @  , 185.199.108.153</code></li>
+<li><code>A, www, 185.199.108.153</code></li>
+</ul>
+<h2 id="5-trouble-shooting"><a class="header" href="#5-trouble-shooting">5. Trouble shooting</a></h2>
+<p>第一次推送触发 github action 后，gh-pages 分支存在并且已经包含产物，但是访问 <code>blackcloud37.github.io/mdbook-blog</code> 提示 404，参考 <code>https://stackoverflow.com/questions/11577147/how-to-fix-http-404-on-github-pages</code>，推送一个空 commit 到 gh-pages 分支即可：</p>
+<pre><code class="language-bash"># 在 gh-pages 分支
+git commit --allow-empty -m &quot;Trigger rebuild&quot;
+git push
+</code></pre>
+<p>另外，仓库可见性必须为 Public</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="实现校外-ipv4-访问北邮人"><a class="header" href="#实现校外-ipv4-访问北邮人">实现校外 IPv4 访问北邮人</a></h1>
+<p>为之后毕业离校做打算，用 SSR + 海外 IPv6 服务器做代理访问 byr</p>
+<h2 id="搭建服务器"><a class="header" href="#搭建服务器">搭建服务器</a></h2>
+<ol>
+<li>
+<p>Vultr 买个最便宜的机器，为了稳定系统选了 CentOS 7，记得 enable ipv6</p>
+</li>
+<li>
+<p>参考 <a href="https://ebvtech.gitbook.io/wiki/ssr-basic/ssr-one-click-install">SSR一键安装</a> 安装  ssr 服务端</p>
+<pre><code class="language-bash">wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+chmod +x shadowsocks-all.sh
+./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log
+</code></pre>
+<p>配置选择</p>
+<pre><code>Your Protocol         :  auth_aes128_sha1
+Your obfs             :  tls1.2_ticket_auth
+Your Encryption Method:  aes-256-cfb
+</code></pre>
+<p>相关命令</p>
+<pre><code>启动SSR：
+/etc/init.d/shadowsocks-r start
+退出SSR：
+/etc/init.d/shadowsocks-r stop
+重启SSR：
+/etc/init.d/shadowsocks-r restart
+SSR状态：
+/etc/init.d/shadowsocks-r status
+卸载SSR：
+./shadowsocks-all.sh uninstall
+</code></pre>
+<p>配置文件: /etc/shadowsocks-r/config.json，可以检查一下里面有没有 <code>server_ipv6</code>，以及需要将 <code>dns_ipv6</code> 改为 <code>true</code></p>
+</li>
+</ol>
+<h2 id="客户端"><a class="header" href="#客户端">客户端</a></h2>
+<ol>
+<li>安装 ssr 客户端
+<ul>
+<li>对于 osx，可以用 <code>brew install shadowsocksx-ng-r --cask</code>，配置连接</li>
+</ul>
+</li>
+<li>在 ssr 客户端里添加 byr 的规则以对相关域名使用代理</li>
+</ol>
+<h2 id="下载"><a class="header" href="#下载">下载</a></h2>
+<p>参考 <a href="https://www.codewoody.com/posts/54288/">如何在普通网络环境下上北邮人</a></p>
+<p>以 qBittorrent 为例，需要配置</p>
+<ol>
+<li>Connection - Proxy 填入 ssr 的 local 代理地址/端口</li>
+<li>关闭 Advanced 里的验证 tracker 证书</li>
+</ol>
+<h2 id="reference"><a class="header" href="#reference">Reference</a></h2>
+<ul>
+<li><a href="https://lccurious.github.io/2018/03/03/vlutr-ssr/">在Vultr上搭建SSR服务</a></li>
+<li><a href="https://www.jixing.one/vps/ssr-bbr/">实现校园网IPv6免流量上网与科学上网 | 安装SSR与开启BBR加速</a></li>
+<li><a href="https://byr.pt/forums.php?action=viewtopic&amp;forumid=9&amp;topicid=10862">Byr 校外代理下载</a>
+<ul>
+<li>这个帖子是 byr 内部的，说是需要将代理改为 http 而非 socks5 才能下载有速度</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="数据安全"><a class="header" href="#数据安全">数据安全</a></h1>
+<blockquote>
+<p>给科技服务队写的，介绍如何备份数据</p>
+</blockquote>
+<h2 id="0-关于最常见的不良习惯"><a class="header" href="#0-关于最常见的不良习惯">0. 关于最常见的不良习惯</a></h2>
+<p>本文的正文从第 1. 节开始，但由于大部分数据丢失与一些不良使用习惯相关，我们在这个单独的置顶的篇幅中罗列这些习惯的 Checklist，以便引起足够的重视。<strong>这些行为将极大增加你丢失重要数据的概率</strong>，请详细阅读：</p>
+<ol>
+<li>
+<p>移动、震动、磕碰运行中的移动机械硬盘。这是我们发现的<strong>最常见的移动机械硬盘的损坏原因</strong>之一。运行中的机械硬盘必须被稳定放置，避免任何形式的机械震动，原因参考 3.4 节</p>
+<blockquote>
+<p>如果机械硬盘在使用中遭到磕碰，并发出咔哒或者沙沙的摩擦声，且硬盘不可读，请立刻断电并寻求帮助。</p>
+</blockquote>
+</li>
+<li>
+<p>只在一个设备上保存你的重要文件，例如将所有重要资料<strong>单独保存</strong>（与备份相对应）在电脑的一块硬盘（Windows 的多个盘符可能属于同一块硬盘）、移动硬盘、U盘、SD卡中</p>
+</li>
+<li>
+<p>在任何可移动存储设备上长期保存重要资料，尤其是 U盘、移动机械硬盘。基本上你可以视它们为<strong>随时都可能损坏</strong>的设备，细节参考 3.4 节</p>
+</li>
+<li>
+<p>强行断开任何使用中的存储设备的电源，例如热插拔移动硬盘、未关机状态下断开台式机电源等，这有概率导致文件系统损坏甚至是存储设备物理损坏（尤其是机械硬盘，参考 3.4 节）</p>
+</li>
+<li>
+<p>随意下载安装软件，随意在打印店等公开场所使用U盘并将其插回自己的电脑上</p>
+</li>
+</ol>
+<h2 id="1-序言"><a class="header" href="#1-序言">1. 序言</a></h2>
+<p>数据安全与 “数据丢失” 对应，指 “保护你的关键数据不丢失” 及 “维护你工作系统数据完整性” 的过程。在我们的经验中，（数据安全）通常对你的学习、工作生活<strong>至关重要</strong>，但通常也被大部分没有相关经验的人忽视，经常导致一些<strong>严重事故</strong>（例子参考第 2. 节）。</p>
+<p>本文将介绍科技服务队遇到过的常见数据丢失例子，旨在引起不关注数据安全的人的重视（第 2. 节），并介绍数据丢失的成因及为何其通常比许多人想象的严重，并简单介绍急救原则（第 3. 节），最后介绍维护数据安全的基本原则和具体工具（第 4., 5. 节）。</p>
+<p>如果你发现可能遇到了数据丢失相关的事件，可以参阅第 3. 节来获取可供参考的急救手段。</p>
+<p>如果你只是希望学习日常维护数据安全的方法和习惯，请直接阅读第 4., 5. 节。</p>
+<h2 id="2-常见数据丢失例子"><a class="header" href="#2-常见数据丢失例子">2. 常见数据丢失例子</a></h2>
+<p>在阅读之前，我们通常可以从一个角度出发：目前对你而言最重要的数据是什么，如果它此刻<strong>完全消失</strong>并<strong>不可恢复</strong>，你的生活会因此受到多大的冲击。</p>
+<p>例如，你丢失了：</p>
+<ul>
+<li>DDL 是今晚的作业，写了一天但还没提交</li>
+<li>陆续经营几年的游戏存档</li>
+<li>过去几年的照片、聊天记录等</li>
+<li>大学期间的各类申请材料，也许与你正在进行的申请相关</li>
+<li>工作数月的大作业、课程设计或毕业设计</li>
+<li>几年的数 TB 的实验数据，或者撰写中的论文稿</li>
+</ul>
+<p>通常如果上述事件真实发生，你的学习、工作将会受到很大影响。而且在我们的经验中，上述每一项都有人经历过（甚至多次），并且都是以一种不可恢复的形式。它们可能会由以下具体事件导致（同样是我们经历过的）：</p>
+<ol>
+<li>误操作导致撤销、删除重要文件或格式化含有重要数据的设备</li>
+<li>由于数据被加密（Bitlocker 等）并丢失了密钥导致设备数据无法读取</li>
+<li>由于下载不明渠道的软件或在不可信的地方使用USB设备导致中毒</li>
+<li>存储设备物理损坏</li>
+<li>设备丢失、自然灾害等不可抗原因</li>
+</ol>
+<p>在下一节中将简单介绍上述事件的成因及后果。</p>
+<h2 id="3-数据丢失的成因及后果"><a class="header" href="#3-数据丢失的成因及后果">3. 数据丢失的成因及后果</a></h2>
+<h3 id="31-误操作"><a class="header" href="#31-误操作">3.1 误操作</a></h3>
+<h4 id="成因"><a class="header" href="#成因">成因</a></h4>
+<p>通常是疏忽，或是由于对使用的系统及自己的操作不理解。例如不注意自己删除了哪些文件（删除时选中了过多的文件）；不理解 Ctrl-Z(Win)/Cmd-Z(Mac) 对应的撤销操作会导致自己创建文件的行为被撤销导致文件消失；不理解格式化、重置系统（清除用户数据）的含义或是不经确认就进行这类操作；不熟悉网盘或是 Git 等涉及文件管理的软件的操作导致误操作等。</p>
+<h4 id="后果"><a class="header" href="#后果">后果</a></h4>
+<p>通常与删除操作发生到现在经过的时间、及期间硬盘上写入事件发生的次数相关（例如写入文件等）。同时，如果数据在机械硬盘（HDD）上，恢复概率较高，在固态硬盘（SSD）上时难以恢复。</p>
+<blockquote>
+<p>⚠️注意：在现在（2023年）的常见 PC 中，由于绝大部分 PC 都使用固态硬盘（SSD）安装系统，且通常会开启 TRIM，故上述操作<strong>不可恢复的概率非常高</strong>。这是由于 HDD 与 SSD 的存储机制与空间管理机制不同导致的，例如前者不会经常擦除已经删除的文件的数据，只会在有必要时覆盖，后者会通过回收已删除文件的数据块的机制来保证写入速度，但这导致被删除的文件的数据会很快消失。</p>
+</blockquote>
+<h4 id="建议"><a class="header" href="#建议">建议</a></h4>
+<p>发现之后立刻停止创建文件等可能会对数据所在盘做写入操作的行为，并询问专业人士下一步操作，在不清楚你在做什么的情况下不要自行通过安装软件等方式试图恢复数据。</p>
+<h3 id="32-数据加密"><a class="header" href="#32-数据加密">3.2 数据加密</a></h3>
+<h4 id="成因-1"><a class="header" href="#成因-1">成因</a></h4>
+<p>通常是 Windows 系统下的 <a href="https://learn.microsoft.com/zh-cn/windows/security/information-protection/bitlocker/bitlocker-overview">Bitlocker</a> 导致的，简单来说它会通过软硬件的加密手段将你的整块硬盘上的数据加密，在你的系统遭到破坏时（许多原因会导致这个机制被触发），<strong>必须使用一个密钥才能恢复数据</strong>。这个密钥可以通过 <a href="https://support.microsoft.com/zh-cn/windows/%E5%9C%A8-windows-%E4%B8%AD%E6%9F%A5%E6%89%BE-bitlocker-%E6%81%A2%E5%A4%8D%E5%AF%86%E9%92%A5-6b71ad27-0b89-ea08-f143-056f5ab347d6">在 Windows 中查找 BitLocker 恢复密钥</a> 找到，也可以在你系统可以正常使用时导出。</p>
+<h4 id="后果-1"><a class="header" href="#后果-1">后果</a></h4>
+<p>如果你没有密钥并且 Bitlocker 被激活，几乎没有任何手段可以恢复你的数据。</p>
+<h4 id="建议-1"><a class="header" href="#建议-1">建议</a></h4>
+<p>务必妥善备份并保管你的密钥。<del>或者可以提前关闭 Bitlocker，但这会有数据泄露风险，因此这不构成我们的建议。</del></p>
+<p>唯一的恢复手段是找到密钥的备份，或者通过微软账户找到密钥。</p>
+<h3 id="33-病毒及恶意软件"><a class="header" href="#33-病毒及恶意软件">3.3 病毒及恶意软件</a></h3>
+<h4 id="成因-2"><a class="header" href="#成因-2">成因</a></h4>
+<p>缺乏安全意识的用户可能无法分辨网上软件的安全性，当用户在使用国内搜索引擎时尤甚，会误下载到病毒软件。一些流氓软件（也可能以杀毒软件或电脑管家的形式出现）也在此范畴。Windows 为此类软件的重灾区。</p>
+<p>校内一些公共场合的设备由于使用者众多可能是包含病毒的，在这些设备上使用了你的 USB 设备可能会导致 USB 设备中毒，可能会导致数据被破坏，或者将病毒带到你自己的机器上导致更严重的后果。</p>
+<p>同时，如果用户安装了一些会对外暴露端口的软件/服务，未设置防火墙并在无 NAT 的网络环境下（校园网就是一种），会导致这些端口被攻击，许多服务都不会设置用户鉴权，并可能有很多已知漏洞，因此任何一个攻击者都可能通过非常简单且自动化的方式攻击这些服务，并对运行服务的机器做许多事。其中包括加密你的数据并借此勒索。</p>
+<h4 id="后果-2"><a class="header" href="#后果-2">后果</a></h4>
+<p>通常视病毒及勒索软件的种类而定，例如一些此类病毒/软件可能已经有已知的恢复被破坏数据的方法。但是如果没有对应的方法，数据将难以恢复。</p>
+<h4 id="建议-2"><a class="header" href="#建议-2">建议</a></h4>
+<p>使用正版软件，从可信的渠道下载软件，<strong>包括</strong>官网、清华的 <a href="misc/its.tsinghua.edu.cn">its.tsinghua.edu.cn</a>、操作系统官方的应用商店 (Windows 的应用商店、Mac 的 AppStore) 等，<strong>不包括</strong>第三方的软件管家、搜索引擎上找到的软件下载站等。如果你不能确认你是否正从正确的地方下载软件，请咨询了解的同学。</p>
+<p>避免安装各类第三方杀毒软件、电脑管家。但开启系统自带的防护机制，例如 Windows Defender。</p>
+<p>不要在 USB、移动硬盘等会在不受信任的其他电脑上（例如打印店）使用的设备上存放重要数据，如果有，请提前在其他地方备份。</p>
+<p>如果遇到了数据被破坏、加密勒索的情况，请咨询专业人士如何恢复（通常需要对症下药）。</p>
+<h3 id="34-存储设备损坏"><a class="header" href="#34-存储设备损坏">3.4 存储设备损坏</a></h3>
+<h4 id="成因-3"><a class="header" href="#成因-3">成因</a></h4>
+<p>常见的存储设备有机械硬盘（HDD）、固态硬盘（SSD）和闪存（U盘）。</p>
+<p>其中机械硬盘由于依赖磁头在高速旋转的盘片上读写数据，因此非常容易因为震动、磕碰、意外掉电等情况导致磁头摩擦盘片，进而导致损坏，导致数据丢失。供电不足（常见于 USB 移动硬盘 + 拓展坞的组合，或者是劣质硬盘盒）或者机械结构本身的磨损也会导致类似事件发生。</p>
+<p>固态硬盘的颗粒擦写寿命有限，且目前消费级产品的颗粒寿命较短，在累积写入过多数据之后一些块会不可逆地损坏，最终导致数据丢失。这个寿命指标通常会在固态出售时以 TBW 的形式告知用户，如 300TBW 表明其设计寿命是总共写入(Write) 300TB。容量越大的固态硬盘该指标通常越大，即寿命越长。</p>
+<p>闪存的存储原理与固态硬盘类似，但注意大部分 U盘 的产品定位<strong>不是长期稳定存储数据</strong>，而是短期移动数据，因此其寿命<strong>非常不可靠</strong>。不要将任何重要数据单独存放在 U盘 中。</p>
+<h4 id="后果-3"><a class="header" href="#后果-3">后果</a></h4>
+<p>机械硬盘损坏后，只要盘片保存良好并且上面没有过多磨损，可以通过专业数据恢复机构开盘读取磁信息来恢复数据，但价格通常较高。</p>
+<p>固态硬盘与 U盘 损坏后，数据通常无法恢复，且其寿命不可靠，因此不要将任何重要数据单独存放在它们上。</p>
+<h4 id="建议-3"><a class="header" href="#建议-3">建议</a></h4>
+<p>经常查看硬盘的 <a href="https://zh.wikipedia.org/wiki/S.M.A.R.T.">S.M.A.R.T.</a> 信息，可以将它理解为硬盘的健康度。正常使用的硬盘通常不会突然损坏，损坏是一个渐进的过程。例如硬盘设计通常会给坏块预留缓冲，即一些备用块可以被用于替换损坏的块，当这些备用块被使用时，SMART 会给出相应的警告数值，当备用块用完时才会出现更严重的事。在此之前查看 SMART 即可了解相关问题，并及时处理。也可以通过类似 Disk Genius 的软件扫描 HDD 的坏道，确认没有坏道时再在其上存储数据。</p>
+<p>对于任何存储设备，避免突然断电（例如拔掉台式机电源，或是热插拔运行中的移动存储设备）。不要使用劣质的硬盘盒或转接头/扩展坞（尤其针对移动 HDD）。</p>
+<p>对于 HDD，避免在其运行时震动甚至磕碰它。</p>
+<p>对于 SSD 和 U盘，长期不通电时，其上的数据可能会逐渐由于电荷流失而丢失，因此不要试图用这些设备长期存储冷数据。如果有类似的需求，请使用 HDD、光盘甚至磁带。</p>
+<h3 id="35-设备丢失等"><a class="header" href="#35-设备丢失等">3.5 设备丢失等</a></h3>
+<p>对于可移动设备这比较常见（例如手机或者 U盘），手机中可能会有照片、聊天记录等重要数据，因此建议参考后面的章节经常备份数据。</p>
+<h2 id="4-维护数据安全的基本原则"><a class="header" href="#4-维护数据安全的基本原则">4. 维护数据安全的基本原则</a></h2>
+<p>除了第 3. 节中提到的各种建议外，本章将介绍通用的维护数据安全的原则：<strong>备份</strong>。</p>
+<blockquote>
+<p>⚠️ <strong>没有任何手段能代替备份</strong>。第 3. 节中提到的所有建议都<strong>不能</strong>替代备份，且考虑到其中提到的数据丢失原因均比较常见（没有侥幸），如果你发现你有对你而言重要的数据，且它们没有按照本章中描述的原则被正确备份，强烈建议你参考本章进行备份。</p>
+</blockquote>
+<h3 id="备份原则3-2-1"><a class="header" href="#备份原则3-2-1">备份原则：3-2-1</a></h3>
+<blockquote>
+<p>这是一个备份的黄金准则，少于这个标准的备份在意外情况下可能无法恢复数据，因此失去备份的意义</p>
+</blockquote>
+<ul>
+<li>3: 重要文件需要被完整存储 <strong>3</strong> 份，一份原件，两份拷贝。</li>
+<li>2: 三份文件需要被保存在至少 <strong>2</strong> 种不同的介质上，如 HDD、SSD、磁带、光盘等（不建议使用 U盘），同时电脑自带的硬盘和外置硬盘也可以视为不同介质，HDD/SSD 在家用场景下比较容易获取。</li>
+<li>1: 三份文件中至少有 <strong>1</strong> 份保存在异地。</li>
+</ul>
+<p>3 份备份保证数据同时被毁的概率足够低，因为这个概率随着备份变多指数降低。</p>
+<p>2 份不同介质是由于相同介质通常会由于相同的原因损坏，因此它们同时损坏的概率较高，例如一次电脑意外断电 <em>可能</em> 会同时导致你电脑里的所有 HDD 都挂掉，但 SSD 可能相对更不容易在这种情况下损坏；或者电脑中毒可能会导致电脑上的所有数据损坏，但外置硬盘不会受影响。不同介质保存数据的物理形式也不同，因此在相同的环境下同时损坏的概率较低。</p>
+<p>1 份异地通常是考虑到自然灾害或者盗窃等的影响。异地不一定要很远，例如宿舍和实验室/公司/家里也可以算异地。这也可以通过各类可靠的云盘实现（*度云等可能会篡改你数据的云不在此列），且云盘比自行维护异地的物理存储更方便，因此更为推荐。</p>
+<p>最简单且常见的例子是，在你的工作机上保存一份数据原件（通常在 SSD 中），同时定期（最好通过自动化的方式）将其拷贝到一份外置的机械硬盘中，这样就做到了 2 份文件 + 2 种介质，最后再在一个云盘中存储一份备份，即完成了 3-2-1 原则。</p>
+<h2 id="5-常见备份方法"><a class="header" href="#5-常见备份方法">5. 常见备份方法</a></h2>
+<blockquote>
+<p>注1：本节中的 备份 和 同步 可能会被统称为备份。但狭义上，备份指将数据的某个状态保存到备份设备中，并可能包含压缩和去重等操作，同步则是连续地时刻维持两个设备上的数据相同。由于同步无法保证误操作删除数据时远端数据不被删除，因此其不能替代备份。</p>
+<p>注2：可能有用户会使用 RAID，但这里认为任何形式的 RAID 都不是备份，也不能替代备份的功能。建议将 RAID 后的组作为单块介质看待。</p>
+</blockquote>
+<p>本节主要介绍实现 3-2-1 备份的可用手段及工具。参考第 4. 节中的例子，<strong>我们假设数据原件在一台装有 SSD 的电脑中，并希望备份到一个本地外置硬盘 + 一个云</strong>。</p>
+<p>数据备份的间隔取决于你要备份数据的重要程度，例如你可以忍受几天的数据丢失。另外，任何里程碑式的数据更新（例如拍了一批新照片、有阶段性的工作成果）之后也建议完整备份数据。</p>
+<h3 id="51-本地备份"><a class="header" href="#51-本地备份">5.1 本地备份</a></h3>
+<p>当你只需要备份少量重要数据文件（如文档等）时，你可以直接像平时使用移动硬盘一样备份这些数据：格式化外置硬盘（注意选择<a href="https://zh.wikipedia.org/wiki/%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">日志式文件系统</a>，如 Windows 常见的 NTFS，或是 Ext4 等），在里面创建文件夹并存放你的文件。然后记得妥善保存这块外置硬盘。</p>
+<p>在 Windows/Mac 下，你也可以借助一些数据同步软件来更便捷地完成这个过程，例如你总是需要将系统中的某个文件夹同步到外置硬盘中的另一个文件夹，这个机械化的操作可以通过一些第三方的数据备份工具/软件进行，在设置之后可以一键执行备份操作，也可以定时触发备份等。同时当你备份的文件夹包含较多备份过的重复文件时，这类软件提供的 diff 算法可能能更高效地完成备份（而不是像系统自带的资源管理器，需要覆盖每个重名文件）。</p>
+<p>如果你在使用 MacOS，可以通过其自带的 <a href="https://support.apple.com/zh-cn/HT201250">Time Machine</a> 完整地备份系统的多个快照，恢复到任意一个其中包含的时间点（包括系统状态和系统里的数据）。因此强烈建议 Mac 用户使用至少一块和系统硬盘一样大的外置硬盘来定期做 Time Machine。</p>
+<p>Linux 用户可以使用 <a href="https://wiki.archlinux.org/title/Rsync">Rsync</a> 进行备份，通过 cronjob/system service 进行定时操作，对于特定的文件系统（例如 Btrfs/Zfs），也可以使用快照的方式实现类似 Time Machine 的备份效果，但注意在同一块盘上创建的快照不能视为备份。请至少将其保存到另一个介质中。</p>
+<p>当你需要备份一些不经常访问的冷数据时（例如归档学习资料），将它们压缩成压缩包后再进行备份操作效率会更高。一些专业的备份软件也会提供压缩和去重的操作，常见于一些商用 NAS 系统的备份工具，但这可能需要更复杂的条件和设备。</p>
+<h3 id="52-多端备份"><a class="header" href="#52-多端备份">5.2 多端备份</a></h3>
+<p>你可以选择将数据备份到一块单独的介质中并保存到异地来实现这一点。不过使用云盘通常是一种更便捷的方式。本小节将介绍常见的云盘。</p>
+<blockquote>
+<ul>
+<li>
+<p><strong>国内云盘存放的数据可能会未经你的同意被泄露、删除、替换。在使用之前请认真考虑这一点。如果一定要使用，建议将数据加密并压缩再上传，且不要将鸡蛋放在一个篮子里。</strong></p>
+</li>
+<li>
+<p>本节提到的云盘与科技服务队利益无关。</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="清华云盘"><a class="header" href="#清华云盘"><a href="https://cloud.tsinghua.edu.cn/">清华云盘</a></a></h4>
+<blockquote>
+<p>⚠️ 清华云盘会在毕业时被回收。因此一定注意在毕业前将其上的数据备份到其他地方。包括个人资料库及个人创建的群组资料库。</p>
+</blockquote>
+<p>清华大学为学生提供了一个可用的云盘，可以通过校内账号访问，其 <a href="https://cloud.tsinghua.edu.cn/help/">使用指南</a> 介绍了细节。它基于 <a href="https://www.seafile.com/">SeaFile</a> 搭建，<a href="https://cloud.tsinghua.edu.cn/">Web 界面</a> 可以像普通网盘一样使用。同时 Seafile 也有<a href="https://www.seafile.com/download/">客户端</a>，可以在 Windows/Mac/Ubuntu/Debian/Fedora 及 Android/iOS 中使用。客户端支持同步盘和挂载盘两种模式。具体使用细节均在上述使用指南中被详细描述。</p>
+<p>其中，同步盘 <em>“可以实现将云盘资料库和本地文件夹（目录）关联和自动同步的功能。用户关联云盘资料库和本地文件夹后，客户端将自动同步本地和云端内容，本地和云端的文件和目录的新建、修改、删除、重命名等变化都会保持一致“</em>，即将本地某个目录完全同步到云端，二者的文件会维持一致的状态。此时文件在<strong>本地</strong>和<strong>云端</strong>各有一份。</p>
+<p>同步盘在正确同步后，假设本地硬盘突然损坏，在云端应当能找到最后一次同步时的数据，起到备份的效果。但是由于同步会实时进行，可能会由于网络原因出现意料外的 Bug。同时如果在本地误操作删除/修改了同步盘中的文件，该操作可能会被即时同步到远端，因此这种同步的方式<strong>严格来讲不能算备份</strong>（即使删除操作可能可以通过 Seafile 的回收站找回）。</p>
+<p>挂载盘则相当于将云盘资料库单独作为本地的一块磁盘使用，此时电脑上会多出一块虚拟的 “硬盘”，其被映射到云盘的资料库。与同步盘的区别在于，此时文件只在<strong>云端</strong>有一份，本地硬盘上并没有相关数据。因此可以将其作为网盘 Web 界面的本地版使用，可以较方便地实现将本地文件上传到云盘的操作。</p>
+<p>上述方式可以根据需求选择，例如在 3-2-1 原则下：</p>
+<ul>
+<li>如果使用同步盘，则只需要维护本地文件夹和一块外置硬盘，本地文件夹会被同步到云端资料库，<del>达到 3-2-1 的要求</del>（由于这种同步方式严格来讲不能算备份，建议使用挂载盘模式）</li>
+<li>如果使用挂载盘，则本地源文件夹为一份数据，本地挂载盘即云端资料库，为一份远端数据，备份时需要同时将本地源文件夹中的数据备份到本地挂载盘和外置硬盘（二者操作几乎相同，因为这种情况下挂载盘和外置硬盘都可以视为单独的备份盘），达到 3-2-1 的要求。通过 Web 界面管理文件本质与挂载盘相同。</li>
+</ul>
+<h4 id="坚果云"><a class="header" href="#坚果云"><a href="https://www.jianguoyun.com/">坚果云</a></a></h4>
+<p>国内网盘，提供不限量的免费空间，但是限制了每月上传 1GB、下载 3GB。优势是相对没有那么流氓，例如免费版也不会限速。其也提供了多平台的客户端，提供了普通网盘的使用体验。</p>
+<p>同时其支持 WebDAV 协议（<a href="https://help.jianguoyun.com/?p=2064">坚果云第三方应用授权WebDAV开启方法</a>），因此可以在不适合安装客户端但支持 WebDAV 的系统下挂载（Windows/Mac/Linux 均可）。</p>
+<h4 id="阿里云盘腾讯微云百度云盘等"><a class="header" href="#阿里云盘腾讯微云百度云盘等">阿里云盘/腾讯微云/百度云盘等</a></h4>
+<p>均为国内使用量比较多的云盘，此外还有联通/移动/电信等运营商的云盘和蓝奏云盘等。可以根据其定价策略和使用体验来选择。</p>
+<h4 id="onedriveicloud"><a class="header" href="#onedriveicloud"><a href="https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage">OneDrive</a>/<a href="https://www.icloud.com/">iCloud</a></a></h4>
+<p>二者分别为 Windows 和 Mac/iOS 自带的云盘，分别需要微软账户和 Apple 账户使用。作为系统内置的云盘，其主要目标是实现多端<strong>同步</strong>（例如 Mac/iOS 设备间的照片、文档同步，多台 Windows 设备间的资料同步），它们均提供了一定量的免费空间（但比较小），且基本模式与清华云盘的同步盘模式相同，能够将系统的指定文件夹（桌面、文档、照片等）同步到远端，并让多台设备共享这些文件夹。由于<strong>同步</strong>严格来说不能算备份，<strong>因此不建议将它们视为备份手段</strong>。不再展开介绍。</p>
+<p>同时，iCloud 还可能会由于 Apple 账号登出等原因导致本地数据被抹掉，又由于网络原因难以从云盘中重新下载，因此对于重要数据请遵循 3-2-1 原则并寻找其他备份手段。</p>
+<h4 id="google-drivedropboxmega"><a class="header" href="#google-drivedropboxmega">Google Drive/Dropbox/Mega</a></h4>
+<p>均为国外网盘，适合有条件访问的人使用。</p>
+<h4 id="对象存储服务"><a class="header" href="#对象存储服务">对象存储服务</a></h4>
+<blockquote>
+<p>这类服务通常是面向开发者的，使用起来可能不会有面向个人的云盘方便，因此只是提供一个思路。</p>
+<p>且这类服务通常没有免费版，虽然某些情况下价格可以做到很低，例如 AliyunOSS 冷归档 50G 的数据只需要 9元/年。</p>
+</blockquote>
+<p>一些云服务提供商会提供对象存储服务（例如阿里云 OSS、腾讯云 COS），其冷归档存储的计费较为便宜，以 Aliyun OSS 为例：冷归档数据需要至少存储 180 天，并且在取回时需要解冻（即等一段时间才能下载），上传不计费，取回时按数据解冻量收费，存储计费为 0.015元/GB/月，适合用于长期存储冷数据，即需要长期存储但几乎不会访问的（重要不常用的）数据，例如几年前的课程归档。</p>
+<p>以 Aliyun OSS 为例，注册 Aliyun 账户后，可以参考 <a href="https://help.aliyun.com/document_detail/31883.html">开始使用OSS</a> 中的 <strong>使用 OSS 控制台</strong> 来</p>
+<ol>
+<li>开通 OSS 服务</li>
+<li>创建 Bucket（可以理解为一个资料库，所有设置都是以 Bucket 粒度区分的）</li>
+<li>设置 Bucket （主要为存储类型，例如冷归档存储，并关闭传输加速等计费项）</li>
+<li>在 Bucket 内创建文件夹并上传、下载</li>
+</ol>
+<p>在 Bucket 创建后，也可以通过 <a href="https://help.aliyun.com/document_detail/31883.html">开始使用OSS</a> 中的 <strong>使用图形化管理工具ossbrowser</strong> 一节来获取一个客户端，通过客户端管理 Bucket 内的文件，达到类似使用网盘的效果，在备份的场景中是够用的。</p>
+<p>在存储冷备份数据时，可以先在本地压缩并加密后再上传到云端，减少计费并保证数据安全，如果加密记得备份加密手段及密钥。</p>
+<h2 id="6-不同成本的备份例子"><a class="header" href="#6-不同成本的备份例子">6. 不同成本的备份例子</a></h2>
+<p>本节列举多种不同成本（由低到高）的备份例子，供读者参考。选择方案时请综合考虑数据重要程度、数据量与数据访问/修改频繁程度。如果数据非常重要，则不需要拘泥于 3 份，可以选择更多份备份。</p>
+<p>如果需要备份的数据性质明显不同，则对于不同数据可以选择不同的方式。例如古早的照片可能不需要经常修改、查看，但需要稳定保持，这类冷数据就建议放在移动机械硬盘中（并妥善存放），再留有至少一份放在云盘（或者是 OSS）中。而作业可能需要经常修改、查看，因此建议做 6.2 的双盘备份，在本地同步/备份会比较方便。对于代码类数据，则建议使用 Git 进行托管，但也需要在本地进行备份重要的 Commit/Tag 以便在 Git 误操作时挽救。</p>
+<h3 id="61-本机另一块硬盘同步--1个云盘"><a class="header" href="#61-本机另一块硬盘同步--1个云盘">6.1 本机另一块硬盘同步 + 1个云盘</a></h3>
+<blockquote>
+<p>本方案最为简便，但容错差，数据重要时请从 6.2 开始</p>
+</blockquote>
+<h4 id="321-构成"><a class="header" href="#321-构成">321 构成</a></h4>
+<ol>
+<li>源数据</li>
+<li>电脑中的另一块硬盘（注意：Windows 下多个盘符不一定是不同硬盘）中的文件夹，保持数据与源数据同步</li>
+<li><strong>定期</strong>上传到任何云盘（清华云盘等），最好能自动上传</li>
+</ol>
+<h4 id="成本"><a class="header" href="#成本">成本</a></h4>
+<ul>
+<li>当电脑为固态 + 机械组合的笔记本、且云盘有一定白嫖容量时，这种方案几乎 0 成本</li>
+<li>如果电脑只有一块硬盘，则参考 6.2</li>
+<li>可以选择清华云或一些付费云盘以得到更好的体验</li>
+</ul>
+<h4 id="优点"><a class="header" href="#优点">优点</a></h4>
+<ul>
+<li>便宜</li>
+<li>本机双盘同步较为方便</li>
+<li>适合需要频繁修改、时效性短的数据，例如作业等</li>
+</ul>
+<h4 id="缺点"><a class="header" href="#缺点">缺点</a></h4>
+<ul>
+<li>容错低，本机出意外可能导致两块硬盘同时损坏（概率不容小觑）</li>
+<li>需要确保能够定期备份到云盘，过时的备份约等于没有备份</li>
+<li>上云数据要注意安全性</li>
+</ul>
+<h3 id="62-外置硬盘--1个云盘"><a class="header" href="#62-外置硬盘--1个云盘">6.2 外置硬盘 + 1个云盘</a></h3>
+<blockquote>
+<p>本方案适合大部分人使用</p>
+</blockquote>
+<h4 id="321-构成-1"><a class="header" href="#321-构成-1">321 构成</a></h4>
+<p>同 6.1，将其中的<em>另一块硬盘</em>换成外置硬盘</p>
+<p>依据数据重要性，可以选择使用多块外置硬盘，并混合使用固态、机械硬盘，也可以在 6.1 的基础上增加一块外置硬盘</p>
+<h4 id="成本-1"><a class="header" href="#成本-1">成本</a></h4>
+<ul>
+<li>外置硬盘成本，例如现在(2023-04) 1T 的 NVME SSD 可能只需要 400 元人民币（或更低），加上不到百元的移动硬盘盒即可</li>
+<li>移动机械硬盘价格更低，但鉴于其容易由于震动等物理因素损坏，不建议将其作为“移动”用途，而是将数据备份到里面以后直接静置保存。且机械盘可能买到叠瓦盘，性能堪忧，需要做足功课</li>
+<li>除非要备份的是比较冷的数据，否则不建议移动机械硬盘方案</li>
+</ul>
+<h4 id="优点-1"><a class="header" href="#优点-1">优点</a></h4>
+<ul>
+<li>成本低</li>
+<li>容错率相对 6.1 更高</li>
+</ul>
+<h4 id="缺点-1"><a class="header" href="#缺点-1">缺点</a></h4>
+<ul>
+<li>本地备份相对 6.1 更麻烦（需要外接硬盘）</li>
+<li>移动硬盘要注意安全性（丢失、机械硬盘损坏等）</li>
+<li>移动固态硬盘要避免太久不上电</li>
+</ul>
+<h3 id="63-多云"><a class="header" href="#63-多云">6.3 多云</a></h3>
+<p>鉴于许多云盘都有一定的白嫖容量，可以在 6.2 的基础上多选择几个适合自己的云盘供应商。这样的好处是不用担心某个云盘挂了。</p>
+<h3 id="64-私有云"><a class="header" href="#64-私有云">6.4 私有云</a></h3>
+<blockquote>
+<p>本方案成本、技术要求较高，因此只是在此罗列而不详细介绍。对于普通用户的重要数据，只需要本地多外置硬盘备份 + 多云备份，基本就万无一失了</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="arch-休眠到交换文件"><a class="header" href="#arch-休眠到交换文件">Arch 休眠到交换文件</a></h1>
+<p>参考 <a href="https://wiki.archlinux.org/title/Power_management_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)/Suspend_and_hibernate_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">Arch Wiki</a> 及 <a href="https://arch.icekylin.online/advanced/optional-cfg-2.html#%E4%BC%91%E7%9C%A0%E5%88%B0-swap-%E5%88%86%E5%8C%BA">Arch简明指南</a> 配置系统休眠到 swap file(ext4)，配置完毕后无法正常休眠，问题如下</p>
+<h2 id="1-kde-开始菜单不展示休眠选项"><a class="header" href="#1-kde-开始菜单不展示休眠选项">1. KDE 开始菜单不展示休眠选项</a></h2>
+<p>尝试手动休眠 <code>systemctl hibernate</code>，提示 &quot;Not enough swap space for hibernation&quot;</p>
+<p>根据 <a href="https://bbs.archlinux.org/viewtopic.php?id=259382">Arch BBS</a>，通过 <code>systemctl edit systemd-logind.service</code> 并在其中添加</p>
+<pre><code># 注意添加位置，必须在文件中注明的两段注释之间，否则不会生效
+[Service]       
+Environment=SYSTEMD_BYPASS_HIBERNATION_MEMORY_CHECK=1
+</code></pre>
+<p>后重启 logind 服务 <code>systemctl restart systemd-logind  </code> 即可</p>
+<h2 id="2-休眠后立刻回到登录页面"><a class="header" href="#2-休眠后立刻回到登录页面">2. 休眠后立刻回到登录页面</a></h2>
+<p>休眠后查看日志 <code>journalctl -n 1000</code>，在其中查找 hibernate 相关记录，发现报了</p>
+<pre><code>Failed to find location to hibernate to: Function not implemented
+</code></pre>
+<p>怀疑是 hibernate 目标交换文件配置有误，检查后发现在获取交换文件 resume_offset 时，用 <code>sudo filefrag -v /swapfile</code> 命令查看的偏移如下：</p>
+<pre><code>Filesystem type is: ef53
+File size of /swapfile is 34359738368 (8388608 blocks of 4096 bytes)
+ ext:     logical_offset:        physical_offset: length:   expected: flags:
+   0:        0..    6143:    4114432..   4120575:   6144:            
+   1:     6144..   38911:    3997696..   4030463:  32768:    4120576:
+   2:    38912..   71679:    3506176..   3538943:  32768:    4030464:
+   3:    71680..  104447:    8224768..   8257535:  32768:    3538944:
+   ...
+</code></pre>
+<p>physical_offset列的第一个值应当是 4114432，而我配置成了 4120575，修改后重新生成 grub.cfg 即可</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wechat"><a class="header" href="#wechat">Wechat</a></h1>
+<h2 id="20240125更新"><a class="header" href="#20240125更新">20240125更新</a></h2>
+<p>备忘目前完整的微信安装流程</p>
+<ol>
+<li>装 wine-for-wechat 和 wine-wechat-setup</li>
+<li><a href="misc/arch/">https://github.com/tom-snow/wechat-windows-versions</a> 找老版本的微信安装包, 例如 Wechat v3.8.0.33
+<blockquote>
+<p>wine-for-wechat 会默认使用 prefix / 'drive_c/Program Files/Tencent/WeChat' 作为 WeChat.exe 的目录, 安装微信时需要注意, 旧版本微信可能会默认安装到 Program Files x86 下</p>
+</blockquote>
+</li>
+<li>用 wine-wechat-setup 安装微信, 会一并创建 ~/.local/lib/wine-wechat 这个 WINEPREFIX</li>
+</ol>
+<ul>
+<li>此时安装程序的字体可能为方块, 建议在创建完 WINPREFIX 之后即在字体目录下放置必要的字体, 参考 <a href="https://blog.gloriousdays.pw/2018/12/01/optimize-wine-font-rendering">https://blog.gloriousdays.pw/2018/12/01/optimize-wine-font-rendering</a></li>
+<li>字体问题解决后方可设置微信安装目录</li>
+</ul>
+<p>如果需要改 dpi 等, 可以 <code>wechat -c</code></p>
+<h2 id="archive"><a class="header" href="#archive">Archive</a></h2>
+<p>更新: 现在使用 com.qq.weixin.spark 包的微信，然后将其用的 wine 替换成 wine-for-wechat</p>
+<p>使用打包好的 <a href="https://github.com/vufa/deepin-wine-wechat-arch">Deepin Wine Wechat Arch</a>，仓库中已经给出了详细的安装方法、字体更换等</p>
+<h3 id="sway"><a class="header" href="#sway">Sway</a></h3>
+<p>从 i3 迁移到 sway 后, Deepin Wine Wechat 的微信窗口黑屏, 暂时没找到解决办法, 改用 wine-for-wechat 后解决</p>
+<p>安装流程</p>
+<ol>
+<li>安装 wine-for-wechat, wine-wechat 包, 均在 archlinuxcn 源上</li>
+<li>微信官网下载 <code>.exe</code> 安装包</li>
+<li>命令行 <code>wechat -i /path/to/wechat_setup.exe</code> 安装微信</li>
+<li>安装完成后就能使用, 如果字体有问题, 参考 <a href="https://gist.github.com/qin-yu/bfd799f2380c875045e7c8b918d02f36">Ubuntu20.04 Wine 6.0 微信中文显示方块/方框</a>, 本质上为如下几步</li>
+</ol>
+<ul>
+<li>winetricks 安装所有字体和所需 dll</li>
+<li>改注册表</li>
+</ul>
+<p>不过仍然没解决 emoji 为方块的问题</p>
+<h3 id="trouble-shotting"><a class="header" href="#trouble-shotting">Trouble shotting</a></h3>
+<h4 id="窗口阴影"><a class="header" href="#窗口阴影">窗口阴影</a></h4>
+<p>换到 i3wm 后，混成器使用了 picom，此时使用 Deepin Wine Wechat 会发现整个窗口被灰色遮罩，且有弧形的黑色阴影，关闭 picom 后上述情况消失，因此判断是 picom 的问题</p>
+<p>查阅 arch wiki 上 picom 条目发现，picom 可以针对窗口禁用半透明、阴影等特性，其规则可以细化到匹配窗口名称</p>
+<p>首先通过 <code>xprop</code> 查询微信的窗口名:</p>
+<pre><code># xprop
+WM_NAME(STRING) = &quot;WeChat&quot;
+...
+WM_CLASS(STRING) = &quot;wechat.exe&quot;, &quot;Wine&quot;
+</code></pre>
+<p>然后在 <code>picom.conf</code> 里添加如下规则: </p>
+<pre><code class="language-conf">~/.config/picom/picom.conf
+# Specify a list of conditions of windows that should have no shadow.
+#
+# examples:
+#   shadow-exclude = &quot;n:e:Notification&quot;;
+#
+# shadow-exclude = []
+shadow-exclude = [
+  # ...
+  &quot;name = 'WeChat'&quot;,
+  &quot;class_g = 'wechat.exe'&quot;,
+  &quot;class_g = 'Wine'&quot;
+];
+</code></pre>
+<p>重启 picom 即可</p>
+<h4 id="字体发虚"><a class="header" href="#字体发虚">字体发虚</a></h4>
+<p>打开 wine 设置</p>
+<pre><code># /opt/apps/com.qq.weixin.deepin/files/run.sh winecfg
+</code></pre>
+<p>graphics 选项卡里调高DPI即可</p>
+<h4 id="部分-emoji-为方块"><a class="header" href="#部分-emoji-为方块">部分 Emoji 为方块</a></h4>
+<p>尚未解决</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="i3wm-切换到-sway"><a class="header" href="#i3wm-切换到-sway">i3wm 切换到 sway</a></h1>
+<h2 id="复制配置"><a class="header" href="#复制配置">复制配置</a></h2>
+<pre><code>mkdir -p ~/.config/sway
+cp ~/.config/i3/config ~/.config/sway/
+</code></pre>
+<h2 id="重映射-capslock-到-ctrl-修改键盘重复速率"><a class="header" href="#重映射-capslock-到-ctrl-修改键盘重复速率">重映射 CapsLock 到 Ctrl, 修改键盘重复速率</a></h2>
+<p>原来用的是 <code>setxkbmap</code>, 但这是针对 xorg 的</p>
+<p>映射方法为在 sway config 中加入</p>
+<pre><code>input &quot;type:keyboard&quot; {
+    xkb_options caps:ctrl_modifier
+    repeat_delay 150
+    repeat_rate 80
+}
+</code></pre>
+<h2 id="deepin-wine-wechat-黑屏"><a class="header" href="#deepin-wine-wechat-黑屏">Deepin Wine Wechat 黑屏</a></h2>
+<p>见 <a href="misc/arch/./wechat.html">Wechat</a></p>
+<h2 id="其他"><a class="header" href="#其他">其他</a></h2>
+<ul>
+<li>使用 wofi 替换 rofi</li>
+<li>使用 waybar 替换 polybar</li>
+<li>使用 swaybg 替换 feh</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vscode-无法记住登录"><a class="header" href="#vscode-无法记住登录">vscode 无法记住登录</a></h1>
+<p>装了 <code>visual-studio-code-bin</code>, 发现每次启动一个新的实例时都要求登录以同步设置, 即无法记住其他实例的登录</p>
+<p>最后参考 <a href="https://code.visualstudio.com/docs/editor/settings-sync#_linux">Settings Sync in Visual Studio Code</a> 解决了</p>
+<p>Linux 上的 VSCode 依赖 gnome-keyring 来保存认证信息, 所以需要正确安装并配置 gnome-keyring, 我之前尝试过装 gnome-keyring 但最后还是没解决, 可能是因为当时装了另一个 keyring 包, 二者冲突了</p>
+<h3 id="具体步骤"><a class="header" href="#具体步骤">具体步骤</a></h3>
+<ol>
+<li>
+<p>在 <code>~/.xinitrc</code> 里添加如下行</p>
+<pre><code class="language-bash"># see https://unix.stackexchange.com/a/295652/332452
+source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
+
+# see https://wiki.archlinux.org/title/GNOME/Keyring#xinitrc
+eval $(/usr/bin/gnome-keyring-daemon --start)
+export SSH_AUTH_SOCK
+
+# see https://github.com/NixOS/nixpkgs/issues/14966#issuecomment-520083836
+mkdir -p &quot;$HOME&quot;/.local/share/keyrings
+</code></pre>
+<p>由于我在用 swaywm, 所以我把上面这些行加到了 sway 的 config 里, 最后也能 work</p>
+</li>
+<li>
+<p>重新登录以加载 1. 的配置</p>
+</li>
+<li>
+<p>安装 gnome-keyring etc., <code>sudo pacman -S gnome-keyring libsecret libgnome-keyring</code></p>
+</li>
+<li>
+<p>使用任何 gnome-keyring 的管理手段 (比如 <code>seahorse</code>), 解锁默认的 keyring 或者创建一个新的没上锁的 keyring. 在我的尝试里, 这一步如果不做, 启动 vscode 并登录账号时会提示新建 keyring, 新建时不要设置密码即可</p>
+</li>
+<li>
+<p>启动 vscode</p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="蓝牙鼠标在静止不动之后重新唤醒会卡顿"><a class="header" href="#蓝牙鼠标在静止不动之后重新唤醒会卡顿">蓝牙鼠标在静止不动之后重新唤醒会卡顿</a></h1>
+<p>内核参数增加 btusb.enable_autosuspend=0 禁用自动休眠即可</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="自动认证-tsinghua-wifi"><a class="header" href="#自动认证-tsinghua-wifi">自动认证 Tsinghua WiFi</a></h1>
+<blockquote>
+<p>在 Mac 连接到 Tsinghua/Tsinghua-5G 等需要认证的无线网时自动认证而无需经 Web 认证</p>
+</blockquote>
+<h2 id="0-准备"><a class="header" href="#0-准备">0. 准备</a></h2>
+<p>下载</p>
+<ul>
+<li><a href="https://github.com/p2/WifiWatch/releases/tag/1.0.0">WifiWatch.app</a></li>
+<li><a href="https://github.com/z4yx/GoAuthing/releases/tag/v2.2">auth-thu.macos.arm64</a>
+<ul>
+<li>arm64 或 x86_64 看情况, arm64 为例</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-auth-thu"><a class="header" href="#1-auth-thu">1. auth-thu</a></h2>
+<p>用于从命令行认证校园网</p>
+<ul>
+<li>给予可执行权限: <code>chmod +x auth-thu.macos.arm64</code></li>
+<li>放到 $PATH 下并重命名为 <code>auth-thu</code>: <code>cp auth-thu.macos.arm64 /usr/local/bin/auth-thu</code></li>
+<li>在 HOME 目录下创建其配置: <code>touch ~/.auth-thu</code></li>
+<li>在配置内写入校园网账号密码 (这里只能明文): <code>vim ~/.auth-thu</code>
+<pre><code class="language-json">{
+    &quot;username&quot;: &quot;username&quot;,
+    &quot;password&quot;: &quot;password&quot;
+}
+</code></pre>
+</li>
+<li>尝试认证看正不正常
+<pre><code>&gt; auth-thu
+2022-11-23 17:08:41 INFO auth-thu main.go:308 Currently online!
+</code></pre>
+</li>
+</ul>
+<h2 id="2-wifiwatchapp"><a class="header" href="#2-wifiwatchapp">2. WifiWatch.app</a></h2>
+<p>直接运行 .app 即可，这个程序会在后台，当连接/断开 WiFi 时执行特定脚本</p>
+<ul>
+<li>连接时执行 <code>~/.wifiConnected</code></li>
+<li>断开时执行 <code>~/.wifiDisconnected</code> (本示例用不到)</li>
+</ul>
+<p>可以在系统设置里把这个 .app 加到开机启动项</p>
+<h2 id="3-wificonnected"><a class="header" href="#3-wificonnected">3. .wifiConnected</a></h2>
+<p>连接 WiFi 时执行的脚本</p>
+<p>写入如下内容 <code>vim ~/.wifiConnected</code></p>
+<pre><code class="language-bash">#!/bin/bash
+# arg1: SSID of network
+# arg2: SSID of old network, if any
+
+log=/tmp/auth-thu
+if [[ &quot;$1&quot; =~ ^(Tsinghua|Tsinghua-5G)$ ]]; then
+	for i in 4 3 2 1; do
+		sleep $i
+		connected=$(/usr/local/bin/auth-thu 2&gt;&amp;1 | tee -a $log | grep -E &quot;online|Successfully&quot; &amp;&amp; echo 0 || echo 1)
+		if [[ $connected == 0 ]]; then
+			sleep $i
+			/usr/local/bin/auth-thu 2&gt;&amp;1 | tee -a $log
+		else
+			break
+		fi
+	done
+fi
+</code></pre>
+<p>然后给予可执行权限 <code>chmod g+x ~/.wifiConnected</code></p>
+<h2 id="4-尝试"><a class="header" href="#4-尝试">4. 尝试</a></h2>
+<ul>
+<li>退出认证</li>
+<li>断开 WiFi 然后连接 Tsinghua/Tsinghua-5G</li>
+<li>检查 /tmp/auth-thu 里是否有 log</li>
+<li>检查 WiFi 是否正常认证</li>
+</ul>
+<h2 id="5-trouble-shooting-1"><a class="header" href="#5-trouble-shooting-1">5. Trouble Shooting</a></h2>
+<p>WiFi 名目前是字符串匹配且只有 Tsinghua/Tsinghua-5G，如果需要其他的，加在 <code>.wifiConnected</code> 里</p>
+<h2 id="6-reference"><a class="header" href="#6-reference">6. Reference</a></h2>
+<ul>
+<li>https://apple.stackexchange.com/questions/139267/run-program-if-connected-to-specific-wifi</li>
+<li>https://github.com/p2/WifiWatch</li>
+<li>https://github.com/z4yx/GoAuthing</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="5600x-超频"><a class="header" href="#5600x-超频">5600x 超频</a></h1>
+<h2 id="1-平台"><a class="header" href="#1-平台">1. 平台</a></h2>
+<ul>
+<li>R5 5600x</li>
+<li>乔思伯 HX6200D 风冷</li>
+<li>MSI B550I Gaming Edge Max Wifi</li>
+<li>铂胜白条 3000MHZ 8G * 2</li>
+<li>RX584</li>
+<li>300w电源</li>
+</ul>
+<p>装在蜂鸟 i100pro 这个 itx 机箱里</p>
+<h2 id="2-参数"><a class="header" href="#2-参数">2. 参数</a></h2>
+<p>内存小超到了 3800 16-19-19-36 1.39V</p>
+<p>这个电脑只用来打游戏，由于机箱没有风扇位，而且是下压式风冷，开 PBO2 之后 Aida64 烤 FPU 温度巨高，打游戏掉帧，索性锁频降压使用</p>
+<p>全核锁 4.6GHZ，电压在主板里给 1.1375V，防掉压之类的全 Auto，室温 20 度</p>
+<ul>
+<li>开机箱盖，单烤 FPU 能稳定 10 分钟，温度稳定在 79 度</li>
+<li>关机箱盖，单烤 FPU 2 分钟后蓝屏，温度到 82 度</li>
+</ul>
+<p>全核锁 4.6GHZ，电压在主板里给 1.1625V</p>
+<ul>
+<li>开机箱盖没测</li>
+<li>关机箱盖，单烤 FPU 8 分钟后黑屏重启，温度到 86 度</li>
+</ul>
+<p>之后还是想关机箱盖用，考虑到打游戏负载也不会多高，暂时就用 4.6GHZ/1.1625V 的参数跑，打游戏的时候崩溃再说，
+这个参数下：</p>
+<ul>
+<li>CPU-Z 单核 633.9，多核 5005.6</li>
+<li>待机 41 度</li>
+<li>守望先锋：归来 2K 极高画质下 55 度，能稳定在 60FPS 以上</li>
+</ul>
+<p>UPDATE:</p>
+<ul>
+<li>关闭超线程，参数修改为 4.575GHZ/1.1V，关机箱盖 Aida64 单烤 FPU 稳定 69 度，超过 15 分钟不崩溃，感觉是一个更合适的设置</li>
+<li>单核跑分 631，关超线程多核就不看了</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="plex"><a class="header" href="#plex">Plex</a></h1>
+<p>针对 Official 的 Plex App 的配置备忘</p>
+<ul>
+<li>生成 claim token</li>
+<li>use plex pass</li>
+<li>在 Truenas 里创建 plex 用户组和 plex 用户，给予他们媒体文件夹的权限，同时给予 apps 用户权限</li>
+<li>Environment Variables for Plex 里添加 PLEX_UID 和 PLEX_GID，值为 Truenas 里对应用户和组的 ID</li>
+<li>Plex Extra Host Path Volumes 里挂载目标文件夹</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="app-持续-deploying-问题"><a class="header" href="#app-持续-deploying-问题">APP 持续 deploying 问题</a></h1>
+<p>最开始是 Plex 的 TrueCharts 版部署持续在 Deploying 状态, 以为是这个 APP 本身的问题, 后来发现 nextcloud 的 TC 版也有一样问题</p>
+<p>最后通过检查 k3s 的 pod 状态发现, 这两个 APP 部署时均需要创建 PVC, 而创建 PVC 依赖容器的镜像一直 ImagePullBackOff, describe 查看日志后发现是网络问题 (k8s.gcr.io 不通)</p>
+<p>在路由上增加代理之后可以解决, 另一个成功的方法是, 局域网设备开 clash(allow lan) 或者之类的代理, Truenas 网络配置 http proxy (http://addr:port), 然后重新创建 APP, 在拉镜像时可能仍然会失败, 但这时只要手动查看是哪个域名的镜像没拉成功 (以 k8s.gcr.io 为例), 然后在终端 http_proxy=http://addr:port curl k8s.gcr.io 即可</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="用-clusterissuer-自动申请-ssl-证书"><a class="header" href="#用-clusterissuer-自动申请-ssl-证书">用 clusterissuer 自动申请 SSL 证书</a></h1>
+<ul>
+<li>clusterissuer 不支持 Aliyun DNS，因此首先参考 <a href="https://www.truenasscale.com/2021/12/10/126.html">TrueNAS使用ACME自动添加续期泛域名证书</a> 把域名迁到 cloudflare</li>
+<li>参考 <a href="https://truecharts.org/charts/enterprise/clusterissuer/how-to#prerequisites">clusterissuer Setup Guide</a></li>
+</ul>
+<p>无意外的话就能自动签发证书了，在其他 TrueCharts App 里填这个 cert 即可</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="selfhosted-整体结构"><a class="header" href="#selfhosted-整体结构">selfhosted 整体结构</a></h1>
+<p>毕业在即，目前服务跑在校园网下，有公网 IP，但毕业之后大概率租房网络不会有这个条件。另外还要考虑离校后 BYR 下载的问题，经过几天的摸索得出了以下方案</p>
+<h2 id="背景-1"><a class="header" href="#背景-1">背景</a></h2>
+<ol>
+<li>在家里跑一个 NAS，其上可能会跑一些服务
+<blockquote>
+<p>如果租房不允许自己拉宽带，那么连光猫桥接都不一定能做，所以可以假设它一定没有公网 IP，可能会经过多层 NAT (运营商 NAT/家里路由器的 NAT)</p>
+</blockquote>
+</li>
+<li>在家里会有局域网设备需要访问 NAS，这个随便怎么都能实现</li>
+<li>我自己可能需要在其他地方 (比如公司) 访问 NAS</li>
+<li>(本质同 3.) 其他人可能需要 (广域网的其他无公网 IP 设备) 需要访问 NAS 上的服务 (比如 Plex 串流)，期望能够有一个不错的服务质量</li>
+<li>最好有能力继续在 BYR 下载一些想看的资源</li>
+</ol>
+<h2 id="必要条件"><a class="header" href="#必要条件">必要条件</a></h2>
+<ul>
+<li>为了实现 3./4.，本质上需要一个内网穿透的手段，比如 frp 或者 vpn，经过测试 tailscale 的效果不错</li>
+<li>为了实现 5.，必须
+<ul>
+<li>有一台 教育网/海外v6服务器，服务器延迟无所谓，但必须有不太小的带宽 (100Mbps 及以上为佳)，流量最好无限制，或者足够多。教育网服务器可以找 THU 的同学嫖一个实验室的机位，因为校园网是给公网 IP 的，带宽够大、流量不限还不用花钱，缺点就是维护需要频繁请同学吃饭。海外v6服务器带宽满足要求，但便宜的机型通常有 1T 的流量限制</li>
+<li>有合适的通过该服务器访问 v6 的手段，比较方便的是 ssr</li>
+</ul>
+</li>
+</ul>
+<h2 id="具体实现"><a class="header" href="#具体实现">具体实现</a></h2>
+<h3 id="互相访问"><a class="header" href="#互相访问">互相访问</a></h3>
+<p>NAS - 公网Server - 其他设备 通过 tailscale 组网</p>
+<p>任何其他设备都通过 tailscale 访问 NAS</p>
+<h3 id="tailscale-带宽问题"><a class="header" href="#tailscale-带宽问题">Tailscale 带宽问题</a></h3>
+<p>因为 NAS 和其他设备可能都会经过 NAT，因此这里很可能做不到 direct 而是会变成 relay，延迟/带宽会非常差</p>
+<p>如果只是 ssh 或 webui，relay 可能没什么问题，假设要 Plex 串流，就得想个增加带宽的办法，最通用的办法是在 公网Server 上搭一个 DERP</p>
+<h3 id="byr-下载"><a class="header" href="#byr-下载">BYR 下载</a></h3>
+<p>通过 ssr 代理来做 4to6 来做下载效果似乎不是很好，而且很挑客户端，因此我采用了另一个方式:</p>
+<ul>
+<li>Server 通过 tailscale + SMB mount NAS 的盘</li>
+<li>Server 上跑 qBittorrent 等客户端，通过 SMB 下载到 NAS 里</li>
+</ul>
+<p>由于 Server 有公网 IP，tailscale 一定是 direct，所以 SMB 的读写速度勉强能用</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="arch-as-router"><a class="header" href="#arch-as-router">Arch as Router</a></h1>
+<h2 id="背景-2"><a class="header" href="#背景-2">背景</a></h2>
+<p>硬件是倍控 G31(Intel Gold 7505)，本来想参考 PVE 跑一堆虚拟机的方案，但尝试过 PVE + openwrt + ikuai + debian(跑docker) 的组合之后，发现了一些问题：</p>
+<ol>
+<li>最大的硬伤是这个机子有不错的核显，但不能显卡直通，因此一旦采用 PVE 的方案，基本核显就浪费了</li>
+<li>ikuai 做主路由的时候，IPv6 配置支持不全，如果用 openwrt 做主路由，又因为固件太多软件包太杂，导致配着配着就崩了（主要是因为不熟悉 openwrt），而且因为不熟悉，导致不是所有东西都 under control</li>
+</ol>
+<p>理论上大部分 linux 都可以通过配置来当路由用，因为无非就是要拨号，转发，提供 DHCP/DNS 等服务罢了，区别就在于是不是开箱即用。但与其用一个开箱即用的、不太熟悉的 OS，不如用一个不开箱即用的、熟悉一点的 OS，至少出了问题知道怎么排查</p>
+<p>看了一些文章之后，基本断定 Arch 是可以拿来做路由的，刚好自己也比较熟了，Arch Wiki 还有专门的 Router 页面，就决定用 Arch 了</p>
+<h2 id="安装系统"><a class="header" href="#安装系统">安装系统</a></h2>
+<p>参考 <a href="https://arch.icekylin.online/rookie/basic-install.html">archlinux 基础安装</a> 即可，我按照其推荐的做了 btrfs，内核选了 linux-zen</p>
+<p>可以再配一下 ssh，之后总会用到的，但路由器可能对外暴露，所以安全问题需要自行注意</p>
+<h2 id="配置路由功能"><a class="header" href="#配置路由功能">配置路由功能</a></h2>
+<blockquote>
+<p>主要参考 </p>
+<ul>
+<li><a href="https://wiki.archlinux.org/title/router">Arch Wiki Router</a></li>
+<li><a href="https://eldon.me/arch-linux-based-home-router/">Arch based home router</a></li>
+<li><a href="https://yhndnzj.com/2021/08/13/arch-is-the-best-router/">Arch is the best router</a></li>
+<li><a href="https://nyac.at/posts/archlinux-router">用 Arch Linux 做软路由</a></li>
+</ul>
+</blockquote>
+<p>我有四张网卡，其中第一张用来当 WAN，其余的用来当 LAN，WAN 约定称为 extern0, LAN 约定称为 intern0,1,2</p>
+<p>网络管理通过 systemd-networkd 进行，DHCP server 用 dnsmasq 提供，DNS server 用 dnsmasq + smartdns 提供，防火墙和网络转发(NAT)用 firewalld 提供</p>
+<h3 id="1-重命名接口"><a class="header" href="#1-重命名接口">1. 重命名接口</a></h3>
+<blockquote>
+<p>参考 <a href="https://yhndnzj.com/2021/08/13/arch-is-the-best-router/">Arch is the best router</a>
+将网卡名字改成刚才约定的，之后配置方便一点</p>
+</blockquote>
+<p>修改</p>
+<pre><code># /etc/udev/rules.d/10-network.rules
+SUBSYSTEM==&quot;net&quot;, ACTION==&quot;add&quot;, ATTR{address}==&quot;aa:bb:cc:dd:ee:ff&quot;, NAME=&quot;extern0&quot;
+SUBSYSTEM==&quot;net&quot;, ACTION==&quot;add&quot;, ATTR{address}==&quot;ff:ee:dd:cc:bb:aa&quot;, NAME=&quot;intern0&quot;
+SUBSYSTEM==&quot;net&quot;, ACTION==&quot;add&quot;, ATTR{address}==&quot;ff:ee:dd:cc:bb:ab&quot;, NAME=&quot;intern1&quot;
+SUBSYSTEM==&quot;net&quot;, ACTION==&quot;add&quot;, ATTR{address}==&quot;ff:ee:dd:cc:bb:ab&quot;, NAME=&quot;intern2&quot;
+</code></pre>
+<p>重新加载</p>
+<pre><code class="language-bash">udevadm control --reload
+udevadm trigger
+</code></pre>
+<p>然后 <code>ip l</code> 应该可以看到接口名</p>
+<h3 id="2-配置各接口"><a class="header" href="#2-配置各接口">2. 配置各接口</a></h3>
+<h4 id="extern"><a class="header" href="#extern">extern</a></h4>
+<p>对于 extern0, 我们希望它能拨号或者从上游 DHCP 服务器获取 IP，由于目前用的校园网，所以按后者配置</p>
+<pre><code># /etc/systemd/network/20-wired-external-dhcp.network
+[Match]
+Name=extern0
+
+[Network]
+DHCP=yes
+IPv6AcceptRA=yes
+IPv6PrivacyExtensions=yes
+</code></pre>
+<h4 id="intern"><a class="header" href="#intern">intern</a></h4>
+<p>对于 intern0,1,2，我们希望它们能被桥接到一起，这样使用任何一个接口都没有区别</p>
+<pre><code># /etc/systemd/network/br_lan.netdev
+[NetDev]
+Name=br_lan
+Kind=bridge
+</code></pre>
+<pre><code># /etc/systemd/network/10-bind-br_lan.network
+[Match]
+Name=intern*
+
+[Network]
+Bridge=br_lan
+</code></pre>
+<p>然后对于 <code>br_lan</code> 进行网络配置</p>
+<pre><code># /etc/systemd/network/21-wired-internal.network
+[Match]
+Name=br_lan
+
+[Link]
+Multicast=yes
+
+[Network]
+Address=10.0.0.1/24 # router 的内网 IP 及网段
+#MulticastDNS=yes # 打算用dnsmasq替代
+#IPMasquerade=both # 如果启用，将会与 firewalld 冲突，因为它们都会修改 nftables
+</code></pre>
+<h3 id="3-配置-dnsmasq"><a class="header" href="#3-配置-dnsmasq">3. 配置 dnsmasq</a></h3>
+<p>安装</p>
+<pre><code class="language-bash">pacman -S dnsmasq
+</code></pre>
+<p>配置</p>
+<pre><code># /etc/dnsmasq.conf
+except-interface=extern0 # 排除extern0
+expand-hosts      # 为 /etc/hosts 中的主机名添加一个域名
+domain=foo.bar    # 允许DHCP主机的完全限定域名（需要启用“expand-hosts”）
+dhcp-range=10.0.0.2,10.0.0.255,255.255.255.0,1h # 定义局域网中DHCP地址范围：从 10.0.0.2 至10.0.0.255，子网掩码为 255.255.255.0，DHCP 租期为 1 小时 （可按需修改）
+port=0 # 禁用 dns 服务，如果不打算用 smartdns，可以将这个 port 设为默认的 53，然后添加诸如 server=8.8.8.8 的规则以指定 dnsmasq 的上游 DNS
+dhcp-option=6,10.0.0.1 # 但是在 DHCP 时通告本机为 DNS server
+# 设置默认网关
+dhcp-option=3,10.0.0.1
+</code></pre>
+<p>启用</p>
+<pre><code class="language-bash">systemctl enable --now systemd-networkd
+</code></pre>
+<h3 id="4-配置-smartdns"><a class="header" href="#4-配置-smartdns">4. 配置 SmartDNS</a></h3>
+<p>参考 <a href="https://pymumu.github.io/smartdns/">SmartDNS</a> 即可</p>
+<h3 id="5-网络转发"><a class="header" href="#5-网络转发">5. 网络转发</a></h3>
+<p>先启用内核的网络转发（需要重启）：</p>
+<pre><code># /etc/sysctl.d/30-ipforward.conf
+net.ipv4.ip_forward=1
+net.ipv6.ip_forward=1
+</code></pre>
+<p>然后安装 firewalld 并启用</p>
+<pre><code class="language-bash">pacman -S firewalld
+systemctl enable --now firewalld
+</code></pre>
+<p>配置 NAT 规则 (参考 <a href="https://wiki.archlinux.org/title/Internet_sharing#With_firewalld">Arch Wiki Internet Sharing</a>)</p>
+<pre><code class="language-bash">firewall-cmd --zone=external --change-interface=extern0 --permanent
+firewall-cmd --zone=internal --change-interface=br_lan --permanent
+
+firewall-cmd --permanent --new-policy int2ext
+firewall-cmd --permanent --policy int2ext --add-ingress-zone internal
+firewall-cmd --permanent --policy int2ext --add-egress-zone external
+firewall-cmd --permanent --policy int2ext --set-target ACCEPT
+
+# 重要：wiki里没有手动允许 dns, 导致dnsmasq无法响应请求, 需要手动添加
+# 		 可能还需要添加 dhcp 等，因为它默认连内网的包都过滤，所以如果发现内网一些服务不通，先检查 firewalld
+firewall-cmd --add-service=dns --zone=internal --permanent
+firewall-cmd --add-service=dhcp --zone=internal --permanent
+
+firewall-cmd --reload
+</code></pre>
+<p>这一步做完之后如果没问题那就没问题了()，其他设备连网口应该能正常上网了，dnsmasq 会响应设备的 DHCP 请求并分配 IP，设备 DNS 会走 Arch 的 smartdns，网络包会由 firewalld (底层是 nftables) NAT</p>
+<h2 id="其他配置"><a class="header" href="#其他配置">其他配置</a></h2>
+<h3 id="1-auththu"><a class="header" href="#1-auththu">1. Auththu</a></h3>
+<p>校园网需要认证，通过 goauthing 实现，参考 https://github.com/z4yx/GoAuthing</p>
+<h3 id="2-备份"><a class="header" href="#2-备份">2. 备份</a></h3>
+<p>参考 <a href="https://kasei.im/2017/03/use-snapper-for-btrfs-snapshot-and-backup.html">利用 Snapper 实现 btrfs 自动定时备份</a>
+btrfs 可以用 snapper， grub-btrfs 可以从快照启动，方便恢复系统</p>
+<pre><code class="language-bash">pacman -S snapper snap-pac grub-btrfs
+systemctl enable --now grub-btrfsd
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre>
+<p>配置不容易，多备份，每次要改配置前手动快照一下</p>
+<h3 id="3-bbr"><a class="header" href="#3-bbr">3. BBR</a></h3>
+<p>一个 TCP 拥塞控制算法
+参考 <a href="https://gist.github.com/epyonavenger/a7d0bdcdb64169c4b0031391e10ff203">Gist - Enabling BBR On Arch Linux 4.13+</a></p>
+<h3 id="4-ddns"><a class="header" href="#4-ddns">4. DDNS</a></h3>
+<p>我是 aliyun 的域名 + aliyun 的 ddns，定时跑这个脚本就行 <a href="https://github.com/SNBQT/aliyunddns">Github - SNBQT/aliyunddns</a></p>
+<h3 id="5-静态-ip-租约"><a class="header" href="#5-静态-ip-租约">5. 静态 IP 租约</a></h3>
+<p>查看当前租约</p>
+<pre><code class="language-bash">cat /var/lib/misc/dnsmasq.leases
+</code></pre>
+<p>分配</p>
+<pre><code># /etc/dnsmasq.conf
+# 如果要让 dnsmasq 将固定 IP 分配给某些客户端，请绑定 LAN 计算机的 NIC MAC 地址：
+dhcp-host=aa:bb:cc:dd:ee:ff,192.168.111.50
+dhcp-host=aa:bb:cc:ff:dd:ee,192.168.111.51
+</code></pre>
+<h3 id="6-ups"><a class="header" href="#6-ups">6. UPS</a></h3>
+<p>断电了通知关闭 router 防止意外断电</p>
+<p><a href="https://wiki.archlinux.org/title/APC_UPS">Arch Wiki APC_UPS</a></p>
+<p>兼容山特的 UPS (串口-USB通信)</p>
+<h3 id="7-cron"><a class="header" href="#7-cron">7. cron</a></h3>
+<p>Arch 默认不带 cron，可以安装 <code>cronie</code></p>
+<h3 id="8-其他防火墙配置"><a class="header" href="#8-其他防火墙配置">8. 其他防火墙配置</a></h3>
+<p>端口开放及转发</p>
+<pre><code class="language-bash">firewall-cmd --zone=external --add-port=2222/tcp --permanent
+firewall-cmd --zone=external --add-forward-port=port=2222:proto=tcp:toport=22:toaddr=127.0.0.1 --permanent
+</code></pre>
+<h3 id="9-qbittorrent"><a class="header" href="#9-qbittorrent">9. qBittorrent</a></h3>
+<p>安装配置参考 <a href="https://blog.raw.pm/en/archlinux-install-qbittorrent-nox-setup-webui/">archlinux-install-qbittorrent-nox-setup-webui</a></p>
+<h3 id="10-plex"><a class="header" href="#10-plex">10. Plex</a></h3>
+<p>安装可以用 snap</p>
+<p>需要配置文件权限才可以添加资料库，见 <a href="https://askubuntu.com/questions/150909/plex-wont-enter-my-home-directory-or-other-partitions">plex-wont-enter-my-home-directory-or-other-partitions</a></p>
+<h3 id="11-clash"><a class="header" href="#11-clash">11. Clash</a></h3>
+<p>见 <a href="https://blog.linioi.com/posts/clash-on-arch/">Arch Linux Clash 安装配置记录</a></p>
+<h2 id="trouble-shooting"><a class="header" href="#trouble-shooting">Trouble Shooting</a></h2>
+<p>遇到的最大问题就是，一开始 NAT 用了 networkd 自带的 IPMasquerade=both，然后想改成 firewalld，配置了很多遍都没成功，需要注意的点有：</p>
+<ul>
+<li>先关闭 firewalld</li>
+<li>关闭 networkd 的 IPMasquerade=both 之后，需要 restart networkd</li>
+<li>需要 nft flush ruleset 以清空规则，networkd 会在 nft 里写入 io.systemd.nat 这个规则表</li>
+<li>然后启动 firewalld 的服务，配置 zone 和 policy</li>
+<li>记住启用 internal zone 的 DNS/DHCP 等 service</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="auth-thu"><a class="header" href="#auth-thu">Auth THU</a></h1>
+<p>THU 宿舍校园网需要网页认证, 不过有同学开发了 <a href="https://github.com/z4yx/GoAuthing">GoAuthing</a> 这个认证程序, 在常规的 Linux 下可以直接开 crontab/service 定时认证, 但 QNAP 的 crontab 似乎有点问题, 我的解决方案是开了一个 Docker 容器跑认证程序</p>
+<p>Dockerfile如下</p>
+<pre><code>FROM alpine:latest
+
+COPY ./auth-thu /usr/local/bin/auth-thu
+COPY ./.auth-thu /root/.auth-thu
+
+# 这里输出 log 是为了之后验证 auth-thu 是否正确执行以 debug, 如果不需要 debug 则使用:
+# RUN echo '*/1 * * * * /usr/local/bin/auth-thu auth' &gt; /etc/crontabs/root
+RUN echo '*/1 * * * * /usr/local/bin/auth-thu auth &gt;&gt; /var/log/auth-thu.log 2&gt;&amp;1' &gt; /etc/crontabs/root
+
+CMD crond -l 2 -f
+</code></pre>
+<p>用了 alpine 这个非常小的 linux 镜像, 使用方式为</p>
+<ol>
+<li>创建 Dockerfile 并添加上面的内容</li>
+<li>在 Dockerfile 同目录下下载 GoAuthing 的可执行文件并改名为 auth-thu, 同时赋以可执行权限</li>
+<li>在 Dockerfile 同目录下创建 .auth-thu 文件, 填入 GoAuthing 的相关配置, 如用户名密码</li>
+<li>在该目录下用 Dockerfile 创建镜像, 例如 <code>docker create -t auththu:latest .</code></li>
+<li>用创建好的镜像创建容器, 并设置其为自动重启(即随 docker 启动) <code>docker run -d --name auththu --net=host --restart=always</code></li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="qnap-crontab-使用"><a class="header" href="#qnap-crontab-使用">QNAP Crontab 使用</a></h1>
+<ul>
+<li>crontab 配置文件在 <code>/etc/config/crontab</code></li>
+<li>应用修改 <code># crontab /etc/config/crontab</code></li>
+<li>重启服务 <code># /etc/init.d/crond.sh restart</code></li>
+</ul>
+<p>注意定时任务所用的脚本不能放在根目录下，因为 QNAP 每次重启都会重置根目录，建议放在 <code>/share/homes/&lt;username&gt;/</code> 下</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="qnap-hlink-docker-使用"><a class="header" href="#qnap-hlink-docker-使用">QNAP Hlink Docker 使用</a></h1>
+<h2 id="环境"><a class="header" href="#环境">环境</a></h2>
+<ul>
+<li>QNAP 453B mini，事先安装好 Container Station，配置 SSH 登录</li>
+<li>我的 qBittorrent 下载文件均在 <code>/share/Download</code> 目录下，希望将里面的文件硬链到 <code>/share/Media</code>
+<ul>
+<li>硬链目录不能跨盘，<code>Download</code> 和 <code>Media</code> 两个共享文件夹均在同一块硬盘同一个存储池上</li>
+</ul>
+</li>
+</ul>
+<h2 id="部署"><a class="header" href="#部署">部署</a></h2>
+<p>直接用 Container Station 部署时，hlink 会报 <code>必须指定配置文件</code> 的错，原因不明，因此这里用命令行部署</p>
+<p>ssh 到 nas:</p>
+<pre><code class="language-bash">docker run -d --name hlink \
+    -e HLINK_HOME=/share/Container/Docker/Hlink \
+    -p 9090:9090 \
+    -v /share:/share \
+    likun7981/hlink:latest
+</code></pre>
+<p>将 nas 的 <code>/share</code> 挂载到 container 的 <code>/share</code> 下，同时指定 <code>/share/Container/Docker/Hlink</code> 为 hlink 的家目录。nas 的 9090 端口映射为容器的 9090 端口，即 hlink 的 WebUI</p>
+<p>然后访问 :9090，创建配置文件和定时计划即可</p>
+<h2 id="trouble-shooting-1"><a class="header" href="#trouble-shooting-1">Trouble shooting</a></h2>
+<p>目前（2022-10-17）hlink 的 WebUI 不支持账号功能，即一旦暴露到公网，任何人都可以访问该 WebUI，而我的 nas 直连校园网，自带公网 IP，因此需要考虑安全问题</p>
+<p>暂时的解决办法是，考虑到一旦配置好 hlink 服务，便不太需要访问其 WebUI，因此可以在完成配置后用 iptable ban 掉 WebUI 的端口</p>
+<pre><code class="language-bash">#!/bin/bash
+
+number=`iptables -t nat --line-numbers --numeric --list | grep dpt:9090 | awk '{print $1}'`
+if [ -n &quot;$number&quot; ]; then
+echo $number
+iptables -t nat -D DOCKER $number
+fi
+</code></pre>
+<p>qnap 的 iptable 规则每次重启后都会失效，因此可以将上述脚本加入 <a href="misc/qnap/./crontab.html">crontab</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="qbittorrent"><a class="header" href="#qbittorrent">qBittorrent</a></h1>
+<h2 id="安装"><a class="header" href="#安装">安装</a></h2>
+<ol>
+<li>App Center 添加软件源 <code>https://www.qnapclub.eu/repo.xml</code></li>
+<li>搜索 qBittorrent 安装</li>
+</ol>
+<h2 id="配置"><a class="header" href="#配置">配置</a></h2>
+<h3 id="账号"><a class="header" href="#账号">账号</a></h3>
+<p>默认端口 6363，默认账号 admin，默认密码 adminadmin</p>
+<p>进 设置-WebUI 修改端口、账号密码、语言等为想要的</p>
+<h3 id="https"><a class="header" href="#https">HTTPS</a></h3>
+<p>在 设置-WebUI 选择使用 HTTPS 而不是 HTTP，证书和密钥设为域名证书的 <code>.pem</code> 和 <code>.key</code> 文件的绝对路径</p>
+<h3 id="下载排队"><a class="header" href="#下载排队">下载排队</a></h3>
+<p>在 设置-BitTorrent 启用或关闭 Torrent 排队和做种限制</p>
+<h3 id="校园网-ipv6-北邮人-pt"><a class="header" href="#校园网-ipv6-北邮人-pt">校园网 IPv6 (北邮人 PT)</a></h3>
+<ul>
+<li>设置-高级-qBittorrent 相关
+<ul>
+<li><strong>网络接口</strong> 改为有校园网 IPv6 的接口</li>
+<li><strong>绑定到可选的 IP 地址</strong> 改为 所有 IPv6 地址</li>
+<li>如果 Tracker 显示 SSL 证书错误，则取消勾选 <strong>验证 HTTPS tracker 证书</strong></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lede-旁路由"><a class="header" href="#lede-旁路由">LEDE 旁路由</a></h1>
+<h2 id="背景-3"><a class="header" href="#背景-3">背景</a></h2>
+<p>PS5 想翻墙, 想在 nas 里装软路由然后装个 clash 给 PS5 当旁路由</p>
+<h2 id="步骤"><a class="header" href="#步骤">步骤</a></h2>
+<h3 id="安装-lede"><a class="header" href="#安装-lede">安装 LEDE</a></h3>
+<ol>
+<li>参考 <a href="https://post.smzdm.com/p/amx3023k/">威联通Docker教程 篇十：威联通NAS安装LEDE软路由，保姆级教程，手把手教您虚拟机安装openwrt旁路由</a> 安装 lede, 这一步没什么坑</li>
+<li>装好后, 由于 453bmini 有两块网卡, 第一块网卡我直接连了校园网做主网关, 第二块网卡连路由器给局域网用, 因此需要创建一个连接第二块网卡和 lede 虚拟机接口的虚拟交换机, 然后在 virtualization station 里配置虚拟机的网络为该虚拟交换机</li>
+</ol>
+<h3 id="安装-clash"><a class="header" href="#安装-clash">安装 clash</a></h3>
+<ol>
+<li>使用的 clash 版本为 <a href="https://github.com/houzi-/Koolshare-Clash-hack">Koolshare-Clash-hack</a>, 下载 release 的 tar 包用 lede 自带的离线安装</li>
+<li>直接离线安装会提示非法关键字, 无法安装, 需要用<a href="https://zhuanlan.zhihu.com/p/402240863">这里</a>提到的 hack 禁用关键字扫描规则, 核心是 ssh 上 lede 然后跑这个命令
+<pre><code>sed -i 's/\tdetect_package/\t# detect_package/g' /koolshare/scripts/ks_tar_install.sh
+</code></pre>
+</li>
+</ol>
+<h3 id="使用-clash"><a class="header" href="#使用-clash">使用 clash</a></h3>
+<ol>
+<li>配置订阅链接, 启用 clash</li>
+<li>需要在 clash 里开启需要走代理的设备的 IP</li>
+<li>在 PS5 里修改网关为 lede 的 IP</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="番茄肉酱意面"><a class="header" href="#番茄肉酱意面">番茄肉酱(意面)</a></h1>
+<p>综合了以下三个方子</p>
+<ol>
+<li><a href="https://post.smzdm.com/p/akmrpxre/">什么值得买 番茄肉酱意面味道不对？换一种番茄试试—波隆那肉酱意面做法</a></li>
+<li><a href="https://www.youtube.com/watch?v=-gF8d-fitkU">youtube Easy Bolognese Recipe | Jamie Oliver</a></li>
+<li><a href="https://m.xiachufang.com/recipe/106709924/">下厨房 番茄肉酱意面Bolognese意大利chef亲授</a></li>
+</ol>
+<h2 id="材料"><a class="header" href="#材料">材料</a></h2>
+<p>以下材料适合一个 4-5L 的煮锅，大约能出 14 人份，一般是炖一次分装冷冻</p>
+<p>材料可以等比例缩减，肉和菜的比例也可以随意调节(以炖锅能装下为准)，以下是我常用的比例</p>
+<h3 id="主料"><a class="header" href="#主料">主料</a></h3>
+<blockquote>
+<p>不可以少的材料，三种蔬菜体积差不多就行</p>
+</blockquote>
+<ol>
+<li>牛绞肉 + 猪绞肉<strong>共</strong> 1kg，通常 1:1</li>
+<li><strong>整颗</strong>番茄罐头(茄意欧) 400g * 2罐</li>
+<li>洋葱一大个(半斤)</li>
+<li>西芹两根</li>
+<li>萝卜两根</li>
+<li>黑胡椒(现磨)，油，盐</li>
+</ol>
+<h3 id="配料"><a class="header" href="#配料">配料</a></h3>
+<blockquote>
+<p>都是增加风味的，我是全都放了，没有的话做的时候略过即可</p>
+</blockquote>
+<ol>
+<li>培根两片</li>
+<li>大蒜</li>
+<li>意式混合香料(比如可达怡意式混合香料)</li>
+<li>肉桂粉</li>
+<li>迷迭香</li>
+<li>肉豆蔻</li>
+<li>番茄膏(茄意欧)</li>
+</ol>
+<h2 id="做法"><a class="header" href="#做法">做法</a></h2>
+<blockquote>
+<p>全部看完再开始操作，具体操作可以参考那三个方子(因为这里没有图)</p>
+</blockquote>
+<h3 id="1-准备材料"><a class="header" href="#1-准备材料">1. 准备材料</a></h3>
+<p>三种蔬菜剁碎备用，有切碎机/绞肉机最好，没有的话参考方子 1. 切</p>
+<ul>
+<li>有绞肉机的话可以在炒肉的时候再绞，否则提前切好</li>
+<li>混在一起就行，三种蔬菜会一起炒</li>
+</ul>
+<p>有<strong>蒜粒</strong>的话剁碎，有<strong>迷迭香</strong>的话把叶子薅下来剁碎，有<strong>培根</strong>的话切小粒</p>
+<h3 id="2-炒"><a class="header" href="#2-炒">2. 炒</a></h3>
+<blockquote>
+<p>最好是直接在最终炖煮的锅里炒，因为炒的时候会有点糊底，加水炖能把糊底的部分溶解掉</p>
+<p>全程需要盯着翻炒，避免糊</p>
+</blockquote>
+<p>锅热加油，油多点，至少要覆盖整个锅底，油热炒蒜、培根和迷迭香，中小火别烧焦</p>
+<p>出香味后先加牛绞肉炒</p>
+<ul>
+<li>炒肉是一定会先出很多水的，要有耐心等水都挥发掉，肉才会开始焦黄，焦黄才会香</li>
+<li>一直搅拌翻炒，微微粘底无所谓，但别烧糊</li>
+</ul>
+<p>等牛肉炒出来的水挥发掉一部分、肉变成淡褐色后再加猪肉一起炒，同理会先出很多水</p>
+<p>等肉炒出来水都挥发得差不多了，加黑胡椒和盐，黑胡椒往死里加，盐正常用量，继续炒到肉变成焦褐色，参考方子 1. 里的图片</p>
+<ul>
+<li>这一步应该是整个酱肉味的关键，耐心炒，可能需要十几二十分钟</li>
+</ul>
+<p>肉到位后加三种蔬菜碎(蔬菜单独炒或和肉一起炒都行)，蔬菜碎也会炒出水，同样需要炒到水挥发干，蔬菜微焦，才会有味道</p>
+<p>全都炒到位这一步就完成了</p>
+<h3 id="3-炖"><a class="header" href="#3-炖">3. 炖</a></h3>
+<p>两罐番茄倒下去，再用番茄的罐子装水(两罐)加下去</p>
+<p>加番茄膏，肉桂粉，肉豆蔻粉，意式混合香料，黑胡椒</p>
+<p>搅匀，之前有糊底的话用勺子在底下铲几下铲干净</p>
+<p>大火烧开转最小火，炖至水收干到酱变得略浓稠即可，一般需要一个多小时。我一般会开盖炖(因为要一直搅)</p>
+<p>缓慢多次加盐，到口味合适，盐少了吃的时候可以再加，盐多了不好救，以及如果吃的时候要加帕玛森，由于帕玛森很咸，这里的盐需要适当少点</p>
+<p>可以加点糖提鲜</p>
+<p>这一步需要注意的是</p>
+<ol>
+<li>由于固体部分会在炖的时候沉底，一定要一直搅拌(搅的时候用勺子刮到锅底)，否则就会粘底烧糊</li>
+<li>锅越薄(不锈钢/铝)搅拌越频繁，锅越厚(铸铁/陶瓷)搅拌可以越少，但几分钟至少需要搅一次</li>
+<li>如果间隔太久固体已经沉底，搅的时候可能会有沸腾的泡泡导致飞溅，要防止烫伤</li>
+</ol>
+<p>炖到位了分装冷冻即可</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="番茄牛腩"><a class="header" href="#番茄牛腩">番茄牛腩</a></h1>
+<h2 id="材料-1"><a class="header" href="#材料-1">材料</a></h2>
+<ol>
+<li>牛腩 1000g</li>
+<li>番茄 600g</li>
+<li>番茄碎罐头 400g</li>
+<li>洋葱半个</li>
+<li>香料：姜、大葱、大蒜、桂皮八角香叶</li>
+<li>调料：盐、冰糖、生抽、老抽、黄酒</li>
+</ol>
+<h2 id="步骤-1"><a class="header" href="#步骤-1">步骤</a></h2>
+<blockquote>
+<p><strong>顺序</strong></p>
+<ol>
+<li>牛腩处理：切块、浸泡、焯水、炒糖色</li>
+<li>香料炒香</li>
+<li>番茄洋葱炒熟</li>
+<li>炖</li>
+</ol>
+</blockquote>
+<h3 id="1-备菜"><a class="header" href="#1-备菜">1. 备菜</a></h3>
+<ol>
+<li>牛腩切块，浸泡</li>
+<li>洋葱切小片备用</li>
+<li>番茄去皮或者不去，切滚刀块，如果希望成品里有成型番茄，可以取一小部分切成大角</li>
+<li>姜切片，蒜切末，大葱切片，香料备用</li>
+</ol>
+<h3 id="2-牛腩焯水"><a class="header" href="#2-牛腩焯水">2. 牛腩焯水</a></h3>
+<p>冷水没过牛肉下锅，少量姜片黄酒，大火煮并捞出浮沫直到干净。煮开后 2min 关火</p>
+<p>焯水的水留下备用，牛肉捞出沥干</p>
+<h3 id="3-炒肉"><a class="header" href="#3-炒肉">3. 炒肉</a></h3>
+<p>冷锅冷油下冰糖，炒化熬到冒泡</p>
+<p>下牛腩炒上色微焦后，下所有香料</p>
+<p>香料炒香后烹黄酒，水干后挪入煮锅，和焯水的液体一起开炖，期间加入生抽老抽等</p>
+<h3 id="4-炒蔬菜"><a class="header" href="#4-炒蔬菜">4. 炒蔬菜</a></h3>
+<p>如果希望有成型番茄，切成大角的部分不炒备用</p>
+<p>油热下洋葱，炒到微微透明，不需要炒太过</p>
+<p>下番茄滚刀块，下少量盐，炒到出沙出汁</p>
+<p>炒完后加到炖锅里一起炖</p>
+<h3 id="5-炖"><a class="header" href="#5-炖">5. 炖</a></h3>
+<p>烧开后小火加盖炖，总时长1.5 - 2h</p>
+<p>如果需要成型番茄，在出锅前十几分钟加备用的番茄</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="吐司"><a class="header" href="#吐司">吐司</a></h1>
+<h2 id="20230126-制作"><a class="header" href="#20230126-制作">2023/01/26 制作</a></h2>
+<h3 id="参考"><a class="header" href="#参考">参考</a></h3>
+<ul>
+<li><a href="https://www.xiachufang.com/recipe/103721598/">https://www.xiachufang.com/recipe/103721598/</a></li>
+</ul>
+<h3 id="材料等"><a class="header" href="#材料等">材料等</a></h3>
+<p>450g 的吐司模用料</p>
+<ol>
+<li>250g 高筋粉</li>
+<li>75g  全蛋液</li>
+<li>90g  牛奶</li>
+<li>30g  白砂糖</li>
+<li>25g  黄油</li>
+<li>5g   干酵母</li>
+<li>3g   盐</li>
+</ol>
+<h3 id="步骤-2"><a class="header" href="#步骤-2">步骤</a></h3>
+<ol>
+<li>干酵母、黄油、盐除外，所有材料混合均匀，吸收至不见干粉，成团，密闭冷藏 30min - 12h，越长越好
+<blockquote>
+<p>这一步可以让面团水合，并降低面温，方便揉出组织。因此时间久一点比较好</p>
+<p>制作时，实际冷藏了 4h 左右。由于用的砂糖是粗砂糖、蛋液没有打得很匀、天气较冷等原因，面团混合得不够好，导致水合不充分。之后制作可以混合得更充分一些再静置</p>
+</blockquote>
+</li>
+<li>准备好酵母、黄油和盐，酵母可以略加水（5g）搅拌成膏状。为了避免提前发酵，应控制酵母温度。之后揉面时面团也应控制在较低温度（28摄氏度-）</li>
+<li>取出面团，揉面</li>
+<li>揉面
+<ul>
+<li>
+<p>揉面大抵分成两步，先是<strong>混合</strong>所有材料，然后是充分<strong>揉搓</strong>直到出现手套膜</p>
+<p>在<strong>混合</strong>材料阶段，手法是</p>
+<ul>
+<li>切块：将面团切块以增大表面积，然后均匀地加上某一材料，然后将所有块重新搓成一块</li>
+<li>揉搓：用一手固定面团位置，另一手将面团外推，类似在搓衣板上搓毛巾，将整个面团搓成扁扁的一坨后重新折叠收集成一坨，重复。直到添加的材料消失</li>
+</ul>
+<p>重复上述步骤直到所有材料混合均匀，材料的加入顺序为：盐、酵母、黄油</p>
+<p>然后是<strong>揉搓</strong>阶段，由于这一步耗时较久且面团长时间接触手，应当注意控制面温</p>
+<ul>
+<li>面团初始为一坨，同样是一手固定，另一手将其用力往外搓，搓成一滩后重新折叠收集成一坨。重复搓</li>
+<li>可以不时拾起面团用力向下摔到桌面，摔成长条后重新折叠成一坨</li>
+</ul>
+<p>重复上述两个步骤，总之就是不断让面团从一团变成一滩或是一条，然后复原</p>
+<p>等到面团不再粘手或粘桌面时，尝试在面团上撕下一小块，撕的手感类似于撕橡胶，有点筋道的感觉，则可以尝试拉膜，如果能拉出较薄的膜就差不多了</p>
+</li>
+</ul>
+</li>
+<li>发酵
+<ul>
+<li>整形：将面团均匀分割成 3 至 4 份，每份擀成宽度均匀的长薄片，然后从一端开始卷成一卷。然后将这个卷按长的方向（即擀面杖垂直于面团卷这一圆柱体的高）重新擀成薄片，再卷成卷。卷好后直接并排均匀放置到吐司模中，卷的长边与吐司模的短边平行</li>
+<li>发酵：密封吐司模，在合适的环境中发酵至吐司模 7-8 分满
+<blockquote>
+<p>我采用单次发酵法，时间是冬天，发酵较慢。将吐司模密封放置在 10-20 摄氏度左右的烤箱内，花了 3.5h 左右发酵到预期高度。有温湿度计的可以看一些发酵指南精细控制。不再赘述。期间注意多检查面团状态</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>烤制
+<ul>
+<li>密封吐司模</li>
+<li>柏翠烤箱，上下管 160 摄氏度，预热 10min，烤 30min</li>
+</ul>
+</li>
+<li>烤完后立刻脱模，侧向静置冷却</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="贝果"><a class="header" href="#贝果">贝果</a></h1>
+<h2 id="20230128-制作"><a class="header" href="#20230128-制作">2023/01/28 制作</a></h2>
+<h3 id="参考-1"><a class="header" href="#参考-1">参考</a></h3>
+<ul>
+<li><a href="https://www.xiachufang.com/recipe/79975/">https://www.xiachufang.com/recipe/79975/</a></li>
+</ul>
+<p>材料和步骤均参考该帖子，这里只记录注意点</p>
+<h3 id="注意"><a class="header" href="#注意">注意</a></h3>
+<ol>
+<li>在原配方的基础上，面粉的吸水性各有不同，比如这次做的时候按原方的水量揉出来的面团非常干，导致后续的整形等都不容易，之后可以适当增减水量</li>
+<li>面团需要揉到扩展阶段，但不需要出手套膜，等面团变得光滑且有韧性应该就差不多了</li>
+<li>整形的时候面团需要适当擀得大些均匀些，折叠之后要把气泡排空，卷起时注意接缝的密闭，否则膨胀之后非常容易开裂</li>
+<li>圈可以适当做的大些，面团的膨胀空间很大，圈太小最后中间的洞就没了</li>
+<li>做的时候只关注上侧有没有焦，结果底被烤焦了。需要注意这种看不见的地方</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="巴斯克"><a class="header" href="#巴斯克">巴斯克</a></h1>
+<p>Ref <a href="https://www.youtube.com/watch?v=EHipLp2zu2A">日本名店配方公開 流心巴斯克芝士蛋糕┃Lava Basque Cheesecake, Famous Japanese shop's recipe</a></p>
+<h2 id="材料-2"><a class="header" href="#材料-2">材料</a></h2>
+<p>6寸圆模</p>
+<ul>
+<li>奶油奶酪 300g</li>
+<li>砂糖 60g (原配方 90g 有点太甜)</li>
+<li>全蛋 2个</li>
+<li>蛋黄 1个</li>
+<li>淡奶油 165g</li>
+<li>玉米淀粉 10g</li>
+</ul>
+<h2 id="步骤-3"><a class="header" href="#步骤-3">步骤</a></h2>
+<ul>
+<li>混合
+<ul>
+<li>奶油奶酪-糖-蛋液-淀粉-淡奶油</li>
+</ul>
+</li>
+<li>模具垫油纸, 过筛进模具</li>
+<li>中下层 230摄氏度 22 分钟</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="斑斓椰汁糕"><a class="header" href="#斑斓椰汁糕">斑斓椰汁糕</a></h1>
+<h2 id="简介"><a class="header" href="#简介">简介</a></h2>
+<p>马蹄粉 + 斑斓粉版的斑斓椰汁糕，两种颜色，每种颜色需要调一个生熟浆，最后一层一层蒸熟</p>
+<h2 id="材料-3"><a class="header" href="#材料-3">材料</a></h2>
+<blockquote>
+<p>调生熟浆的步骤是，生浆分两次加入离火沸水，第一次搅成糊状称之为熟浆，再将其余生浆加入，搅拌均匀，称之为生熟浆</p>
+</blockquote>
+<p>配方刚好用掉一罐 400ml 椰汁和一盒 250g 马蹄粉</p>
+<p>椰汁用的金牌高达，马蹄粉用的洲星</p>
+<h3 id="斑斓浆"><a class="header" href="#斑斓浆">斑斓浆</a></h3>
+<p>液体需要分成两部分</p>
+<ol>
+<li>浆
+<ul>
+<li>370g 左右斑斓汁(10g斑斓粉+360g水+3g小苏打)</li>
+<li>130g 马蹄粉</li>
+<li>一勺椰浆</li>
+</ul>
+</li>
+<li>水
+<ul>
+<li>80g 糖(已减糖, 原配方100g)</li>
+<li>300g 水</li>
+</ul>
+</li>
+</ol>
+<h3 id="椰汁浆"><a class="header" href="#椰汁浆">椰汁浆</a></h3>
+<p>液体需要分成两部分</p>
+<ol>
+<li>浆
+<ul>
+<li>400ml 椰浆(也许被挖走一勺了)</li>
+<li>120g 牛奶</li>
+<li>120g 马蹄粉</li>
+</ul>
+</li>
+<li>水
+<ul>
+<li>100g 糖(已减糖, 原配方120g)</li>
+<li>120g 水</li>
+</ul>
+</li>
+</ol>
+<h2 id="步骤-4"><a class="header" href="#步骤-4">步骤</a></h2>
+<h3 id="1-调生熟浆"><a class="header" href="#1-调生熟浆">1. 调生熟浆</a></h3>
+<p>每种颜色都需要调一个生熟浆，步骤为糖水煮到沸腾，离火加入一勺生浆快速搅拌成糊，加入剩余生浆搅拌均匀</p>
+<h3 id="2-蒸"><a class="header" href="#2-蒸">2. 蒸</a></h3>
+<p>选择合适的容器入锅蒸，选择合适的容器定量舀浆保证层次均匀</p>
+<p>容器如果不是不沾的可以抹油</p>
+<p>先加绿浆，加完可以晃容器铺平，每层3分钟直到凝固，最后一层5分钟</p>
+<p>完全冷却后切块</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="半熟芝士仿好利来"><a class="header" href="#半熟芝士仿好利来">半熟芝士(仿好利来)</a></h1>
+<p>Ref <a href="https://www.xiachufang.com/recipe/106162198/?recipe_type=1&amp;page_scene=6">半熟芝士蛋糕 | 完美复刻好利来</a></p>
+<p>这个方子讲得很全，但是步骤太多不好阅读，因此自己整理一个简化版。不包括蛋糕底部分</p>
+<h2 id="材料-4"><a class="header" href="#材料-4">材料</a></h2>
+<p>大约能做十几个，鸡蛋为 60g 大小</p>
+<h3 id="蛋黄糊"><a class="header" href="#蛋黄糊">蛋黄糊</a></h3>
+<ol>
+<li>奶油奶酪 200g</li>
+<li>黄油 22g</li>
+<li>蛋黄 2个</li>
+<li>牛奶 140g</li>
+<li>糖 16g</li>
+<li>玉米淀粉 11g</li>
+</ol>
+<h3 id="蛋白霜"><a class="header" href="#蛋白霜">蛋白霜</a></h3>
+<ol>
+<li>蛋白 1个</li>
+<li>糖 20g</li>
+<li>柠檬汁</li>
+</ol>
+<h2 id="步骤-5"><a class="header" href="#步骤-5">步骤</a></h2>
+<ol>
+<li>黄油奶油奶酪混合，放微波炉软化</li>
+<li>蛋黄、砂糖、淀粉按顺序混合</li>
+<li>牛奶煮到冒小泡，缓慢倒入 2 中（避免烫蛋黄）</li>
+<li>混合物小火加热，不断搅拌，微微粘稠后离火，搅成酱状</li>
+<li>趁热和奶油奶酪混合，冷却</li>
+<li>预热烤箱，上200下100，15-20分钟，烤盘加水</li>
+<li>蛋白打发湿性偏干</li>
+<li>混合，入烤箱最下层</li>
+<li>时间到后闷10分钟</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
