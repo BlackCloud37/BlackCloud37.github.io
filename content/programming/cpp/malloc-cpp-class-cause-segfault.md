@@ -2,8 +2,7 @@
 title: "malloc c++ class 而不调用构造函数引发的 segfault"
 date: 2023-01-29
 taxonomies:
-  categories: ["programming-language"]
-  tags: ["cpp"]
+  categories: ["cpp"]
 ---
 
 ## 背景

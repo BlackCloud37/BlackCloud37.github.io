@@ -16,9 +16,6 @@ jobs:
     - name: Install Zola
       run: |
         curl -sL https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar xz -C /usr/local/bin
-    - name: Install static-sitemap-cli
-      run: |
-        npm install static-sitemap-cli
     - name: Build
       run: |
         git submodule update --init --recursive
@@ -37,8 +34,6 @@ jobs:
         cp ../*.html .
         # Copy CNAME to .
         cp ../CNAME .
-        # Generate sitemap.xml
-        npx sscli --no-clean --base https://yechenz37.tech
         git add .
         git commit -m "Deploy $GITHUB_SHA to gh-pages"
         git push --force --set-upstream origin gh-pages

@@ -7,27 +7,31 @@
 {% if paginator %}
 {% set pages = paginator.pages | sort(attribute="date") | reverse %}
 {% else %}
-{% set pages = section.pages | sort(attribute="date") | reverse %}
+{% set section_paths = section.subsections %}
+{% set_global pages = [] %}
+{% for section_path in section_paths %}
+    {% set section = get_section(path=section_path) %}
+    {% set_global pages = pages | concat(with=section.pages) %}
+{% endfor %}
+{% set pages = pages | sort(attribute="date") | reverse | slice(end=15) %}
 {% endif %}
 
 <ul>
-{% set section_paths = section.subsections | sort | reverse %}
-{% for section_path in section_paths %}
-    {% set section = get_section(path=section_path) %}
     <li>
-        <a href="{{ section.permalink | safe }}">{{ section.title }}</a>
-        <ul>
-            {% set pages = section.pages | sort(attribute="date") | reverse | slice(end=5) %}
-            {% for page in pages %}
-                <li>
-                    <a href="{{ page.permalink | safe }}">{% if page.date and not config.extra.no_list_date %}{{ page.date }} - {% endif %}{{ page.title }}</a>
-                    <br />
-                    {{ page.description }}
-                </li>
-            {% endfor %}
-        </ul>
+        posts
     </li>
-{% endfor %}
+    <ul>
+        {% for page in pages %}
+        <li>
+            {% if page.date and not config.extra.no_list_date %}
+                {{ page.date }}
+            {% endif %}
+            <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+            <br />
+            {{ page.description }}
+        </li>
+        {% endfor %}
+    </ul>
 </ul>
 
 {% if paginator %}

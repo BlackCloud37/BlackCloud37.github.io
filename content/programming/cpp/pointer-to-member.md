@@ -2,8 +2,7 @@
 title: "c++ pointer to member"
 date: 2025-01-02
 taxonomies:
-  categories: ["programming-language"]
-  tags: ["cpp"]
+  categories: ["cpp"]
 ---
 
 ## 背景
