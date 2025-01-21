@@ -73,6 +73,7 @@
   }
   
   pre code {
+    font-size: 14px;
     display: block;
     overflow-x: auto;
     white-space: pre-wrap;
@@ -82,6 +83,7 @@
   
   blockquote {
     font-style: italic;
+    color: gray;
     border: thin solid black;
     padding: 1rem;
 
