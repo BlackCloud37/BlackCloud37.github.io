@@ -29,7 +29,20 @@ class Connection:
 
 一般写非 dataclass 的代码时，默认值都会在 `__init__` 里设置，写 dataclass 时习惯了这种在 class attribute 里设默认值的方式，才遇到这个问题。
 
-而且，dataclass 其实会检查这种 case，即默认值是否是 mutable 的，比如[文档](https://docs.python.org/3/library/dataclasses.html#mutable-default-values)指出：
+正确写法是：
+
+```python
+from dataclasses import field, dataclass
+
+@dataclass
+class Connection:
+    socket: socket.socket
+    recvbuf: bytearray = field(default_factory=bytearray)
+```
+
+{{ hr() }}
+
+dataclass 其实会检查这种 case，即默认值是否是 mutable 的，比如[文档](https://docs.python.org/3/library/dataclasses.html#mutable-default-values)指出：
 
 ```python
 @dataclass
