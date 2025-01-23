@@ -2,6 +2,11 @@
 title: "wolfSSL 使用"
 date: 2024-12-14
 taxonomies:
+    categories:
+        - cpp
+        - tuning
+    tags:
+        - wolfssl
 ---
 
 ## 背景
