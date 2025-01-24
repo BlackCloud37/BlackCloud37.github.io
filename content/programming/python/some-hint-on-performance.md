@@ -1,6 +1,6 @@
 ---
 title: Some notes on python performance
-date: 2025-01-22
+date: 2025-01-24
 taxonomy:
     categories:
         - python
@@ -138,6 +138,8 @@ print("split", timeit.timeit(lambda: parse_kv_split(text), number=100000))
 re    4.418985206983052
 split 0.19559685792773962
 ```
+
+如果一定要用 re，可以考虑去 [regex101](https://regex101.com/) 上检查自己 pattern 的性能，例如避免 [catastrophic backtracking](https://regex101.com/r/iXSKTs/1/debugger)
 
 另外，还试过把 `"=" in token` 改成 find，想着这样就可以省掉 split 直接按 index slice，但更慢了，以下 timeit 说明了原因
 
