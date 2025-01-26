@@ -2,11 +2,8 @@
 title: "Fraked by mutable default values"
 date: 2025-01-21
 taxonomies:
-    categories:
-        - python
-    tags:
-        - dataclass
-        - bug
+  categories: ["python"]
+  tags: ["bug", "dataclass"]
 ---
 
 **[Mutable default values](https://docs.python.org/3/library/dataclasses.html#mutable-default-values)**

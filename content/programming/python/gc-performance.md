@@ -3,6 +3,7 @@ title: "python gc 与循环引用"
 date: 2024-09-11
 taxonomies:
   categories: ["python"]
+  tags: ["bug"]
 ---
 
 在优化日志落盘的任务里，为了避免消费日志队列过慢导致爆队列，其中一个优化是快速消费队列并全部缓存到 deque 里，再慢慢落盘

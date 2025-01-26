@@ -1,10 +1,8 @@
 ---
 title: Some notes on python performance
 date: 2025-01-24
-taxonomy:
-    categories:
-        - python
-        - tuning
+taxonomies:
+  categories: ["python", "tuning"]
 ---
 
 记录一下这两天写 python 时遇到的一些性能问题和解决。大部分不能算优化，只是特定 case 下的对性能数字量级的认知。大部分测试基于 python 3.8。
@@ -164,7 +162,7 @@ in 实在是太快了，另外 slice 居然也比 split 慢。
 
 ### 当心 gc，尤其是处理大量对象时
 
-python 的 list 被认为是有均摊插入复杂度的，但是当插入的是 object 且数据量很大时，可能会观测到某一次插入操作耗时**非常久**的情况，也许在代码中会表现为程序莫名其妙地 block 秒级别。
+python 的 list 被认为是有均摊插入复杂度的，但是当插入的是 object 且数据量很大时，可能会观测到某一次插入操作耗时**非常久**的情况，也许在代码中会表现为程序莫名其妙地 block 秒级别。我之前写过一篇类似的，[gc 与循环引用](../gc-performance)。
 
 在 [SO](https://stackoverflow.com/questions/2473783/is-there-a-way-to-circumvent-python-list-append-becoming-progressively-slower) 上有一个相关的讨论。其[回答](https://stackoverflow.com/a/2480015/12838860) 中的结论，我在 python 3.8 上 somehow 也能复现，不论是在 list，deque 亦或是 dict 上，例如
 

@@ -86,14 +86,6 @@
     color: gray;
     border: thin solid black;
     padding: 1rem;
-
-    &::before {
-      content: "“";
-    }
-
-    &::after {
-      content: "”";
-    }
   
     p { margin: 0; display: inline; }
   }
