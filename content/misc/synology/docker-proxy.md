@@ -1,5 +1,5 @@
 ---
-title: synology docker proxy
+title: Synology docker proxy
 date: 2025-02-03
 taxonomies:
   categories: [selfhost]

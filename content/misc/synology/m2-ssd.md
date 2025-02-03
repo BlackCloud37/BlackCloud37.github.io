@@ -1,5 +1,5 @@
 ---
-title: synology 使用 m2 ssd 作为存储盘
+title: Synology 使用 m2 ssd 作为存储盘
 date: 2024-10-21
 taxonomies:
   categories: [selfhost]

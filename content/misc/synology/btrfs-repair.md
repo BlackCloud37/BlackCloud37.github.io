@@ -1,5 +1,5 @@
 ---
-title: synology btrfs 修复
+title: Synology btrfs 修复
 date: 2024-10-21
 taxonomies:
   categories: [selfhost]

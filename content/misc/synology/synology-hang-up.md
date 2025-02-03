@@ -1,5 +1,5 @@
 ---
-title: "[pending] synology 系统无响应"
+title: "Synology 系统无响应[pending]"
 date: 2025-01-21
 taxonomies:
   categories: [selfhost]

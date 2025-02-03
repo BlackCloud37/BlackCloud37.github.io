@@ -1,5 +1,5 @@
 ---
-title: "c++ pointer to member"
+title: "C++ pointer to member"
 date: 2025-01-02
 taxonomies:
   categories: ["cpp"]
