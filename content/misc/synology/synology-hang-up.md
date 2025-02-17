@@ -1,9 +1,16 @@
 ---
-title: "Synology 系统无响应[pending]"
+title: "NVME SSD 导致的 Synology 系统无响应"
 date: 2025-01-21
+updated: 2025-02-16
 taxonomies:
   categories: [selfhost]
   tags: [synology, bug]
+---
+
+## 2025-02-16 更新
+
+在上次 hang 之后到现在没有再出过问题，认为就是 NVME SSD 的原因。
+
 ---
 
 记录一次群晖 debug 的经历
