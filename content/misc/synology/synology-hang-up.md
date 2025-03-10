@@ -7,9 +7,13 @@ taxonomies:
   tags: [synology, bug]
 ---
 
-## 2025-02-16 更新
+## 2025-03-09 更新
 
-在上次 hang 之后到现在没有再出过问题，认为就是 NVME SSD 的原因。
+最近又发生了一次 hang，同样是 I/O timeout error，新增两个内核参数设置：
+- `nvme.io_timeout=3000`
+- `nvme.admin_timeout=3000`
+
+继续观察
 
 ---
 
