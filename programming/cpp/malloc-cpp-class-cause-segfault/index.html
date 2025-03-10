@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>malloc c++ class 而不调用构造函数引发的 segfault</title>
+        
+        <meta name="title" content="malloc c++ class 而不调用构造函数引发的 segfault">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/programming/cpp/malloc-cpp-class-cause-segfault/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="malloc c++ class 而不调用构造函数引发的 segfault">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/programming/cpp/malloc-cpp-class-cause-segfault/">
+        <meta property="twitter:title" content="malloc c++ class 而不调用构造函数引发的 segfault">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/programming/cpp/malloc-cpp-class-cause-segfault/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/programming/cpp/malloc-cpp-class-cause-segfault/",
+                "@type":"WebSite",
+                "headline":"malloc c++ class 而不调用构造函数引发的 segfault",
+                "name":"malloc c++ class 而不调用构造函数引发的 segfault",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/malloc-cpp-class-cause-segfault</p>
+<p class="post-meta"><time datetime="2023-01-29">2023-01-29</time></p>
+<h1>malloc c++ class 而不调用构造函数引发的 segfault</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="bei-jing">背景</h2>
+<p>原本有一个纯 C 的库，其某结构体内保存了一个函数指针作为 callback</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">struct </span><span>Foo {
+</span><span>    </span><span style="color:#b48ead;">int </span><span>(*output)(...);
+</span><span>};
+</span></code></pre>
+<p>为了在 C++ 中方便地使用 lambda 等，我自作主张地将其改成了</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Foo {
+</span><span>    std::function&lt;</span><span style="color:#b48ead;">int</span><span>(...)&gt; output;
+</span><span>};
+</span></code></pre>
+<p>起初工作得很好，<code>std::function</code> 在替代函数指针方面非常方便。直到将代码放到另一套环境中时发现会随机 segfault，gdb 调试定位到了该回调相关的部分。一定是遇到了 Undefined Behavior 了</p>
+<h2 id="pai-cha">排查</h2>
+<p>出现问题的代码片段位置不尽相同，但是总是出现在 <strong>给该结构体的 output 成员赋值</strong> 上，如</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// when creating a empty Foo instance, give it&#39;s member a default value
+</span><span>foo-&gt;</span><span style="color:#bf616a;">output </span><span>= std::function&lt;</span><span style="color:#b48ead;">int</span><span>(...)&gt;();
+</span></code></pre>
+<p>segfault 的 backtrace 最终总是</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>#0  0x0000000000404ce4 in std::_Function_base::~_Function_base (this=0x7fffffffc3c0, __in_chrg=&lt;optimized out&gt;)
+</span><span>#1  0x000000000040ca7e in std::function&lt;int (...)&gt;::~function()
+</span><span>#2  0x00000000004180df in std::function&lt;int(...)&gt;::operator=&lt;::&lt;lambda(...)&gt; &gt;::&lt;lambda(...)&gt; &gt;(struct {...} &amp;&amp;) 
+</span></code></pre>
+<p>即调用 <code>std::function</code> 的 <code>operator=</code> 赋值时，调用了某个 <code>std::function</code> 的析构函数，然后析构函数触发了 segfault。根据赋值的位置，应当是将新的 output 赋值到成员变量时，原本成员变量的 output 需要析构</p>
+<p>然后想到因为是纯 C 的库，申请 <code>Foo</code> 的位置均使用 <code>malloc</code>，<code>malloc</code> 默认不会构造结构体及其 member 的构造函数，因此得到的 <code>foo-&gt;output</code> 的位置上也是未初始化的、随意一段内存，却被当成了一个合法的 <code>std::function</code>。在这段随意的内存上试图调用 <code>std::function</code> 的函数则成为了 UB，导致了 segfault</p>
+<p>因此解决方式也很简单，在 <code>malloc</code> 之后手动 placement new 一下结构体（或者是单独初始化 output）即可</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span>Foo* foo = (Foo*)</span><span style="color:#96b5b4;">malloc</span><span>(sizeof(Foo));
+</span><span style="color:#b48ead;">new </span><span>(&amp;(foo-&gt;</span><span style="color:#bf616a;">output</span><span>)) std::function&lt;</span><span style="color:#b48ead;">int</span><span>(...)&gt;();
+</span></code></pre>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

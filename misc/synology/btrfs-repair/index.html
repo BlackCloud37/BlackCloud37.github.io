@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Synology btrfs 修复</title>
+        
+        <meta name="title" content="Synology btrfs 修复">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/synology/btrfs-repair/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Synology btrfs 修复">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/synology/btrfs-repair/">
+        <meta property="twitter:title" content="Synology btrfs 修复">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/synology/btrfs-repair/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/synology/btrfs-repair/",
+                "@type":"WebSite",
+                "headline":"Synology btrfs 修复",
+                "name":"Synology btrfs 修复",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/btrfs-repair</p>
+<p class="post-meta"><time datetime="2024-10-21">2024-10-21</time></p>
+<h1>Synology btrfs 修复</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>买的二手 DS918+，两条内存中有一条坏，由于开机时没 memtest 且能点亮，迁数据过程中一直没发现问题</p>
+<p>中途报了个 checksum mismatch，还不以为然</p>
+<p>然后某次重启之后一个存储池变成 Read-Only 了，但其实此时访问那个卷的数据都会 IO 错误</p>
+<p>查资料看到 <a href="https://zyyme.com/btrfs-fix.html">Btrfs修复</a></p>
+<p>照着操作一遍之后重启就能用了，不过后续又报了几个 checksum mismatch，相关的照片确实也损坏了</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/synology">#synology</a>
+
+<a href="/tags/bug">#bug</a>
+
+<a href="/tags/btrfs">#btrfs</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Fraked by mutable default values</title>
+        
+        <meta name="title" content="Fraked by mutable default values">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/programming/python/dataclass-shared-field/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Fraked by mutable default values">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/programming/python/dataclass-shared-field/">
+        <meta property="twitter:title" content="Fraked by mutable default values">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/programming/python/dataclass-shared-field/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/programming/python/dataclass-shared-field/",
+                "@type":"WebSite",
+                "headline":"Fraked by mutable default values",
+                "name":"Fraked by mutable default values",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/dataclass-shared-field</p>
+<p class="post-meta"><time datetime="2025-01-21">2025-01-21</time></p>
+<h1>Fraked by mutable default values</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p><strong><a href="https://docs.python.org/3/library/dataclasses.html#mutable-default-values">Mutable default values</a></strong></p>
+<p>在写一个 python server 时，因为需要定义一个 <code>Connection</code> 类，用于保存一个连接的 <code>socket</code> 和 <code>recvbuf</code>，于是写出了如下代码：</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">import </span><span>socket
+</span><span style="color:#b48ead;">from </span><span>dataclasses </span><span style="color:#b48ead;">import </span><span>dataclass
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">dataclass
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Connection</span><span style="color:#eff1f5;">:
+</span><span>    socket: socket.socket
+</span><span>    recvbuf: bytearray = </span><span style="color:#bf616a;">bytearray</span><span>()
+</span></code></pre>
+<p>之后就遇到了一些难以定位的 bug，比如来自 Client A 的连接上好像收到了本应来自 Client B 的数据。</p>
+<p>发现是 default member value 会被保存在 class attributes 里，recvbuf 被所有 Connection 实例共享。</p>
+<p>一般写非 dataclass 的代码时，默认值都会在 <code>__init__</code> 里设置，写 dataclass 时习惯了这种在 class attribute 里设默认值的方式，才遇到这个问题。</p>
+<p>正确写法是：</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>dataclasses </span><span style="color:#b48ead;">import </span><span>field, dataclass
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">dataclass
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Connection</span><span style="color:#eff1f5;">:
+</span><span>    socket: socket.socket
+</span><span>    recvbuf: bytearray = </span><span style="color:#bf616a;">field</span><span>(</span><span style="color:#bf616a;">default_factory</span><span>=bytearray)
+</span></code></pre>
+<hr data-content="" \>
+<p>dataclass 其实会检查这种 case，即默认值是否是 mutable 的，比如<a href="https://docs.python.org/3/library/dataclasses.html#mutable-default-values">文档</a>指出：</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@</span><span style="color:#bf616a;">dataclass
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">D</span><span style="color:#eff1f5;">:
+</span><span>    x: list = []      </span><span style="color:#65737e;"># This code raises ValueError
+</span></code></pre>
+<p>为什么 bytearray 就不会报错呢。</p>
+<p>测试发现，我本地的 python 3.13.1 对 bytearray 和 list 均会报错</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>ValueError: mutable default &lt;class &#39;bytearray&#39;&gt; for field x is not allowed: use default_factory
+</span></code></pre>
+<p>但服务器上的 python 3.8 只会对 list 报错</p>
+<p>去看 dataclass 的实现，3.8 的逻辑是：</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># For real fields, disallow mutable defaults for known types.
+</span><span style="color:#b48ead;">if </span><span>f._field_type is </span><span style="color:#bf616a;">_FIELD </span><span>and </span><span style="color:#96b5b4;">isinstance</span><span>(f.default, (list, dict, set)):
+</span><span>    </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValueError</span><span>(</span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">mutable default </span><span>{</span><span style="color:#96b5b4;">type</span><span>(f.default)}</span><span style="color:#a3be8c;"> for field </span><span>&#39;
+</span><span>                        </span><span style="color:#b48ead;">f</span><span>&#39;{f.name}</span><span style="color:#a3be8c;"> is not allowed: use default_factory</span><span>&#39;)
+</span></code></pre>
+<p>3.13</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># For real fields, disallow mutable defaults.  Use unhashable as a proxy
+</span><span style="color:#65737e;"># indicator for mutability.  Read the __hash__ attribute from the class,
+</span><span style="color:#65737e;"># not the instance.
+</span><span style="color:#b48ead;">if </span><span>f._field_type is </span><span style="color:#bf616a;">_FIELD </span><span>and f.default.__class__.</span><span style="color:#96b5b4;">__hash__ </span><span>is </span><span style="color:#d08770;">None</span><span>:
+</span><span>    </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">ValueError</span><span>(</span><span style="color:#b48ead;">f</span><span>&#39;</span><span style="color:#a3be8c;">mutable default </span><span>{</span><span style="color:#96b5b4;">type</span><span>(f.default)}</span><span style="color:#a3be8c;"> for field </span><span>&#39;
+</span><span>                        </span><span style="color:#b48ead;">f</span><span>&#39;{f.name}</span><span style="color:#a3be8c;"> is not allowed: use default_factory</span><span>&#39;)
+</span></code></pre>
+<p>新版本的检查更充分一些</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/bug">#bug</a>
+
+<a href="/tags/dataclass">#dataclass</a>
+
+
+
+<a href="/categories/python">+python</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

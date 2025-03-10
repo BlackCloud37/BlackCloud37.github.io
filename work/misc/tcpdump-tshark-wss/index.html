@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>用 tcpdump 和 tshark 分析 wss 流量</title>
+        
+        <meta name="title" content="用 tcpdump 和 tshark 分析 wss 流量">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/work/misc/tcpdump-tshark-wss/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="用 tcpdump 和 tshark 分析 wss 流量">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/work/misc/tcpdump-tshark-wss/">
+        <meta property="twitter:title" content="用 tcpdump 和 tshark 分析 wss 流量">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/work/misc/tcpdump-tshark-wss/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/work/misc/tcpdump-tshark-wss/",
+                "@type":"WebSite",
+                "headline":"用 tcpdump 和 tshark 分析 wss 流量",
+                "name":"用 tcpdump 和 tshark 分析 wss 流量",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/tcpdump-tshark-wss</p>
+<p class="post-meta"><time datetime="2024-12-13">2024-12-13</time></p>
+<h1>用 tcpdump 和 tshark 分析 wss 流量</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="xu-qiu">需求</h2>
+<p>用 tcpdump 抓本地所有 wss 流量并得到对应的时间戳和明文</p>
+<h2 id="shi-xian">实现</h2>
+<h3 id="1-ssl-keylog">1. SSL Keylog</h3>
+<p>为了解密 TLS 流量，需要得到每个会话的 keylog</p>
+<p>如果 TLS 是自己写的，以 c++ openssl 为例，可以通过 <code>SSL_CTX_set_keylog_callback</code> 设置 keylog 回调，直接将输出的 keylog 写入文件即可。无须维护 keylog 和会话的对应关系。</p>
+<p>假设最后得到的 keylog 文件是 <code>keylog</code>，be-like:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>CLIENT_RANDOM 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+</span><span>CLIENT_RANDOM 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+</span><span>CLIENT_RANDOM 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef 1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+</span></code></pre>
+<h3 id="2-zhua-bao">2. 抓包</h3>
+<p>为了成功解密 TLS 流量，抓到的包必须包含 TLS handshake，所以抓包需要在目标连接建立以前开始</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> tcpdump</span><span style="color:#bf616a;"> -w</span><span> output.pcap</span><span style="color:#bf616a;"> -i</span><span> any &#39;</span><span style="color:#a3be8c;">tcp port 443 or tcp port 9443</span><span>&#39;
+</span><span style="color:#65737e;"># run wss client ...
+</span></code></pre>
+<h3 id="3-jie-mi">3. 解密</h3>
+<p>抓包结束后，只要提供 keylog 文件和抓包文件，tshark 会自动解密并输出明文</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">tshark -r</span><span> output.pcap</span><span style="color:#bf616a;"> -o </span><span>&quot;</span><span style="color:#a3be8c;">tls.keylog_file:./keylog</span><span>&quot;</span><span style="color:#bf616a;">  -Y</span><span> websocket</span><span style="color:#bf616a;"> -T</span><span> fields</span><span style="color:#bf616a;"> -e</span><span> frame.time</span><span style="color:#bf616a;"> -e</span><span> websocket.payload.text
+</span></code></pre>
+<h2 id="yu-dao-de-wen-ti">遇到的问题</h2>
+<h3 id="truncated">truncated</h3>
+<p>一开始 <code>tshark -e text</code> 来获取明文，发现 websocket payload 超出 226B 的部分会被截断，并且输出前会展示 [truncated] 或者 [...]，<a href="https://osqa-ask.wireshark.org/questions/43023/want-to-use-tshark-to-decode-a-specific-packet-and-do-not-truncate-lines/">原因</a></p>
+<p>解决方法参考 <a href="https://ask.wireshark.org/question/35302/displaying-websocket-traffic-content/">Displaying WebSocket traffic content</a></p>
+<ul>
+<li>使用 <code>-e websocket.payload.text</code> 来获取明文</li>
+</ul>
+<p>如果一定要用 <code>-e text</code>，可以改源码里的 <code>ITEM_LABEL_LENGTH</code>，然后从源码编译 tshark</p>
+<h2 id="fu">附</h2>
+<h3 id="cong-yuan-ma-bian-yi-tshark-bing-xiu-gai-item-label-length">从源码编译 tshark，并修改 ITEM_LABEL_LENGTH</h3>
+<p>修改 <code>ITEM_LABEL_LENGTH</code> 为 2048:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>diff --git a/epan/proto.h b/epan/proto.h
+</span><span>index 0d2a27ee86..42d627c168 100644
+</span><span>--- a/epan/proto.h
+</span><span>+++ b/epan/proto.h
+</span><span>@@ -48,7 +48,7 @@ extern &quot;C&quot; {
+</span><span> WS_DLL_PUBLIC int hf_text_only;
+</span><span>  
+</span><span> /** the maximum length of a protocol field string representation */
+</span><span>-#define ITEM_LABEL_LENGTH       240
+</span><span>+#define ITEM_LABEL_LENGTH       2048
+</span><span>  
+</span><span> #define ITEM_LABEL_UNKNOWN_STR  &quot;Unknown&quot;
+</span></code></pre>
+<p>编译流程</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">git</span><span> clone https://gitlab.com/wireshark/wireshark.git
+</span><span style="color:#96b5b4;">cd</span><span> wireshark
+</span><span style="color:#65737e;"># setup， 需要根据系统选择脚本，参考 https://www.wireshark.org/docs/wsdg_html_chunked/ChapterSetup.html
+</span><span style="color:#bf616a;">sudo</span><span> ./tools/rpm-setup.sh 
+</span><span style="color:#65737e;"># 应用修改，假设修改是 patch.diff
+</span><span style="color:#bf616a;">git</span><span> apply patch.diff
+</span><span style="color:#65737e;"># 编译安装
+</span><span style="color:#bf616a;">mkdir</span><span> build &amp;&amp; </span><span style="color:#96b5b4;">cd</span><span> build
+</span><span style="color:#bf616a;">cmake</span><span> ..</span><span style="color:#bf616a;"> -DBUILD_wireshark</span><span>=OFF
+</span><span style="color:#bf616a;">make </span><span>&amp;&amp; </span><span style="color:#bf616a;">sudo</span><span> make install
+</span></code></pre>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        
