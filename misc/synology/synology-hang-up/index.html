@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>NVME SSD 导致的 Synology 系统无响应</title>
+        
+        <meta name="title" content="NVME SSD 导致的 Synology 系统无响应">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/synology/synology-hang-up/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="NVME SSD 导致的 Synology 系统无响应">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/synology/synology-hang-up/">
+        <meta property="twitter:title" content="NVME SSD 导致的 Synology 系统无响应">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/synology/synology-hang-up/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/synology/synology-hang-up/",
+                "@type":"WebSite",
+                "headline":"NVME SSD 导致的 Synology 系统无响应",
+                "name":"NVME SSD 导致的 Synology 系统无响应",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/synology-hang-up</p>
+<p class="post-meta"><time datetime="2025-01-21">2025-01-21</time></p>
+<h1>NVME SSD 导致的 Synology 系统无响应</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="2025-03-09-geng-xin">2025-03-09 更新</h2>
+<p>最近又发生了一次 hang，同样是 I/O timeout error，新增两个内核参数设置：</p>
+<ul>
+<li><code>nvme.io_timeout=3000</code></li>
+<li><code>nvme.admin_timeout=3000</code></li>
+</ul>
+<p>继续观察</p>
+<hr />
+<p>记录一次群晖 debug 的经历</p>
+<h2 id="bei-jing">背景</h2>
+<p>DS918+，DSM7，装了一块 ZHITAI 的 2T NVME SSD，通过 <a href="https://github.com/007revad/Synology_M2_volume">Synology_M2_volume</a> 挂载为存储盘，参考 <a href="../m2-ssd">synology-m2-ssd</a>。</p>
+<p>在连续运行一段时间后，系统偶尔会进入如下<strong>状态</strong>：</p>
+<ul>
+<li>机器物理上还在运行
+<ul>
+<li>风扇转，硬盘转，status led 常绿，WAN 口指示灯绿，等等</li>
+</ul>
+</li>
+<li>系统无任何响应
+<ul>
+<li>ping host is down</li>
+<li>ssh 无法连接</li>
+<li>webui 无法访问</li>
+<li>路由器里 NAS 的 lease 都消失了</li>
+</ul>
+</li>
+</ul>
+<p>发生原因不明，一般都是在没有什么操作/使用的状态下，突然发现访问不了了。</p>
+<p>发生之后只能长按电源键直到强制关机，然后重启。</p>
+<p>重启之后 DSM 层面没有错误日志，硬盘状态也都是正常。</p>
+<h2 id="possible-reason">(可能的)原因</h2>
+<p>因为没法复现，只能先认为是这个原因，如果能稳定一两个月不复现，就认为解决。</p>
+<p>看 kernel log 发现在系统无响应时，有如下错误：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>./dsm/var/log/kern.log:2025-01-19T00:02:56+08:00 Ship kernel: [992391.293034] nvme nvme0: I/O 262 QID 1 timeout, aborting
+</span><span>./dsm/var/log/kern.log:2025-01-19T00:02:56+08:00 Ship kernel: [992391.299025] nvme nvme0: I/O 263 QID 1 timeout, aborting
+</span><span>./dsm/var/log/kern.log:2025-01-19T00:02:56+08:00 Ship kernel: [992391.305010] nvme nvme0: I/O 264 QID 1 timeout, aborting
+</span><span>./dsm/var/log/kern.log:2025-01-19T00:02:57+08:00 Ship kernel: [992392.277052] nvme nvme0: I/O 13 QID 0 timeout, reset controller
+</span><span>./dsm/var/log/kern.log:2025-01-19T00:03:57+08:00 Ship kernel: [992452.286778] nvme nvme0: I/O 262 QID 1 timeout, reset controller
+</span><span>./dsm/var/log/kern.log:2025-01-19T00:05:35+08:00 Ship kernel: [992549.781624] INFO: task md5_raid1:9304 blocked for more than 120 seconds.
+</span></code></pre>
+<p>搜索 <code>NVME QID timeout</code>，几个帖子[<a href="https://bbs.archlinux.org/viewtopic.php?id=286274">1</a>, <a href="https://forum.proxmox.com/threads/problem-with-nvme-timeout-and-aborting.144492/">2</a>]都指向一个原因：
+<a href="https://wiki.archlinux.org/title/Solid_state_drive/NVMe#Troubleshooting">arch wiki ssd/nvme - troubleshooting</a>。且表现基本相同：报错后系统挂起，直到重启为止。</p>
+<p>解决方案也在<a href="https://wiki.archlinux.org/title/Solid_state_drive/NVMe#Troubleshooting">其中</a>：</p>
+<ul>
+<li>添加内核参数 <code>nvme_core.default_ps_max_latency_us=0</code></li>
+</ul>
+<p>在 DSM7 里，似乎没有 <code>nvme_core</code>，但是可以看到有 <code>/sys/module/nvme/parameters/default_ps_max_latency_us</code>，这个 parameter，猜测是一样的</p>
+<p>热修改：</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo</span><span> 0 | </span><span style="color:#bf616a;">sudo</span><span> tee /sys/module/nvme/parameters/default_ps_max_latency_us
+</span></code></pre>
+<p>持久化，本来是应该改 grub 的，但不确定群晖让不让改，于是加到了系统启动脚本里：</p>
+<ul>
+<li>控制面板，任务计划，新增，触发的任务，用户定义的脚本</li>
+<li>用户账号 root，事件 开机</li>
+<li>脚本<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">0</span><span>&quot; &gt; /sys/module/nvme/parameters/default_ps_max_latency_us
+</span></code></pre>
+</li>
+</ul>
+<h2 id="debug-li-cheng">Debug 历程</h2>
+<p>第一次发现(2024-12-12)，以为是群晖系统问题，但开机后没找到什么日志，于是没有管。</p>
+<p>第二次发现(2025-01-05)，因为以为是群晖系统问题，拍下机器当时的表现提了个工单到群晖支持(还要下载 debug log 一并上传)，工程师回复还挺快的，回复：</p>
+<ol>
+<li>能看到 improper shutdown(强制关机) 和一些 hung task，但由于需要开启 定時记录系统运行状态 这个选项才有更详细的信息，所以暂时没法确认原因(此时我刚打开该选项)</li>
+<li>建议做三次 memtest，排除内存问题</li>
+</ol>
+<p>此时确实怀疑是不是内存问题，因为用了一条 kingston 的内存，但是当初装上去的时候 memtest 是通过的(因为坏的内存条丢数据，参考 <a href="../btrfs-repair">synology-btrfs-repair</a>)。不过做了三次 memtest，都通过了。只好等下次再复现的时候把详细日志给工程师。</p>
+<p>第三次发现(2025-01-18)，在看 nas 上电影的时候又 hung 了，这次工程师的回复是：</p>
+<blockquote>
+<p>經過檢查日誌，我們發現 NVMe 裝置（序號：ZTA22T0KA2245509Z1）已達到 100% 的使用率，並發生了 I/O timeout error。這可能導致系統無法取得必要資源，進而引發系統卡住的問題。
+<br><br>
+此外，DS918+ 並不支援使用 M.2 NVMe 裝置來建立 Storage Pool（僅支援此清單中列出的裝置），僅能用來建立 SSD 快取。我們不確定您是如何使用 NVMe 裝置建立 Storage Pool1/Volume1。為確保系統穩定性，我們建議您備份 Volume 1 上的所有資料，並使用 SATA HDD/SSD 重新建立 Storage Pool1/Volume1。另外，請選擇此清單中列出的相容硬碟 ，以確保資料完整性。</p>
+</blockquote>
+<p>第二段话让我有种作弊被抓的感觉😥，不过确实提醒我是 I/O timeout error 的问题，于是去看这次下载下来的日志：</p>
+<ul>
+<li>下载下来的日志是 <code>.dat</code> 文件，其实是个 zip，unzip 一下就好</li>
+<li>里面包含很多日志，由于我知道问题发生的大概时间是 2025-01-19 凌晨那会，于是 <code>grep -P "2025-01-19\w+00:[01].*timeout" -r .</code>，就找到了<a href="https://yechenz37.tech/misc/synology/synology-hang-up/#possible-reason">上面</a>的错误日志</li>
+</ul>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/synology">#synology</a>
+
+<a href="/tags/bug">#bug</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        
