@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>io_uring 网络场景使用</title>
+        
+        <meta name="title" content="io_uring 网络场景使用">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/work/linux/io-uring-network/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="io_uring 网络场景使用">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/work/linux/io-uring-network/">
+        <meta property="twitter:title" content="io_uring 网络场景使用">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/work/linux/io-uring-network/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/work/linux/io-uring-network/",
+                "@type":"WebSite",
+                "headline":"io_uring 网络场景使用",
+                "name":"io_uring 网络场景使用",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/io-uring-network</p>
+<p class="post-meta"><time datetime="2024-11-26">2024-11-26</time></p>
+<h1>io_uring 网络场景使用</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="bei-jing">背景</h2>
+<p>这两天在工作中发现 <code>epoll</code> + <code>recvmsg</code> 的组合在处理大量网络连接收数据的场景中耗时较长以至于成为了 bottleneck，思考可能是因为 syscall 次数太多，于是考虑 io_uring 能不能解决这个问题。</p>
+<p>由于 io_uring 比较新，使用比 <code>epoll</code> 复杂但文档很少，记录一下个人学习后认为比较好的使用方式。仅考虑 C++/TCP 场景。这里不会注重解释框架的设计和细节，只是从使用者视角记录 roadmap。</p>
+<p>可以先看<a href="https://yechenz37.tech/work/linux/io-uring-network/#%E6%80%BB%E7%BB%93">总结</a>。</p>
+<h2 id="shang-shou">上手</h2>
+<blockquote>
+<p>几乎所有 API 都用 <a href="https://github.com/axboe/liburing">liburing</a> 封装的即可</p>
+</blockquote>
+<p>io_uring 本质上是一个 <em>syscall queue</em>：用户可以往请求队列(<em>submission queue</em>)里添加请求，然后期望内核在收到事件并处理后将执行结果写入到响应队列(<em>completion queue</em>)里。队列里的元素分别叫 <em>submission queue entry(SQE)</em> 和 <em>completion queue entry(CQE)</em>。因为这两个队列是内核和用户空间共享内存的，所以读写队列不需要 syscall，这也是我期望其能有高性能的基础，不过在使用之后才发现这不是免费的 :(</p>
+<p>使用上围绕一个 <code>struct io_uring</code> 展开，先设置必要的参数初始化这个结构</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">constexpr int</span><span> ENTRIES = </span><span style="color:#d08770;">1024</span><span>;
+</span><span style="color:#b48ead;">struct</span><span> io_uring ring;
+</span><span style="color:#b48ead;">struct</span><span> io_uring_params params;
+</span><span style="color:#bf616a;">memset</span><span>(&amp;params, </span><span style="color:#d08770;">0</span><span>, sizeof(params));
+</span><span style="color:#65737e;">// params.flags = ...
+</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#bf616a;">io_uring_queue_init_params</span><span>(ENTRIES, &amp;ring, &amp;params) &lt; </span><span style="color:#d08770;">0</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#96b5b4;">perror</span><span>(&quot;</span><span style="color:#a3be8c;">io_uring_queue_init_params</span><span>&quot;);
+</span><span>    </span><span style="color:#96b5b4;">exit</span><span>(EXIT_FAILURE);
+</span><span>}
+</span></code></pre>
+<p><code>ENTRIES</code> 就是 SQ 的大小，而 CQ 默认是两倍 <code>ENTRIES</code> 大，因为考虑一个请求可能会产生多个完成结果。</p>
+<p>之后只需要往里面添加 syscall 请求即可，例如希望 TCP 建连：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">/* 正常创建 fd 即可
+</span><span style="color:#65737e;">* 值得注意的是，在使用 epoll 的时候，习惯把 fd 设成 non-blocking，在使用 io_uring 时就不需要了 */
+</span><span style="color:#b48ead;">int</span><span> sockfd = ...;
+</span><span style="color:#b48ead;">struct</span><span> sockaddr_in server_addr;
+</span><span style="color:#65737e;">/* 填充 server_addr */
+</span><span>
+</span><span style="color:#65737e;">/* 生成一个 connect 请求 */
+</span><span>
+</span><span style="color:#65737e;">/* 由于可用的 sqe 是有限的，需要从 uring 里分配，如果用完了会返回 nullptr */
+</span><span style="color:#b48ead;">struct</span><span> io_uring_sqe *sqe = </span><span style="color:#bf616a;">io_uring_get_sqe</span><span>(&amp;ring);
+</span><span style="color:#bf616a;">assert</span><span>(sqe != </span><span style="color:#d08770;">nullptr</span><span>);
+</span><span>
+</span><span style="color:#65737e;">/* 基本上所有支持的 syscall 都会被命名成 io_uring_prep_xxx 的形式 */
+</span><span style="color:#bf616a;">io_uring_prep_connect</span><span>(sqe, sockfd, (</span><span style="color:#b48ead;">struct</span><span> sockaddr *)&amp;server_addr, sizeof(server_addr));
+</span><span>
+</span><span style="color:#65737e;">/* 可以像 epoll 一样设置一个 u64 大小的 user_data, 例如指针 */
+</span><span style="color:#65737e;">// io_uring_sqe_set_data(sqe, some_ptr);
+</span><span style="color:#b48ead;">struct </span><span>user_data
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">enum </span><span>Op: </span><span style="color:#a3be8c;">uint32_t </span><span>{
+</span><span>        CONNECT,
+</span><span>        RECV,
+</span><span>    };
+</span><span>    Op op;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> sockfd;
+</span><span>};
+</span><span>static_assert(sizeof(user_data) == sizeof(__u64));
+</span><span style="color:#b48ead;">struct</span><span> user_data data;
+</span><span>data.</span><span style="color:#bf616a;">op </span><span>= user_data::Op::CONNECT;
+</span><span>data.</span><span style="color:#bf616a;">sockfd </span><span>= sockfd;
+</span><span style="color:#bf616a;">memcpy</span><span>(sqe-&gt;</span><span style="color:#bf616a;">user_data</span><span>, &amp;data, sizeof(data));
+</span><span>
+</span><span style="color:#65737e;">/* 最后需要提交这个请求，内核才会看到这个请求并执行
+</span><span style="color:#65737e;">* 注意这是个 syscall，因此如果有多个 sqe 需要提交，在所有 prep 之后调一次即可 */
+</span><span style="color:#bf616a;">io_uring_submit</span><span>(&amp;ring);
+</span></code></pre>
+<p>在默认模式下，内核收到这个请求后，会先立马检查请求需不需要等待，如果不需要就直接执行，否则会延后执行：在较老的 io_uring 实现里，会开一系列内核线程来不断地 <code>poll</code> 目标事件；在新的实现里，在事件就绪后内核会中断用户进程并切到内核态去执行。所谓的执行就是完成对应的 syscall 并把结果写入到 CQ 里这整个动作。</p>
+<p>由于这些动作都在内核处理，在用户看来，提交任务之后过一段时间后去读 CQ 就能惊讶地发现请求已经完成了</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">while </span><span>(</span><span style="color:#d08770;">true</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_cqe *cqe;
+</span><span>    </span><span style="color:#bf616a;">io_uring_peek_cqe</span><span>(&amp;ring, &amp;cqe);
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(cqe != </span><span style="color:#d08770;">nullptr</span><span>) </span><span style="color:#65737e;">// 一段时间之后
+</span><span>    {
+</span><span>        </span><span style="color:#65737e;">/* 处理事件, 主要看 cqe-&gt;res 和 cqe-&gt;user_data
+</span><span style="color:#65737e;">        * cqe-&gt;res 可以理解为对应 syscall 的返回值
+</span><span style="color:#65737e;">        * cqe-&gt;user_data 用来对应自己的事件 */
+</span><span>        </span><span style="color:#b48ead;">struct</span><span> user_data data;
+</span><span>        </span><span style="color:#96b5b4;">memcpy</span><span>(&amp;data, cqe-&gt;</span><span style="color:#bf616a;">user_data</span><span>, sizeof(data));
+</span><span>        </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">op: </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">, sockfd: </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;">, res: </span><span style="color:#d08770;">%d</span><span style="color:#96b5b4;">\n</span><span>&quot;, data.</span><span style="color:#bf616a;">op</span><span>, data.</span><span style="color:#bf616a;">sockfd</span><span>, cqe-&gt;</span><span style="color:#bf616a;">res</span><span>);
+</span><span>
+</span><span>        </span><span style="color:#65737e;">/* 处理完后，需要消费掉这个 CQE */
+</span><span>        </span><span style="color:#bf616a;">io_uring_cqe_seen</span><span>(&amp;ring, cqe);
+</span><span>    }
+</span><span>}
+</span><span>
+</span></code></pre>
+<p>这就是 io_uring 的基本使用方式了，连接建立之后，当然希望开始收数据，流程是类似的：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">while </span><span>(</span><span style="color:#d08770;">true</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_cqe *cqe;
+</span><span>    </span><span style="color:#bf616a;">io_uring_peek_cqe</span><span>(&amp;ring, &amp;cqe);
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(cqe != </span><span style="color:#d08770;">nullptr</span><span>) </span><span style="color:#65737e;">// 一段时间之后
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">struct</span><span> user_data data;
+</span><span>        </span><span style="color:#96b5b4;">memcpy</span><span>(&amp;data, cqe-&gt;</span><span style="color:#bf616a;">user_data</span><span>, sizeof(data));
+</span><span>        </span><span style="color:#65737e;">/* 处理完后，需要消费掉这个 CQE */
+</span><span>        </span><span style="color:#bf616a;">io_uring_cqe_seen</span><span>(&amp;ring, cqe);
+</span><span>
+</span><span>        </span><span style="color:#65737e;">/* 处理事件, 主要看 cqe-&gt;res 和 cqe-&gt;user_data
+</span><span style="color:#65737e;">        * cqe-&gt;res 可以理解为对应 syscall 的返回值
+</span><span style="color:#65737e;">        * cqe-&gt;user_data 用来对应自己的事件 */
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(data.</span><span style="color:#bf616a;">op </span><span>== user_data::Op::CONNECT)
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(cqe-&gt;</span><span style="color:#bf616a;">res </span><span>!= </span><span style="color:#d08770;">0</span><span>)
+</span><span>            {
+</span><span>                </span><span style="color:#65737e;">/* 错误处理 */
+</span><span>                </span><span style="color:#65737e;">// ...
+</span><span>                </span><span style="color:#b48ead;">continue</span><span>;
+</span><span>            }
+</span><span>            </span><span style="color:#65737e;">/* 建连成功, 准备收数据 */
+</span><span>            </span><span style="color:#b48ead;">struct</span><span> io_uring_sqe *sqe = </span><span style="color:#bf616a;">io_uring_get_sqe</span><span>(&amp;ring);
+</span><span>            </span><span style="color:#96b5b4;">assert</span><span>(sqe != </span><span style="color:#d08770;">nullptr</span><span>);
+</span><span>            </span><span style="color:#65737e;">/* 注意, 这里的 buffer 需要是每个 sqe 独占的
+</span><span style="color:#65737e;">            * 因此可以管理一个 per-connection 的 buffer */
+</span><span>            </span><span style="color:#bf616a;">io_uring_prep_recv</span><span>(sqe, data.</span><span style="color:#bf616a;">sockfd</span><span>, buffer, sizeof(buffer), </span><span style="color:#d08770;">0</span><span>);
+</span><span>
+</span><span>            </span><span style="color:#b48ead;">struct</span><span> user_data data;
+</span><span>            data.</span><span style="color:#bf616a;">op </span><span>= user_data::Op::RECV;
+</span><span>            data.</span><span style="color:#bf616a;">sockfd </span><span>= data.</span><span style="color:#bf616a;">sockfd</span><span>;
+</span><span>            </span><span style="color:#96b5b4;">memcpy</span><span>(sqe-&gt;</span><span style="color:#bf616a;">user_data</span><span>, &amp;data, sizeof(data));
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">else if </span><span>(data.</span><span style="color:#bf616a;">op </span><span>== user_data::Op::RECV)
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(cqe-&gt;</span><span style="color:#bf616a;">res </span><span>!= </span><span style="color:#d08770;">0</span><span>)
+</span><span>            {
+</span><span>                </span><span style="color:#65737e;">/* 错误或者连接关闭 */
+</span><span>                </span><span style="color:#65737e;">// ...
+</span><span>                </span><span style="color:#b48ead;">continue</span><span>;
+</span><span>            }
+</span><span>            </span><span style="color:#65737e;">/* 处理收到的数据 */
+</span><span>            </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">recv </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> bytes: </span><span style="color:#d08770;">%*s</span><span style="color:#96b5b4;">\n</span><span>&quot;, cqe-&gt;</span><span style="color:#bf616a;">res</span><span>, cqe-&gt;</span><span style="color:#bf616a;">res</span><span>, buffer);
+</span><span>            </span><span style="color:#65737e;">/* 重新准备一个 recv 请求 */
+</span><span>            </span><span style="color:#65737e;">// struct io_uring_sqe *sqe = ...
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#65737e;">/* 提交刚才 prep 的请求 */
+</span><span>    </span><span style="color:#bf616a;">io_uring_submit</span><span>(&amp;ring);
+</span><span>}
+</span></code></pre>
+<h2 id="zui-jia-shi-jian">最佳实践</h2>
+<p>参考 <a href="https://github.com/axboe/liburing/wiki/io_uring-and-networking-in-2023">io_uring and networking in 2023</a></p>
+<h3 id="ioring-setup-defer-taskrun">IORING_SETUP_DEFER_TASKRUN</h3>
+<p>前面提到，io_uring 较新实现的默认模式里，事件 ready 后内核会中断用户进程，切换到内核态执行任务，所以看上去用户没有执行任何 syscall 就能 peek 到 CQE，但其实中间已经被打断过了。这样不仅没有减少切换到内核的开销，而且被打断的时间是不可控的。所以在默认模式下，io_uring 性能大概率不如 epoll。</p>
+<p>为了避免这个问题，可以在初始化 io_uring 的时候设置 <code>IORING_SETUP_DEFER_TASKRUN</code> 标志(需要和 <code>IORING_SETUP_SINGLE_ISSUER</code> 一起设置)。这个标志的含义是，所有事件都不会再打断用户进程，而是会在用户显式指定内核处理之后才会被处理。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct</span><span> io_uring_params params;
+</span><span style="color:#bf616a;">memset</span><span>(&amp;params, </span><span style="color:#d08770;">0</span><span>, sizeof(params));
+</span><span>params.</span><span style="color:#bf616a;">flags </span><span>= IORING_SETUP_DEFER_TASKRUN | IORING_SETUP_SINGLE_ISSUER;
+</span><span style="color:#bf616a;">io_uring_queue_init_params</span><span>(ENTRIES, &amp;ring, &amp;params);
+</span><span>
+</span><span style="color:#65737e;">// ...
+</span><span>
+</span><span style="color:#65737e;">/* 告知内核执行 pending 的请求
+</span><span style="color:#65737e;">* 最原始的方法是用 io_uring_enter 结合 IORING_ENTER_GETEVENTS
+</span><span style="color:#65737e;">* 不过 liburing 里有很多替代, 例如 io_uring_wait_*, io_uring_submit_and_wait 等等
+</span><span style="color:#65737e;">*
+</span><span style="color:#65737e;">* 因为我的使用场景中, 最常见的 case 就是在事件循环里不断地 tick, 每次 tick 都会 submit 和 enter(GETEVENTS)
+</span><span style="color:#65737e;">* 所以用 io_uring_submit_and_get_events 是最符合语义的 */
+</span><span style="color:#b48ead;">while </span><span>(</span><span style="color:#d08770;">true</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#bf616a;">io_uring_submit_and_get_events</span><span>(&amp;ring);
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// peek CQEs
+</span><span>    </span><span style="color:#65737e;">// ...
+</span><span>}
+</span></code></pre>
+<p>我觉得可以把 <code>io_uring_submit_and_get_events</code> 理解成 <code>epoll_wait</code> 和遍历所有 <code>epoll_event</code> 并处理 IO 这两个动作打包到一起。</p>
+<h3 id="ioring-feat-fast-poll">IORING_FEAT_FAST_POLL</h3>
+<p>io_uring 内部到底是使用多个内核线程还是中断用户进程，和这个标志相关。<code>FAST_POLL</code> 指代的是 io_uring 的 <code>internal polling mechanism</code>，可以理解为在内核做了类似 <code>epoll</code> 和 IO 的工作，来完成检测事件 ready 和处理 IO 并生产 CQE 的整套动作，这个实现应当比产生多个内核线程更高效。这个特性和内核版本有关，在 5.7 以后可用。</p>
+<p>这个功能不需要手动开启，但是可以在 <code>io_uring_queue_init_params</code> 后检查 <code>params.features &amp; IORING_FEAT_FAST_POLL</code> 来判断是否支持。</p>
+<h3 id="bian-li-cqes">遍历 CQEs</h3>
+<p>比起每次 peek 一个 CQE 再 seen，可以使用 <code>io_uring_for_each_cqe</code> 来遍历所有 CQE，然后用 <code>io_uring_cq_advance</code> 来一次性消费。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">while </span><span>(</span><span style="color:#d08770;">true</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#bf616a;">io_uring_submit_and_get_events</span><span>(&amp;ring);
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">unsigned</span><span> head;
+</span><span>    </span><span style="color:#b48ead;">unsigned</span><span> count = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_cqe *cqe;
+</span><span>    </span><span style="color:#bf616a;">io_uring_for_each_cqe</span><span>(&amp;ring, head, cqe) {
+</span><span>        ++count;
+</span><span>        </span><span style="color:#65737e;">/* 事件处理 */
+</span><span>    }
+</span><span>    </span><span style="color:#bf616a;">io_uring_cq_advance</span><span>(&amp;ring, count);
+</span><span>}
+</span></code></pre>
+<h3 id="ring-provide-buffer">Ring Provide Buffer</h3>
+<p>之前提到收数据时，需要每个 sqe 独占一个 buffer，因为不知道哪个请求会先完成，因此也没法保证不会竞争使用 buffer。provide buffer 可以解决这个问题。</p>
+<p>其思想是</p>
+<ol>
+<li>初始化一个 buffer pool，里面有一堆可用的 buffer entry</li>
+<li>在 prep 需要 buffer 的请求时告知 io_uring，在请求需要 IO 时自己从 buffer pool 里取用</li>
+<li>用户能在 CQE 里知道这次 IO 的数据在哪个 buffer 里</li>
+<li>消费完成后将 buffer 归还到 buffer pool 里</li>
+</ol>
+<p>代码例子</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">#define </span><span>BUF_SHIFT       </span><span style="color:#d08770;">12
+</span><span style="color:#b48ead;">#define </span><span>BUFFER_SIZE     (</span><span style="color:#d08770;">1 </span><span>&lt;&lt; BUF_SHIFT)
+</span><span style="color:#b48ead;">#define </span><span>BUFFERS         </span><span style="color:#d08770;">4096
+</span><span style="color:#b48ead;">#define </span><span>BGID            </span><span style="color:#d08770;">0
+</span><span>
+</span><span style="color:#65737e;">/* 保存 provide buffer 相关的上下文 */
+</span><span style="color:#b48ead;">struct </span><span>provide_buffer {
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_buf_ring *buf_ring;
+</span><span>    </span><span style="color:#b48ead;">unsigned char </span><span>*buffer_base;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> buf_ring_size;
+</span><span>} pb;
+</span><span>
+</span><span style="color:#65737e;">/* 获取某个 buffer, index 可以唯一标识一个 buffer */
+</span><span style="color:#b48ead;">static unsigned char </span><span>*</span><span style="color:#8fa1b3;">get_buffer</span><span>(</span><span style="color:#b48ead;">struct</span><span> provide_buffer *</span><span style="color:#bf616a;">pb</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">idx</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">return</span><span> pb-&gt;</span><span style="color:#bf616a;">buffer_base </span><span>+ (idx &lt;&lt; BUF_SHIFT);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/* 初始化 buffer pool, 其中
+</span><span style="color:#65737e;">* BUFFERS 是 buffer pool 里 entry 的数量, 每个 entry 可以用 index 唯一标示
+</span><span style="color:#65737e;">* BGID 是这个 buffer pool 的 唯一标示 */
+</span><span style="color:#b48ead;">static int </span><span style="color:#8fa1b3;">setup_buffer_pool</span><span>(</span><span style="color:#b48ead;">struct</span><span> io_uring *</span><span style="color:#bf616a;">ring</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> ret, i;
+</span><span>    </span><span style="color:#b48ead;">void </span><span>*mapped;
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_buf_reg reg = {
+</span><span>        .</span><span style="color:#bf616a;">ring_addr </span><span>= </span><span style="color:#d08770;">0</span><span>,
+</span><span>        .</span><span style="color:#bf616a;">ring_entries </span><span>= BUFFERS,
+</span><span>        .</span><span style="color:#bf616a;">bgid </span><span>= BGID,
+</span><span>    };
+</span><span>
+</span><span>    pb.</span><span style="color:#bf616a;">buf_ring_size </span><span>= (sizeof(</span><span style="color:#b48ead;">struct</span><span> io_uring_buf) + BUFFER_SIZE) * BUFFERS;
+</span><span>    mapped = </span><span style="color:#bf616a;">mmap</span><span>(</span><span style="color:#d08770;">NULL</span><span>, pb.</span><span style="color:#bf616a;">buf_ring_size</span><span>, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">0</span><span>);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(mapped == MAP_FAILED) {
+</span><span>        </span><span style="color:#96b5b4;">perror</span><span>(&quot;</span><span style="color:#a3be8c;">buf_ring mmap</span><span>&quot;);
+</span><span>        </span><span style="color:#96b5b4;">exit</span><span>(EXIT_FAILURE);
+</span><span>    }
+</span><span>    pb.</span><span style="color:#bf616a;">buf_ring </span><span>= (</span><span style="color:#b48ead;">struct</span><span> io_uring_buf_ring *)mapped;
+</span><span>    </span><span style="color:#bf616a;">io_uring_buf_ring_init</span><span>(pb.</span><span style="color:#bf616a;">buf_ring</span><span>);
+</span><span>
+</span><span>    reg = (</span><span style="color:#b48ead;">struct</span><span> io_uring_buf_reg) {
+</span><span>        .</span><span style="color:#bf616a;">ring_addr </span><span>= (</span><span style="color:#b48ead;">unsigned long</span><span>)pb.</span><span style="color:#bf616a;">buf_ring</span><span>,
+</span><span>        .</span><span style="color:#bf616a;">ring_entries </span><span>= BUFFERS,
+</span><span>        .</span><span style="color:#bf616a;">bgid </span><span>= BGID,
+</span><span>    };
+</span><span>    pb.</span><span style="color:#bf616a;">buffer_base </span><span>= (</span><span style="color:#b48ead;">unsigned char </span><span>*)pb.</span><span style="color:#bf616a;">buf_ring </span><span>+ sizeof(</span><span style="color:#b48ead;">struct</span><span> io_uring_buf) * BUFFERS;
+</span><span>    ret = </span><span style="color:#bf616a;">io_uring_register_buf_ring</span><span>(ring, &amp;reg, </span><span style="color:#d08770;">0</span><span>);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(ret) {
+</span><span>        </span><span style="color:#96b5b4;">perror</span><span>(&quot;</span><span style="color:#a3be8c;">buf_ring init failed</span><span>&quot;);
+</span><span>        </span><span style="color:#96b5b4;">exit</span><span>(EXIT_FAILURE);
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(i = </span><span style="color:#d08770;">0</span><span>; i &lt; BUFFERS; i++) {
+</span><span>        </span><span style="color:#bf616a;">io_uring_buf_ring_add</span><span>(pb.</span><span style="color:#bf616a;">buf_ring</span><span>, </span><span style="color:#bf616a;">get_buffer</span><span>(&amp;pb, i), BUFFER_SIZE, i, </span><span style="color:#bf616a;">io_uring_buf_ring_mask</span><span>(BUFFERS), i);
+</span><span>    }
+</span><span>    </span><span style="color:#bf616a;">io_uring_buf_ring_advance</span><span>(pb.</span><span style="color:#bf616a;">buf_ring</span><span>, BUFFERS);
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/* 归还一个 buffer */
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">recycle_buffer</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">idx</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#bf616a;">io_uring_buf_ring_add</span><span>(pb.</span><span style="color:#bf616a;">buf_ring</span><span>, </span><span style="color:#bf616a;">get_buffer</span><span>(&amp;pb, idx), BUFFER_SIZE, idx, </span><span style="color:#bf616a;">io_uring_buf_ring_mask</span><span>(BUFFERS), </span><span style="color:#d08770;">0</span><span>);
+</span><span>    </span><span style="color:#bf616a;">io_uring_buf_ring_advance</span><span>(pb.</span><span style="color:#bf616a;">buf_ring</span><span>, </span><span style="color:#d08770;">1</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/* 使用 provide buffer 的 recv 例子 */
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_sqe *sqe = </span><span style="color:#bf616a;">io_uring_get_sqe</span><span>(&amp;ring);
+</span><span>    </span><span style="color:#96b5b4;">assert</span><span>(sqe != </span><span style="color:#d08770;">nullptr</span><span>);
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">io_uring_prep_recv</span><span>(sqe, sockfd, </span><span style="color:#d08770;">nullptr</span><span>, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">0</span><span>);
+</span><span>    </span><span style="color:#bf616a;">io_uring_sqe_set_flags</span><span>(sqe, IOSQE_BUFFER_SELECT); </span><span style="color:#65737e;">// 告知使用 provide buffer
+</span><span>    sqe-&gt;</span><span style="color:#bf616a;">buf_group </span><span>= BGID; </span><span style="color:#65737e;">// 告知使用哪个 buffer pool
+</span><span>}
+</span></code></pre>
+<h3 id="multi-shot">Multi-shot</h3>
+<p>像收数据或是 TCP server accept 这种场景，基本上写起来都是 prep 并等待完成，完成之后马上重新 prep 一次。对于这种操作，io_uring 提供了 multishot 模式：prep 一次之后，这个请求可以被重复触发，直到出错或被用户取消。</p>
+<p>对于 <code>recv_multishot</code>，因为每次触发都需要一个额外的 buffer，所以必须配合 <a href="https://yechenz37.tech/work/linux/io-uring-network/#ring-provide-buffer">provide buffer</a> 使用。</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">add_socket_recv_multishot</span><span>(</span><span style="color:#b48ead;">struct</span><span> io_uring *</span><span style="color:#bf616a;">ring</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">fd</span><span>, </span><span style="color:#b48ead;">unsigned </span><span style="color:#bf616a;">flags</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">struct</span><span> io_uring_sqe *sqe = </span><span style="color:#bf616a;">io_uring_get_sqe</span><span>(ring);
+</span><span>    </span><span style="color:#96b5b4;">assert</span><span>(sqe != </span><span style="color:#d08770;">nullptr</span><span>);
+</span><span>    </span><span style="color:#bf616a;">io_uring_prep_recv_multishot</span><span>(sqe, fd, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">0</span><span>);
+</span><span>    </span><span style="color:#bf616a;">io_uring_sqe_set_flags</span><span>(sqe, flags | IOSQE_BUFFER_SELECT);
+</span><span>    sqe-&gt;</span><span style="color:#bf616a;">buf_group </span><span>= BGID;
+</span><span>}
+</span></code></pre>
+<h3 id="timeout">Timeout</h3>
+<p>对于 connect，可能会希望给其设置一个 timeout，<code>io_uring_prep_link_timeout</code> 挺适合这种场景。</p>
+<p>基本思路是，将一个 timeout 请求和另一个(组)请求绑定到一起，如果时间到了对应事件还没(全部)完成，就触发 timeout 并取消所有绑定的请求；否则取消 timeout。</p>
+<p>例子可以在 <a href="https://github.com/axboe/liburing/blob/master/test/link-timeout.c">liburing/test/link-timeout.c</a> 测试代码里找到。</p>
+<h3 id="cancel">Cancel</h3>
+<p>这其实是一个疑点记录，io_uring 可以通过 fd 或者 user_data 作为 key 来 cancel 请求，其<a href="https://man7.org/linux/man-pages/man3/io_uring_prep_cancel.3.html#top_of_page">文档</a>描述：</p>
+<blockquote>
+<p>Although the cancelation request uses async request syntax, the
+kernel side of the cancelation is always run synchronously. It is
+guaranteed that a CQE is always generated by the time the cancel
+request has been submitted. If the cancelation is successful, the
+completion for the request targeted for cancelation will have
+been posted by the time submission returns. For -EALREADY it may
+take a bit of time to do so. For this case, the caller must wait
+for the canceled request to post its completion event.</p>
+</blockquote>
+<p>即 cancel 被 submit 的时候就会被执行，保证 submit 完 CQ 里就会有 cancel 成功与否的结果。如果事件被成功 cancel，CQ 里也会有这些事件的 CQE。如果 cancel 返回 -EALREADY，则说明其他事件的 CQE 还没生成，但是已经在 cancel 中了。</p>
+<p>疑点就在于，文档似乎没有说明如果一个事件已经在 CQ 里但还未被消费，此时 cancel 会不会影响这个 CQE，这决定了我能否认为 cancel 之后再消费 CQ 一定不会消费到 cancel 的事件，进而影响了用户空间 user_data 的生命周期管理。</p>
+<h2 id="总结">总结</h2>
+<p>说了那么多，尝试用 io_uring 写了 TCP echo 吞吐测试，发现在连接数较低或者默认模式下，io_uring 性能不如 epoll，只有在连接数较多且配合 defer taskrun 的情况下，io_uring 才有优势。用 multishot 也有少量收益，但不如 defer taskrun 大，而且必须配合 provide buffer 也增加了使用难度。</p>
+<p>在实际项目里，用 io_uring，结合 defer taskrun 并支持 fast poll，不启用 multishot 和 provide buffer 的情景下，性能比 epoll 差 :/</p>
+<p>网上也有一些相关的讨论</p>
+<ul>
+<li><a href="https://www.alibabacloud.com/blog/io-uring-vs--epoll-which-is-better-in-network-programming_599544#:~:text=epoll%3A%20s%20%2B%20w-,io_uring%3A%20(t%20%2B%20s)%20%2F%20n,scenario%20is%20better%20than%20epoll&#x27;s">io_uring vs. epoll – Which Is Better in Network Programming?</a></li>
+<li>https://github.com/axboe/liburing/issues/189</li>
+<li>https://github.com/frevib/io_uring-echo-server/issues/8</li>
+</ul>
+<p>总之，我认为 io_uring 在网络场景下不一定能得到预期收益，建议结合实际场景测试后再决定是否使用。</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/io-uring">#io_uring</a>
+
+
+
+<a href="/categories/network">+network</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

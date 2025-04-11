@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Synology NVME SSD smart check</title>
+        
+        <meta name="title" content="Synology NVME SSD smart check">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/synology/m2-smart-check/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Synology NVME SSD smart check">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/synology/m2-smart-check/">
+        <meta property="twitter:title" content="Synology NVME SSD smart check">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/synology/m2-smart-check/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/synology/m2-smart-check/",
+                "@type":"WebSite",
+                "headline":"Synology NVME SSD smart check",
+                "name":"Synology NVME SSD smart check",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/m2-smart-check</p>
+<p class="post-meta"><time datetime="2025-03-16">2025-03-16</time></p>
+<h1>Synology NVME SSD smart check</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>群晖对于 HDD 有自带的定时 smart check 功能。但由于其本身不支持 NVME 设备作为存储池，(似乎)也没有对 NVME 设备的定时 smart check 功能。</p>
+<p>系统自带 nvme-cli，为了实现定时检测，可以自己写一个检测脚本。</p>
+<p>参考 <a href="https://www.ibm.com/docs/en/power10/9786-42H?topic=devices-running-linux-smart-log-command">IBM - Running the Linux smart-log command to check the amount of remaining life in NVMe devices</a></p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;">#!/bin/bash
+</span><span style="color:#65737e;"># Usage: ./nvme-smart-check.sh /dev/nvme0
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>&quot;$</span><span style="color:#bf616a;">#</span><span>&quot; </span><span style="color:#bf616a;">-ne</span><span> 1 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>  </span><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">Usage: </span><span>$</span><span style="color:#bf616a;">0</span><span style="color:#a3be8c;"> &lt;device_path&gt;</span><span>&quot;
+</span><span>  </span><span style="color:#96b5b4;">exit</span><span> 1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#bf616a;">dev</span><span>=&quot;$</span><span style="color:#bf616a;">1</span><span>&quot;
+</span><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">Checking </span><span>$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">...</span><span>&quot;
+</span><span style="color:#bf616a;">output</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#bf616a;">nvme</span><span style="color:#a3be8c;"> smart-log </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span>&quot;</span><span style="color:#a3be8c;">)
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>$</span><span style="color:#bf616a;">? -ne</span><span> 0 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>  </span><span style="color:#96b5b4;">echo </span><span>&quot;</span><span style="color:#a3be8c;">ERROR: Failed to read smart-log for </span><span>$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">. Details: </span><span>$</span><span style="color:#bf616a;">output</span><span>&quot;
+</span><span>  </span><span style="color:#96b5b4;">exit</span><span> 1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#65737e;"># Extract the relevant fields from the output
+</span><span style="color:#bf616a;">critical_warning</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">output</span><span>&quot; | </span><span style="color:#bf616a;">grep -i </span><span>&quot;</span><span style="color:#a3be8c;">^critical_warning</span><span>&quot; | </span><span style="color:#bf616a;">awk -F</span><span style="color:#a3be8c;">: </span><span>&#39;</span><span style="color:#a3be8c;">{gsub(/ /,&quot;&quot;,$2); print $2}</span><span>&#39;</span><span style="color:#a3be8c;">)
+</span><span style="color:#bf616a;">available_spare</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">output</span><span>&quot; | </span><span style="color:#bf616a;">grep -i </span><span>&quot;</span><span style="color:#a3be8c;">^available_spare[[:space:]]*:</span><span>&quot; | </span><span style="color:#bf616a;">head -n</span><span style="color:#a3be8c;"> 1 </span><span>| </span><span style="color:#bf616a;">awk -F</span><span style="color:#a3be8c;">: </span><span>&#39;</span><span style="color:#a3be8c;">{gsub(/[% ]/,&quot;&quot;,$2); print $2}</span><span>&#39;</span><span style="color:#a3be8c;">)
+</span><span style="color:#bf616a;">available_spare_threshold</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">output</span><span>&quot; | </span><span style="color:#bf616a;">grep -i </span><span>&quot;</span><span style="color:#a3be8c;">^available_spare_threshold</span><span>&quot; | </span><span style="color:#bf616a;">awk -F</span><span style="color:#a3be8c;">: </span><span>&#39;</span><span style="color:#a3be8c;">{gsub(/[% ]/,&quot;&quot;,$2); print $2}</span><span>&#39;</span><span style="color:#a3be8c;">)
+</span><span style="color:#bf616a;">media_errors</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">output</span><span>&quot; | </span><span style="color:#bf616a;">grep -i </span><span>&quot;</span><span style="color:#a3be8c;">^media_errors</span><span>&quot; | </span><span style="color:#bf616a;">awk -F</span><span style="color:#a3be8c;">: </span><span>&#39;</span><span style="color:#a3be8c;">{gsub(/ /,&quot;&quot;,$2); print $2}</span><span>&#39;</span><span style="color:#a3be8c;">)
+</span><span style="color:#bf616a;">err_log</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">output</span><span>&quot; | </span><span style="color:#bf616a;">grep -i </span><span>&quot;</span><span style="color:#a3be8c;">^num_err_log_entries</span><span>&quot; | </span><span style="color:#bf616a;">awk -F</span><span style="color:#a3be8c;">: </span><span>&#39;</span><span style="color:#a3be8c;">{gsub(/ /,&quot;&quot;,$2); print $2}</span><span>&#39;</span><span style="color:#a3be8c;">)
+</span><span style="color:#bf616a;">percentage_used</span><span>=$</span><span style="color:#a3be8c;">(</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">output</span><span>&quot; | </span><span style="color:#bf616a;">grep -i </span><span>&quot;</span><span style="color:#a3be8c;">^percentage_used</span><span>&quot; | </span><span style="color:#bf616a;">awk -F</span><span style="color:#a3be8c;">: </span><span>&#39;</span><span style="color:#a3be8c;">{gsub(/[% ]/,&quot;&quot;,$2); print $2}</span><span>&#39;</span><span style="color:#a3be8c;">)
+</span><span>
+</span><span style="color:#65737e;"># Initialize the unhealthy flag (0 = healthy, 1 = health issue detected)
+</span><span style="color:#bf616a;">unhealthy</span><span>=</span><span style="color:#a3be8c;">0
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>&quot;$</span><span style="color:#bf616a;">critical_warning</span><span>&quot; </span><span style="color:#bf616a;">-ne</span><span> 0 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Critical warning is not 0.</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">unhealthy</span><span>=</span><span style="color:#a3be8c;">1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>&quot;$</span><span style="color:#bf616a;">available_spare</span><span>&quot; </span><span style="color:#bf616a;">-lt </span><span>&quot;$</span><span style="color:#bf616a;">available_spare_threshold</span><span>&quot; </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Available spare (</span><span>$</span><span style="color:#bf616a;">available_spare</span><span style="color:#a3be8c;">%) is less than threshold (</span><span>$</span><span style="color:#bf616a;">available_spare_threshold</span><span style="color:#a3be8c;">%).</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">unhealthy</span><span>=</span><span style="color:#a3be8c;">1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>&quot;$</span><span style="color:#bf616a;">media_errors</span><span>&quot; </span><span style="color:#bf616a;">-ne</span><span> 0 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Media errors detected.</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">unhealthy</span><span>=</span><span style="color:#a3be8c;">1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>&quot;$</span><span style="color:#bf616a;">err_log</span><span>&quot; </span><span style="color:#bf616a;">-ne</span><span> 0 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Error log entries detected.</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">unhealthy</span><span>=</span><span style="color:#a3be8c;">1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>&quot;$</span><span style="color:#bf616a;">percentage_used</span><span>&quot; </span><span style="color:#bf616a;">-gt</span><span> 10 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Warning - percentage used is greater than 10% (</span><span>$</span><span style="color:#bf616a;">percentage_used</span><span style="color:#a3be8c;">%).</span><span>&quot;
+</span><span>    </span><span style="color:#bf616a;">unhealthy</span><span>=</span><span style="color:#a3be8c;">1
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Check complete.</span><span>&quot;
+</span><span>
+</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">[ </span><span>$</span><span style="color:#bf616a;">unhealthy -eq</span><span> 1 </span><span style="color:#96b5b4;">]</span><span>; </span><span style="color:#b48ead;">then
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: One or more health issues detected.</span><span>&quot;
+</span><span>    </span><span style="color:#96b5b4;">exit</span><span> 1
+</span><span style="color:#b48ead;">else
+</span><span>    </span><span style="color:#96b5b4;">echo </span><span>&quot;$</span><span style="color:#bf616a;">dev</span><span style="color:#a3be8c;">: Device is healthy.</span><span>&quot;
+</span><span>    </span><span style="color:#96b5b4;">exit</span><span> 0
+</span><span style="color:#b48ead;">fi
+</span><span>
+</span></code></pre>
+<p>用任务计划，root 每日运行一次，失败时发邮件即可。</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/synology">#synology</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>C++ generator &amp; ranges</title>
+        
+        <meta name="title" content="C++ generator &amp; ranges">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/programming/cpp/cpp-python-style-generator/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="C++ generator &amp; ranges">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/programming/cpp/cpp-python-style-generator/">
+        <meta property="twitter:title" content="C++ generator &amp; ranges">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/programming/cpp/cpp-python-style-generator/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/programming/cpp/cpp-python-style-generator/",
+                "@type":"WebSite",
+                "headline":"C++ generator & ranges",
+                "name":"C++ generator & ranges",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/cpp-python-style-generator</p>
+<p class="post-meta"><time datetime="2025-04-10">2025-04-10</time></p>
+<h1>C++ generator &amp; ranges</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="bei-jing">背景</h2>
+<p>考虑以下需求：</p>
+<ul>
+<li>需要对一个序列中，满足一定要求的前 N 个元素做某种操作</li>
+<li>元素的筛选逻辑和具体操作是解耦的，操作者不知道有哪些元素、如何遍历、如何筛选</li>
+</ul>
+<p>用 Python 实现的话，可以用 generator：</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">elems_generator</span><span>():
+</span><span>    elems = </span><span style="color:#bf616a;">list</span><span>(</span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">10</span><span>)) </span><span style="color:#65737e;"># all elements
+</span><span>    </span><span style="color:#b48ead;">for </span><span>elem </span><span style="color:#b48ead;">in </span><span>elems:      </span><span style="color:#65737e;"># how to iterate
+</span><span>        </span><span style="color:#b48ead;">if </span><span>elem % </span><span style="color:#d08770;">2 </span><span>== </span><span style="color:#d08770;">0</span><span>:   </span><span style="color:#65737e;"># filter logic
+</span><span>            </span><span style="color:#b48ead;">yield </span><span>elem
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">process</span><span>():
+</span><span>    N = </span><span style="color:#d08770;">3                           </span><span style="color:#65737e;"># how many to process
+</span><span>
+</span><span>    done = </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">for </span><span>elem </span><span style="color:#b48ead;">in </span><span style="color:#bf616a;">elems_generator</span><span>():
+</span><span>        </span><span style="color:#b48ead;">if </span><span>elem % </span><span style="color:#d08770;">3 </span><span>== </span><span style="color:#d08770;">0</span><span>:           </span><span style="color:#65737e;"># may also need to filter
+</span><span>            </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;{done} {elem}&quot;) </span><span style="color:#65737e;"># do something with the elem
+</span><span>            done += </span><span style="color:#d08770;">1
+</span><span>        </span><span style="color:#b48ead;">if </span><span>done &gt;= N:
+</span><span>            </span><span style="color:#b48ead;">break
+</span><span>    </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;{done</span><span style="color:#b48ead;">=</span><span>}&quot;)
+</span></code></pre>
+<p>c++ 中 naive 的写法是先将所有符合要求的元素 collect 成一个 vector 之类的再传给 process，但假设符合要求的元素很多，但内部只需要用到几个，这样做就显得有点 heavy。核心是想做到 lazy-evaluation。</p>
+<p>由于 c++ 没有原生的 generator 语义，记录下收集到的实现方法。</p>
+<h2 id="1-lambda-generator">1. Lambda Generator</h2>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">iostream</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">vector</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> Generator&gt;
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">process</span><span>(Generator&amp;&amp; </span><span style="color:#bf616a;">generator</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">constexpr int</span><span> N = </span><span style="color:#d08770;">3</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">int</span><span> done = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    </span><span style="color:#b48ead;">int</span><span> elem;
+</span><span>    </span><span style="color:#b48ead;">while </span><span>((elem = </span><span style="color:#bf616a;">generator</span><span>()) != -</span><span style="color:#d08770;">1</span><span>)
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(elem % </span><span style="color:#d08770;">3 </span><span>== </span><span style="color:#d08770;">0</span><span>)
+</span><span>        {
+</span><span>            std::cout &lt;&lt; elem &lt;&lt; std::endl;
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(++done &gt;= N)
+</span><span>            {
+</span><span>                </span><span style="color:#b48ead;">break</span><span>;
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>()
+</span><span>{
+</span><span>    std::vector&lt;</span><span style="color:#b48ead;">int</span><span>&gt; elems = {</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">6</span><span>, </span><span style="color:#d08770;">7</span><span>, </span><span style="color:#d08770;">8</span><span>, </span><span style="color:#d08770;">9</span><span>};
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> generator = [&amp;elems, i = </span><span style="color:#d08770;">0</span><span>]() </span><span style="color:#b48ead;">mutable </span><span>-&gt; </span><span style="color:#bf616a;">int
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">while </span><span>(i &lt; elems.</span><span style="color:#bf616a;">size</span><span>())
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">const auto</span><span> e = elems[i++];
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(e % </span><span style="color:#d08770;">2 </span><span>== </span><span style="color:#d08770;">0</span><span>)
+</span><span>                </span><span style="color:#b48ead;">return</span><span> e;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">return </span><span>-</span><span style="color:#d08770;">1</span><span>;
+</span><span>    };
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">process</span><span>(generator);
+</span><span>}
+</span></code></pre>
+<h2 id="2-custom-iter-action">2. Custom Iter Action</h2>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">iostream</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">vector</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">enum class </span><span>IterAction {
+</span><span>    Continue,
+</span><span>    Break,
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> ForEachElem&gt;
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">process</span><span>(ForEachElem&amp;&amp; </span><span style="color:#bf616a;">for_each_elem</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">constexpr int</span><span> N = </span><span style="color:#d08770;">3</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">int</span><span> done = </span><span style="color:#d08770;">0</span><span>;
+</span><span>    </span><span style="color:#bf616a;">for_each_elem</span><span>([&amp;](</span><span style="color:#b48ead;">auto</span><span>&amp;&amp; elem)
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(elem % </span><span style="color:#d08770;">3 </span><span>== </span><span style="color:#d08770;">0</span><span>)
+</span><span>        {
+</span><span>            std::cout &lt;&lt; elem &lt;&lt; std::endl;
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(++done &gt;= N)
+</span><span>            {
+</span><span>                </span><span style="color:#b48ead;">return</span><span> IterAction::Break;
+</span><span>            }
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">return</span><span> IterAction::Continue;
+</span><span>    });
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>()
+</span><span>{
+</span><span>    std::vector&lt;</span><span style="color:#b48ead;">int</span><span>&gt; elems = {</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">6</span><span>, </span><span style="color:#d08770;">7</span><span>, </span><span style="color:#d08770;">8</span><span>, </span><span style="color:#d08770;">9</span><span>};
+</span><span>    </span><span style="color:#b48ead;">const auto</span><span> for_each_elem = [&amp;elems](</span><span style="color:#b48ead;">auto</span><span>&amp;&amp; process_elem)
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">const auto</span><span>&amp; elem : elems)
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(IterAction::Break == </span><span style="color:#bf616a;">process_elem</span><span>(elem))
+</span><span>            {
+</span><span>                </span><span style="color:#b48ead;">break</span><span>;
+</span><span>            }
+</span><span>        }
+</span><span>    };
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">process</span><span>(for_each_elem);
+</span><span>}
+</span></code></pre>
+<h2 id="3-ranges">3. Ranges</h2>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">iostream</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">vector</span><span>&gt;
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">ranges</span><span>&gt;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> Range&gt;
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">process</span><span>(Range&amp;&amp; </span><span style="color:#bf616a;">range</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">constexpr int</span><span> N = </span><span style="color:#d08770;">3</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">auto</span><span>&amp;&amp; elem : range 
+</span><span>        | std::views::</span><span style="color:#bf616a;">filter</span><span>([](</span><span style="color:#b48ead;">auto</span><span>&amp;&amp; elem) { </span><span style="color:#b48ead;">return</span><span> elem % </span><span style="color:#d08770;">3 </span><span>== </span><span style="color:#d08770;">0</span><span>; })
+</span><span>        | std::views::</span><span style="color:#bf616a;">take</span><span>(N))
+</span><span>    {
+</span><span>        std::cout &lt;&lt; elem &lt;&lt; std::endl;
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">main</span><span>()
+</span><span>{
+</span><span>    std::vector&lt;</span><span style="color:#b48ead;">int</span><span>&gt; elems = {</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>, </span><span style="color:#d08770;">3</span><span>, </span><span style="color:#d08770;">4</span><span>, </span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">6</span><span>, </span><span style="color:#d08770;">7</span><span>, </span><span style="color:#d08770;">8</span><span>, </span><span style="color:#d08770;">9</span><span>};
+</span><span>    </span><span style="color:#bf616a;">process</span><span>(elems | std::views::</span><span style="color:#bf616a;">filter</span><span>([](</span><span style="color:#b48ead;">auto</span><span>&amp;&amp; elem) { </span><span style="color:#b48ead;">return</span><span> elem % </span><span style="color:#d08770;">2 </span><span>== </span><span style="color:#d08770;">0</span><span>; }));
+</span><span>}
+</span></code></pre>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        
