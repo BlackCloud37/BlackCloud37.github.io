@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>从 mdbook 迁移到 Zola</title>
+        
+        <meta name="title" content="从 mdbook 迁移到 Zola">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/blog/zola/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="从 mdbook 迁移到 Zola">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/blog/zola/">
+        <meta property="twitter:title" content="从 mdbook 迁移到 Zola">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/blog/zola/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/blog/zola/",
+                "@type":"WebSite",
+                "headline":"从 mdbook 迁移到 Zola",
+                "name":"从 mdbook 迁移到 Zola",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/zola</p>
+<p class="post-meta"><time datetime="2025-01-19">2025-01-19</time></p>
+<h1>从 mdbook 迁移到 Zola</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>之前一直用 <a href="https://github.com/rust-lang/mdBook">mdBook</a> 写博客，不过时间久了发现 book 和 blog 的定位其实不一样，book 是以目录和页面组织，丢失了时间之类的信息。于是打算迁移到其他 blog 框架，尝试用 <a href="https://www.getzola.org/">Zola</a>。</p>
+<p>在这里记录我是如何使用 Zola 的，一些地方不会特别详细，假设读者已经自己看过官网的文档。</p>
+<h2 id="zola-setup">Zola Setup</h2>
+<p>安装 <a href="https://www.getzola.org/documentation/getting-started/installation/">zola-cli</a>，例如 <code>paru -S zola</code></p>
+<p>然后创建第一个 zola 项目，options 无所谓，反正之后可以在 <code>config.toml</code> 里改。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">zola</span><span> init zolablog
+</span></code></pre>
+<p>zola 有很多可用 <a href="https://www.getzola.org/themes/">themes</a>，我选了 <a href="https://www.getzola.org/themes/no-style-please/">no style, please!</a></p>
+<p>安装主题：</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#96b5b4;">cd</span><span> zolablog/themes
+</span><span style="color:#bf616a;">git</span><span> clone https://gitlab.com/4bcx/no-style-please.git
+</span></code></pre>
+<p>为了方便快速理解这个主题的页面结构，可以先尝试在本地跑一个 <a href="https://atgumx.gitlab.io/no-style-please">live-demo</a> 一样的页面：</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rsync</span><span> themes/no-style-please/content/* content/
+</span><span style="color:#bf616a;">rsync</span><span> themes/no-style-please/config.toml config.toml
+</span><span style="color:#65737e;"># 修改一下 config.toml 的配置，且添加一行：
+</span><span style="color:#65737e;"># theme = &quot;no-style-please&quot;
+</span><span style="color:#bf616a;">zola</span><span> serve
+</span></code></pre>
+<p>这时候访问 <a href="http://localhost:1111">http://localhost:1111</a> 应该就能看到一个和 live-demo 一样的页面了。</p>
+<p>随后在 <code>config.toml</code> 的 <code>[extra]</code> 里添加 <code>list_pages = true</code>，这样主页应该还会把所有 <code>page</code> 按时间逆序展示出来。</p>
+<h2 id="mu-lu-jie-gou">目录结构</h2>
+<p>所有页面的<strong>内容</strong>都在 <code>content/</code> 目录下，每个文件夹 + <code>_index.md</code> 就是一个 section，里面的其他 <code>.md</code> 就是该 section 的 page，section 可以嵌套。如果想让文件夹不成为 section，可以在其 <code>_index.md</code> 里添加 <code>transparent = true</code>。</p>
+<p>templates 控制每个页面的<strong>内容</strong>如何被渲染成 html，例如 <code>index.html</code> 控制主页的渲染，目前这些 template 都是主题自带的，为了覆盖，可以在 <code>templates/</code> 下创建同名文件，该文件会被用于覆盖主题的 template。</p>
+<h2 id="mo-ban-yu-yan">模板语言</h2>
+<p>在开启 <code>list_pages = true</code> 后，主页会展示所有 <code>content/*.md</code>，但不包含下级 section 的 page。我希望在主页展示所有近期 post，因此需要修改并覆盖主页的 template。</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rsync</span><span> themes/no-style-please/templates/index.html templates/
+</span></code></pre>
+<p>主题自带的主页模板是 <code>index.html</code>，内容如下：</p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>{% extends &quot;base.html&quot; %}
+</span><span>
+</span><span>{% block content %}
+</span><span>{{ section.content | safe }}
+</span><span>
+</span><span>{% if config.extra.list_pages %}
+</span><span>{% if paginator %}
+</span><span>{% set pages = paginator.pages | sort(attribute=&quot;date&quot;) | reverse %}
+</span><span>{% else %}
+</span><span>{% set pages = section.pages | sort(attribute=&quot;date&quot;) | reverse %}
+</span><span>{% endif %}
+</span><span>&lt;</span><span style="color:#bf616a;">ul</span><span>&gt;
+</span><span>{% for page in pages %}
+</span><span>    &lt;</span><span style="color:#bf616a;">li</span><span>&gt;
+</span><span>        &lt;</span><span style="color:#bf616a;">a </span><span style="color:#d08770;">href</span><span>=&quot;</span><span style="color:#a3be8c;">{{ page.permalink | safe }}</span><span>&quot;&gt;{% if page.date and not config.extra.no_list_date %}{{ page.date }} - {% endif %}{{ page.title }}&lt;/</span><span style="color:#bf616a;">a</span><span>&gt;
+</span><span>        &lt;</span><span style="color:#bf616a;">br </span><span>/&gt;
+</span><span>        {{ page.description }}
+</span><span>    &lt;/</span><span style="color:#bf616a;">li</span><span>&gt;
+</span><span>{% endfor %}
+</span><span>&lt;/</span><span style="color:#bf616a;">ul</span><span>&gt;
+</span><span style="color:#65737e;">&lt;!-- 省略了 paginator 的实现 --&gt;
+</span><span>{% endif %}
+</span><span>{% endblock content %}
+</span></code></pre>
+<p>可以看到在没开启 paginator 时，主要的渲染逻辑就是从 <code>section.pages</code> 里获取所有 page，然后列表展示，子目录下的 page 不是当前 section 的 page，因此不会展示，将 <code>list_pages</code> 部分修改成：</p>
+<pre data-lang="html" style="background-color:#2b303b;color:#c0c5ce;" class="language-html "><code class="language-html" data-lang="html"><span>{% if config.extra.list_pages %}
+</span><span>{% if paginator %}
+</span><span>{% set pages = paginator.pages | sort(attribute=&quot;date&quot;) | reverse %}
+</span><span>{% else %}
+</span><span>{% set section_paths = section.subsections %}
+</span><span>{% set_global pages = [] %}
+</span><span>{% for section_path in section_paths %}
+</span><span>    {% set section = get_section(path=section_path) %}
+</span><span>    {% set_global pages = pages | concat(with=section.pages) %}
+</span><span>{% endfor %}
+</span><span>{% set pages = pages | sort(attribute=&quot;date&quot;) | reverse | slice(end=15) %}
+</span><span>{% endif %}
+</span><span>
+</span><span>&lt;</span><span style="color:#bf616a;">ul</span><span>&gt;
+</span><span>    &lt;</span><span style="color:#bf616a;">li</span><span>&gt;
+</span><span>        posts
+</span><span>    &lt;/</span><span style="color:#bf616a;">li</span><span>&gt;
+</span><span>    &lt;</span><span style="color:#bf616a;">ul</span><span>&gt;
+</span><span>        {% for page in pages %}
+</span><span>        &lt;</span><span style="color:#bf616a;">li</span><span>&gt;
+</span><span>            {% if page.date and not config.extra.no_list_date %}
+</span><span>                {{ page.date }}
+</span><span>            {% endif %}
+</span><span>            &lt;</span><span style="color:#bf616a;">a </span><span style="color:#d08770;">href</span><span>=&quot;</span><span style="color:#a3be8c;">{{ page.permalink | safe }}</span><span>&quot;&gt;{{ page.title }}&lt;/</span><span style="color:#bf616a;">a</span><span>&gt;
+</span><span>            &lt;</span><span style="color:#bf616a;">br </span><span>/&gt;
+</span><span>            {{ page.description }}
+</span><span>        &lt;/</span><span style="color:#bf616a;">li</span><span>&gt;
+</span><span>        {% endfor %}
+</span><span>    &lt;/</span><span style="color:#bf616a;">ul</span><span>&gt;
+</span><span>&lt;/</span><span style="color:#bf616a;">ul</span><span>&gt;
+</span></code></pre>
+<h2 id="deploy-gh-pages">Deploy gh-pages</h2>
+<p>我的 <code>deploy.yml</code>：</p>
+<pre data-lang="yaml" style="background-color:#2b303b;color:#c0c5ce;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Deploy
+</span><span style="color:#d08770;">on</span><span>:
+</span><span>  </span><span style="color:#bf616a;">push</span><span>:
+</span><span>    </span><span style="color:#bf616a;">branches</span><span>:
+</span><span>      - </span><span style="color:#a3be8c;">master
+</span><span>
+</span><span style="color:#bf616a;">jobs</span><span>:
+</span><span>  </span><span style="color:#bf616a;">deploy</span><span>:
+</span><span>    </span><span style="color:#bf616a;">runs-on</span><span>: </span><span style="color:#a3be8c;">ubuntu-latest
+</span><span>    </span><span style="color:#bf616a;">env</span><span>:
+</span><span>      </span><span style="color:#bf616a;">ZOLA_VERSION</span><span>: </span><span style="color:#d08770;">0.19.2
+</span><span>    </span><span style="color:#bf616a;">steps</span><span>:
+</span><span>    - </span><span style="color:#bf616a;">uses</span><span>: </span><span style="color:#a3be8c;">actions/checkout@v2
+</span><span>      </span><span style="color:#bf616a;">with</span><span>:
+</span><span>        </span><span style="color:#bf616a;">fetch-depth</span><span>: </span><span style="color:#d08770;">0
+</span><span>    - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Install Zola
+</span><span>      </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#b48ead;">|
+</span><span style="color:#a3be8c;">        curl -sL https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz | tar xz -C /usr/local/bin
+</span><span>    - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Build
+</span><span>      </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#b48ead;">|
+</span><span style="color:#a3be8c;">        git submodule update --init --recursive
+</span><span style="color:#a3be8c;">        zola build
+</span><span>    - </span><span style="color:#bf616a;">name</span><span>: </span><span style="color:#a3be8c;">Deploy GitHub Pages
+</span><span>      </span><span style="color:#bf616a;">run</span><span>: </span><span style="color:#b48ead;">|
+</span><span style="color:#a3be8c;">        git worktree add gh-pages
+</span><span style="color:#a3be8c;">        git config user.name &quot;Deploy from CI&quot;
+</span><span style="color:#a3be8c;">        git config user.email &quot;&quot;
+</span><span style="color:#a3be8c;">        cd gh-pages
+</span><span style="color:#a3be8c;">        # Delete the ref to avoid keeping history.
+</span><span style="color:#a3be8c;">        git update-ref -d refs/heads/gh-pages
+</span><span style="color:#a3be8c;">        rm -rf *
+</span><span style="color:#a3be8c;">        mv ../public/* .
+</span><span style="color:#a3be8c;">        git add .
+</span><span style="color:#a3be8c;">        git commit -m &quot;Deploy $GITHUB_SHA to gh-pages&quot;
+</span><span style="color:#a3be8c;">        git push --force --set-upstream origin gh-pages
+</span><span style="color:#a3be8c;">
+</span></code></pre>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/zola">#zola</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

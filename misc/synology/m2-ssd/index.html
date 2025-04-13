@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Synology 使用 m2 ssd 作为存储盘</title>
+        
+        <meta name="title" content="Synology 使用 m2 ssd 作为存储盘">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/synology/m2-ssd/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Synology 使用 m2 ssd 作为存储盘">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/synology/m2-ssd/">
+        <meta property="twitter:title" content="Synology 使用 m2 ssd 作为存储盘">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/synology/m2-ssd/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/synology/m2-ssd/",
+                "@type":"WebSite",
+                "headline":"Synology 使用 m2 ssd 作为存储盘",
+                "name":"Synology 使用 m2 ssd 作为存储盘",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/m2-ssd</p>
+<p class="post-meta"><time datetime="2024-10-21">2024-10-21</time></p>
+<h1>Synology 使用 m2 ssd 作为存储盘</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>使用 007revad 的脚本</p>
+<ul>
+<li><a href="https://github.com/007revad/Synology_M2_volume">Synology_M2_volume</a></li>
+<li><a href="https://github.com/007revad/Synology_HDD_db">Synology_HDD_db</a></li>
+</ul>
+<p>在 DS918+, DSM 7.2 上测试</p>
+<ol>
+<li>先跑 <code>Synology_M2_volume</code> 脚本, 跑完就可以直接建存储池了, 不用重启</li>
+<li>然后跑 <code>Synology_HDD_db</code> 脚本, 用的 <code>-nr</code> flag</li>
+<li>在计划任务里加一个 开机触发、root 运行的计划, 内容为 <code>/path-to-script/syno_hdd_db.sh -nr</code></li>
+<li>加一个备份任务, 定期把 SSD 的数据备份到 HDD 盘, 免得突然挂了</li>
+</ol>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/synology">#synology</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

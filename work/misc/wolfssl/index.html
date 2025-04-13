@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>wolfSSL 使用</title>
+        
+        <meta name="title" content="wolfSSL 使用">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/work/misc/wolfssl/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="wolfSSL 使用">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/work/misc/wolfssl/">
+        <meta property="twitter:title" content="wolfSSL 使用">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/work/misc/wolfssl/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/work/misc/wolfssl/",
+                "@type":"WebSite",
+                "headline":"wolfSSL 使用",
+                "name":"wolfSSL 使用",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/wolfssl</p>
+<p class="post-meta"><time datetime="2024-12-14">2024-12-14</time></p>
+<h1>wolfSSL 使用</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="bei-jing">背景</h2>
+<p>c++ 写 TLS 客户端，openssl 实在是有些丑，另外也希望优化加解密性能，遂研究了一下 <a href="https://www.wolfssl.com/">wolfSSL</a> 的使用，因为看它：</p>
+<ul>
+<li><a href="https://www.wolfssl.com/documentation/manuals/wolfssl/index.html">文档</a>齐全</li>
+<li>有个<a href="https://www.wolfssl.com/forums/">支持社区</a>且上面有人回答</li>
+<li>据说性能比 openssl 好，参见 <a href="https://www.wolfssl.com/docs/benchmarks/">benchmark</a></li>
+</ul>
+<h2 id="an-zhuang-ji-bian-yi-xuan-xiang">安装及编译选项</h2>
+<h3 id="yuan-ma-la-qu">源码拉取</h3>
+<p>官网有个 <a href="https://www.wolfssl.com/download/">Download</a> 页面，可以下载源码，其 <a href="https://github.com/wolfSSL/wolfssl/releases/tag/v5.7.4-stable">github release</a> 页也能拉源码，二者在 <code>configure</code> 时略有不同：前者可以直接 <code>configure</code>，后者需要先 <code>./autogen.sh</code></p>
+<p>以后者为例</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">wget</span><span> https://github.com/wolfSSL/wolfssl/archive/refs/tags/v5.7.4-stable.tar.gz</span><span style="color:#bf616a;"> -O</span><span> wolfssl-5.7.4-stable.tar.gz
+</span><span style="color:#bf616a;">tar -xf</span><span> wolfssl-5.7.4-stable.tar.gz
+</span><span style="color:#96b5b4;">cd</span><span> wolfssl-5.7.4-stable &amp;&amp; </span><span style="color:#bf616a;">./autogen.sh
+</span></code></pre>
+<h3 id="bian-yi">编译</h3>
+<p>大概是因为 wolfSSL 在设计之初是考虑给嵌入式设备用的，支持非常多的编译选项，所以非常可定制，当然也会导致刚开始用的时候也会比较 confusing，所有选项参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter02.html">Building wolfSSL</a></p>
+<p>根据我的用例，我选择了如下选项，它们的作用分别是</p>
+<ul>
+<li><code>--enable-tls13</code> 启用 tls1.3</li>
+<li><code>--disable-harden</code> (性能)禁用安全强化</li>
+<li><code>--enable-intelasm</code> (性能)启用 intel 指令集加速，在我的 intel 机器上测试性能改进很显著</li>
+<li><code>--enable-aesni --enable-sp --enable-sp-asm</code> (性能)启用各种加速，不过这些在我的测试中并没有带来显著提升</li>
+<li><code>--enable-singlethreaded</code> (性能)如果能保证进程不会并发访问 wolfssl，可以启用</li>
+<li><code>--enable-ed25519</code> 因为用到了 ed25519 相关功能</li>
+<li><code>--enable-opensslall</code> 因为旧的代码是 openssl 写的，启用这个后会暴露非常多 openssl 的兼容接口，基本上可以无缝迁移
+<ul>
+<li><code>--enable-opensslextra</code> 我没有启用这个选项，但是提一嘴，因为它实际上是暴露比 <code>opensslall</code> 更多的兼容接口(<code>opensslall</code> 虽然叫 all 但不是它的超集)</li>
+</ul>
+</li>
+<li><code>CFLAGS="-DLARGE_STATIC_BUFFERS"</code> 启用这个选项后可以减少 <code>malloc</code>，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter09.html">Library Design</a> 的 Input and Output Buffers 章节</li>
+<li><code>--libdir=/usr/local/lib64</code> 指定安装路径</li>
+</ul>
+<p>上面的选项里，性能相关的选项，除了 <code>enable-intelasm</code> 测试后有明显提升，其他选项均是看文档写了可能提升 performance 才启用的，但实际测试改进可能不显著，建议自己写个 benchmark 然后每启用一个选项测试一遍</p>
+<p>另外我只关心 TLS Application 相关的性能，即握手完成后对称加解密的过程，所以只测了这个</p>
+<p>完整的 configure 命令如下，包含了编译安装</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">./configure --enable-tls13 </span><span>\
+</span><span style="color:#bf616a;">    --disable-harden </span><span>\
+</span><span style="color:#bf616a;">    --enable-intelasm</span><span> \</span><span style="background-color:#bf616a;color:#2b303b;">      </span><span>
+</span><span>    </span><span style="color:#bf616a;">--enable-aesni </span><span>\
+</span><span style="color:#bf616a;">    --enable-sp --enable-sp-asm </span><span>\
+</span><span style="color:#bf616a;">    --enable-singlethreaded </span><span>\
+</span><span style="color:#bf616a;">    --enable-opensslall </span><span>\
+</span><span style="color:#bf616a;">    --enable-ed25519 </span><span>\
+</span><span style="color:#bf616a;">    --libdir</span><span>=/usr/local/lib64 \
+</span><span>    CFLAGS=&quot;</span><span style="color:#a3be8c;">-DLARGE_STATIC_BUFFERS</span><span>&quot;
+</span><span>
+</span><span style="color:#bf616a;">make -j8 </span><span>&amp;&amp; </span><span style="color:#bf616a;">make</span><span> install
+</span></code></pre>
+<h3 id="shi-yong">使用</h3>
+<p>参考 <a href="https://github.com/wolfSSL/wolfssl-examples/tree/master">wolfssl-examples</a>，用例非常全</p>
+<p>在我的使用场景中，基本上只要把 openssl 头文件换成</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">wolfssl/options.h</span><span>&gt; </span><span style="color:#65737e;">// 必须在所有 wolfssl include 之前
+</span><span style="color:#b48ead;">#include </span><span>&lt;</span><span style="color:#a3be8c;">wolfssl/ssl.h</span><span>&gt;
+</span></code></pre>
+<p>然后编译链接时把 <code>-lcrypto -lssl</code> 换成 <code>-lwolfssl</code> 即可，由于启用了 <code>--enable-opensslall</code>，所以基本上绝大多数 openssl 的 symbol 都可以直接使用，其会被替换成 wolfssl 的，例如</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">#define </span><span>SSL_CTX WOLFSSL_CTX
+</span><span style="color:#b48ead;">#define </span><span>SSL_new wolfSSL_new
+</span></code></pre>
+<h4 id="i-o-callback">I/O Callback</h4>
+<p>原本的 openssl 的代码里，I/O 用了 BIO，在启用 <code>--enable-opensslall</code> 后，wolfSSL 也提供 BIO 接口，也是可以无缝迁移的</p>
+<p>但是看文档发现它还提供了 I/O Callback 接口，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter05.html">Portability</a> 的 Custom Input/Output Abstraction Layer 章节</p>
+<p>此外，在看源码时发现，其所有 I/O 都是以 I/O Callback 实现的，例如设置 BIO 其实只是设置了 BIO callback，在需要读写时将数据写到 BIO 层。直接用 callback 相比 BIO 应该少了一次 memcpy，出于性能的考量打算使用这个接口</p>
+<p>使用也比较简单，可以参考 <a href="https://github.com/wolfSSL/wolfssl-examples/blob/master/custom-io-callbacks">wolfssl-examples/custom-io-callbacks</a>，它实现了通过文件而非 socket 作为 I/O 进行 SSL 通信的例子</p>
+<p>两个 callback 的定义如下</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef int </span><span>(*CallbackIORecv)(WOLFSSL *ssl, </span><span style="color:#b48ead;">char </span><span>*buf, </span><span style="color:#b48ead;">int</span><span> sz, </span><span style="color:#b48ead;">void </span><span>*ctx);
+</span><span style="color:#b48ead;">typedef int </span><span>(*CallbackIOSend)(WOLFSSL *ssl, </span><span style="color:#b48ead;">char </span><span>*buf, </span><span style="color:#b48ead;">int</span><span> sz, </span><span style="color:#b48ead;">void </span><span>*ctx);
+</span></code></pre>
+<p>这两个 callback 的语义是</p>
+<ul>
+<li>CallbackIORecv: 当 SSL 希望读取数据时，会调这个 cb
+<ul>
+<li>其中 buf 是 SSL 内部的 buffer，sz 是 SSL 希望读取的字节数，我们需要将读到的指定字节数写入 buf</li>
+<li>返回实际读到的字节数或者 <code>WOLFSSL_CBIO_ERR_WANT_READ</code> 表示暂无数据</li>
+<li>例如，在 <code>SSL_connect</code> 之后，或者调用 <code>SSL_read</code> 时，即 ssl 希望读取控制消息或者 application data 时，会调用这个 cb</li>
+<li>在握手完成后的 <code>SSL_read</code> 过程中，wolfSSL 通常会先调一次 sz 为 5 的 cb 来试图读取消息头，然后再根据消息头的数据长度来读剩下的 payload</li>
+</ul>
+</li>
+<li>CallbackIOSend: 当 SSL 希望发送数据时，会调这个 cb
+<ul>
+<li>其中 buf 是 SSL 希望发出的数据(加密后)</li>
+<li>返回实际发送的字节数或者 WOLFSSL_CBIO_ERR_WANT_WRITE 表示需要重试即可</li>
+<li>例如，在调用 <code>SSL_connect</code> 之后，或者调用 <code>SSL_write</code> 时，即 ssl 希望发送控制消息或者加密后的 application data 时，会调用这个 cb</li>
+</ul>
+</li>
+</ul>
+<p><code>ctx</code> 则是用户自己设置的 userdata</p>
+<p>在实现了自己的 callback 后，通过如下代码设置即可</p>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#bf616a;">wolfSSL_SSLSetIORecv</span><span>(ssl, CBIORecv);
+</span><span style="color:#bf616a;">wolfSSL_SSLSetIOSend</span><span>(ssl, CBIOSend);
+</span><span style="color:#65737e;">// wolfSSL_SetIOReadCtx(ssl, userdata);
+</span><span style="color:#65737e;">// wolfSSL_SetIOWriteCtx(ssl, userdata);
+</span></code></pre>
+<h4 id="jian-shao-malloc">减少 malloc</h4>
+<p>wolfSSL 支持自定义 allocator(malloc, free, realloc)，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter05.html">Portability</a> 的 Memory Use 章节</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">wolfSSL_SetAllocators</span><span>(wolfSSL_Malloc_cb  </span><span style="color:#bf616a;">malloc_function</span><span>,
+</span><span>                         wolfSSL_Free_cb    </span><span style="color:#bf616a;">free_function</span><span>,
+</span><span>                         wolfSSL_Realloc_cb </span><span style="color:#bf616a;">realloc_function</span><span>);
+</span></code></pre>
+<p>也因此，我尝试用一个包含调用计数的 malloc 来观察 malloc 的次数，然后发现在不启用 <code>LARGE_STATIC_BUFFERS</code> 的情况下，除了握手阶段以外，每次读或者写 SSL 都会出现一次 malloc(和相应的 free)</p>
+<ul>
+<li>相关讨论 <a href="https://www.wolfssl.com/forums/post8115.html">Best practice to avoid dynamic memory allocations</a></li>
+</ul>
+<p>如果启用 <code>LARGE_STATIC_BUFFERS</code>，每个 <code>SSL</code> 都会有一个固定大小的 <code>staticBuffer</code>，其大小应该是 <code>MAX_RECORD_SIZE</code>，即 16KB，在读写数据时只要这个 buffer 够用，就不会出现 malloc</p>
+<p>另一个方法则复杂一些，参考 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter04.html#enabling-static-buffer-allocation">Features</a> 的 Static Buffer Allocation Option 章节，大概流程是：</p>
+<ul>
+<li>在 <code>configure</code> 时启用 <code>--enable-staticmemory</code></li>
+<li>预先分配两个内存区域，并传递给 wolfSSL，需要调用两遍 <code>wolfSSL_CTX_load_static_memory</code>
+<ul>
+<li>下面这个 example 是 <a href="https://www.wolfssl.com/documentation/manuals/wolfssl/chapter04.html#enabling-static-buffer-allocation">Features</a> 里抄的，但 <code>WOLFMEM_IO_FIXED</code> 应该改成 <code>WOLFMEM_IO_POOL_FIXED</code><pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span>WOLFSSL_CTX* ctx = </span><span style="color:#d08770;">NULL</span><span>; </span><span style="color:#65737e;">/* pass NULL to generate WOLFSSL_CTX */
+</span><span style="color:#b48ead;">int</span><span> ret;
+</span><span>
+</span><span style="color:#b48ead;">#define </span><span>MAX_CONCURRENT_TLS  </span><span style="color:#d08770;">0
+</span><span style="color:#b48ead;">#define </span><span>MAX_CONCURRENT_IO   </span><span style="color:#d08770;">0
+</span><span>
+</span><span style="color:#b48ead;">unsigned char</span><span> GEN_MEM[GEN_MEM_SIZE];
+</span><span style="color:#b48ead;">unsigned char</span><span> IO_MEM[IO_MEM_SIZE];　
+</span><span>
+</span><span style="color:#65737e;">/* set up a general-purpose buffer and generate WOLFSSL_CTX from it on the first call. */
+</span><span>ret = </span><span style="color:#bf616a;">wolfSSL_CTX_load_static_memory</span><span>(
+</span><span>        &amp;ctx,                               </span><span style="color:#65737e;">/* set NULL to ctx */
+</span><span>        </span><span style="color:#bf616a;">wolfSSLv23_client_method_ex</span><span>(),  </span><span style="color:#65737e;">/* use function with &quot;_ex&quot; */
+</span><span>        GEN_MEM, GEN_MEM_SIZE,            </span><span style="color:#65737e;">/* buffer and its size */
+</span><span>        WOLFMEM_GENERAL,                  </span><span style="color:#65737e;">/* general purpose */
+</span><span>        MAX_CONCURRENT_TLS);              </span><span style="color:#65737e;">/* max concurrent objects */
+</span><span>
+</span><span style="color:#65737e;">/* set up a I/O-purpose buffer on the second call. */
+</span><span>ret = </span><span style="color:#bf616a;">wolfSSL_CTX_load_static_memory</span><span>(
+</span><span>        &amp;ctx,                </span><span style="color:#65737e;">/* make sure ctx is holding the object */
+</span><span>        </span><span style="color:#d08770;">NULL</span><span>,                           </span><span style="color:#65737e;">/* pass it to NULL this time */
+</span><span>        IO_MEM, IO_MEM_SIZE,                </span><span style="color:#65737e;">/* buffer and its size */
+</span><span>        WOLFMEM_IO_FIXED,                             </span><span style="color:#65737e;">/* I/O purpose */
+</span><span>        MAX_CONCURRENT_IO);               </span><span style="color:#65737e;">/* max concurrent objects */
+</span><span>
+</span><span style="color:#b48ead;">if </span><span>(ret != </span><span style="color:#d08770;">0</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">auto</span><span> error = </span><span style="color:#bf616a;">wolfSSL_ERR_get_error</span><span>();
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(error != WOLFSSL_ERROR_NONE)
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">char</span><span> error_str[</span><span style="color:#d08770;">256</span><span>];
+</span><span>        </span><span style="color:#bf616a;">wolfSSL_ERR_error_string</span><span>(error, error_str);
+</span><span>        throw std::</span><span style="color:#bf616a;">runtime_error</span><span>(&quot;</span><span style="color:#a3be8c;">wolfSSL_CTX_load_static_memory error: </span><span>&quot; + std::</span><span style="color:#bf616a;">string</span><span>(error_str));
+</span><span>    }
+</span><span>}
+</span></code></pre>
+</li>
+</ul>
+</li>
+<li>之后的使用应该不需要修改，在 <code>statcmemory</code> 够大的情况下，wolfSSL 会自动在上面拿内存，本质上就是实现了一个预分配的 malloc
+<ul>
+<li>如果内存不够，可能会回退到 malloc，好像可以通过 <code>WOLFSSL_NO_MALLOC</code> 来强制禁止，参考 <a href="https://www.wolfssl.com/crypto-without-mallocs/">Doing Crypto Without Malloc’s</a></li>
+</ul>
+</li>
+</ul>
+<p>不过其实 <code>staticmemory</code> 本质上还是要每次都分配内存(只是在预分配的区域上分配)，相比 <code>LARGE_STATIC_BUFFERS</code> 在理想情况下可以完全不分配内存，后者应该更符合我的需求</p>
+<p>在我的测试里，在收发数据包较小(因此单次 malloc 成本很低)的情况下，性能表现 <code>LARGE_STATIC_BUFFERS</code> &gt; <code>malloc</code> &gt; <code>staticmemory</code></p>
+<h2 id="benchmark">Benchmark</h2>
+<p>简单测试了 TLS Client 端，在 TLS1.3 用 <code>TLS_AES_128_GCM_SHA256</code> cipher 的情况下，连续收发 256B payload，加解密的耗时(ns)</p>
+<p>openssl 作为 baseline, 在使用 BIO 的情况下</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 357, max: 11197, avg: 388, p50: 370, p99: 546
+</span><span>decryption_costs: min: 316, max: 16816, avg: 350, p50: 330, p99: 532
+</span></code></pre>
+<p>wolfSSL 不启用 <code>intelasm</code> 且使用 BIO</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 1074, max: 16198, avg: 1132, p50: 1098, p99: 1335
+</span><span>decryption_costs: min: 1143, max: 16839, avg: 1205, p50: 1169, p99: 1427
+</span></code></pre>
+<p>启用 <code>--disable-harden</code>，没有观察到提升</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 1067, max: 11969, avg: 1127, p50: 1092, p99: 1338
+</span><span>decryption_costs: min: 1139, max: 21007, avg: 1206, p50: 1168, p99: 1433
+</span></code></pre>
+<p>启用 <code>--enable-intelasm</code>，性能提升显著</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 200, max: 10915, avg: 228, p50: 214, p99: 304
+</span><span>decryption_costs: min: 263, max: 8928, avg: 309, p50: 296, p99: 407
+</span></code></pre>
+<p>启用 <code>--enable-sp-asm</code>，没有观察到提升</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 205, max: 16980, avg: 244, p50: 235, p99: 319
+</span><span>decryption_costs: min: 258, max: 15187, avg: 300, p50: 286, p99: 388
+</span></code></pre>
+<p>启用 <code>--enable-singlethreaded</code>，提升不大，但似乎是有些提升</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 211, max: 10392, avg: 249, p50: 240, p99: 331
+</span><span>decryption_costs: min: 238, max: 12050, avg: 281, p50: 261, p99: 373
+</span></code></pre>
+<p>在发送方向上用 Callback，接收方向上仍然用 BIO，且启用 <code>LARGE_STATIC_BUFFERS</code>，提升较大</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 124, max: 10720, avg: 131, p50: 131, p99: 138
+</span><span>decryption_costs: min: 172, max: 11071, avg: 184, p50: 183, p99: 208
+</span></code></pre>
+<p>再启用 <code>fast-math</code> 和 <code>fast-huge-math</code>，没有观察到提升</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>encryption_costs: min: 124, max: 17766, avg: 132, p50: 131, p99: 147
+</span><span>decryption_costs: min: 172, max: 16989, avg: 184, p50: 183, p99: 208
+</span></code></pre>
+<p>总结就是使用 IOCallback，启用 <code>LARGE_STATIC_BUFFERS</code>，启用 <code>intelasm</code> 和 <code>singlethreaded</code>(如果确认不会多线程使用)，能达到比较好的加解密性能，比 openssl 快</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/wolfssl">#wolfssl</a>
+
+
+
+<a href="/categories/cpp">+cpp</a>
+
+<a href="/categories/tuning">+tuning</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Linux 网络时间戳</title>
+        
+        <meta name="title" content="Linux 网络时间戳">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/work/linux/network-timestamp/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Linux 网络时间戳">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/work/linux/network-timestamp/">
+        <meta property="twitter:title" content="Linux 网络时间戳">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/work/linux/network-timestamp/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/work/linux/network-timestamp/",
+                "@type":"WebSite",
+                "headline":"Linux 网络时间戳",
+                "name":"Linux 网络时间戳",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/network-timestamp</p>
+<p class="post-meta"><time datetime="2024-10-24">2024-10-24</time></p>
+<h1>Linux 网络时间戳</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>为了衡量机内延迟，希望拿到收发包的时间戳</p>
+<h2 id="wen-dang">文档</h2>
+<p><a href="https://docs.kernel.org/networking/timestamping.html">Timestamping</a></p>
+<h2 id="wang-qia-zhi-chi">网卡支持</h2>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">$</span><span> ethtool</span><span style="color:#bf616a;"> -T</span><span> eth0
+</span><span style="color:#bf616a;">Time</span><span> stamping parameters for eth0:
+</span><span style="color:#bf616a;">Capabilities:
+</span><span>	</span><span style="color:#bf616a;">software-transmit</span><span>     (SOF_TIMESTAMPING_TX_SOFTWARE)
+</span><span>	</span><span style="color:#bf616a;">software-receive</span><span>      (SOF_TIMESTAMPING_RX_SOFTWARE)
+</span><span>	</span><span style="color:#bf616a;">software-system-clock</span><span> (SOF_TIMESTAMPING_SOFTWARE)
+</span><span style="color:#bf616a;">PTP</span><span> Hardware Clock: none
+</span><span style="color:#bf616a;">Hardware</span><span> Transmit Timestamp Modes: none
+</span><span style="color:#bf616a;">Hardware</span><span> Receive Filter Modes: none
+</span></code></pre>
+<p>即服务器只支持软件时间戳</p>
+<h2 id="shi-jian-chuo-huo-qu">时间戳获取</h2>
+<p>以 TCP 为例</p>
+<h3 id="rx">RX</h3>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// 创建 socket 后
+</span><span style="color:#65737e;">// 设置 SO_TIMESTAMPING 选项
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> timestamps = SOF_TIMESTAMPING_RX_SOFTWARE | SOF_TIMESTAMPING_SOFTWARE;
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#bf616a;">setsockopt</span><span>(sockfd, SOL_SOCKET, SO_TIMESTAMPING, &amp;timestamps, sizeof(timestamps)) &lt; </span><span style="color:#d08770;">0</span><span>)
+</span><span>    {
+</span><span>        </span><span style="color:#96b5b4;">perror</span><span>(&quot;</span><span style="color:#a3be8c;">SO_TIMESTAMPING</span><span>&quot;);
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// 用 recvmsg 接收数据
+</span><span style="color:#b48ead;">char </span><span>*buf = </span><span style="color:#b48ead;">new char</span><span>[</span><span style="color:#d08770;">1024</span><span>];
+</span><span style="color:#b48ead;">struct</span><span> msghdr msg = {</span><span style="color:#d08770;">0</span><span>};
+</span><span style="color:#b48ead;">struct</span><span> iovec iov = {buf, </span><span style="color:#d08770;">1024</span><span>};
+</span><span style="color:#b48ead;">char</span><span> control[</span><span style="color:#bf616a;">CMSG_SPACE</span><span>(sizeof(</span><span style="color:#b48ead;">struct</span><span> timespec))];
+</span><span>
+</span><span>msg.</span><span style="color:#bf616a;">msg_iov </span><span>= &amp;iov;
+</span><span>msg.</span><span style="color:#bf616a;">msg_iovlen </span><span>= </span><span style="color:#d08770;">1</span><span>;
+</span><span>msg.</span><span style="color:#bf616a;">msg_control </span><span>= control;
+</span><span>msg.</span><span style="color:#bf616a;">msg_controllen </span><span>= sizeof(control);
+</span><span>
+</span><span style="color:#b48ead;">while </span><span>(</span><span style="color:#d08770;">true</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> size = </span><span style="color:#bf616a;">recvmsg</span><span>(sockfd, &amp;msg, MSG_DONTWAIT);
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(size == -</span><span style="color:#d08770;">1 </span><span>&amp;&amp; errno == EAGAIN)
+</span><span>        </span><span style="color:#b48ead;">continue</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">auto</span><span> cmsg = </span><span style="color:#bf616a;">CMSG_FIRSTHDR</span><span>(&amp;msg); cmsg != </span><span style="color:#d08770;">NULL</span><span>; cmsg = </span><span style="color:#bf616a;">CMSG_NXTHDR</span><span>(&amp;msg, cmsg))
+</span><span>    {
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(cmsg-&gt;</span><span style="color:#bf616a;">cmsg_level </span><span>== SOL_SOCKET &amp;&amp; cmsg-&gt;</span><span style="color:#bf616a;">cmsg_type </span><span>== SO_TIMESTAMPING)
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">struct</span><span> timespec* ts = (</span><span style="color:#b48ead;">struct</span><span> timespec*)</span><span style="color:#bf616a;">CMSG_DATA</span><span>(cmsg);
+</span><span>            </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">recv at </span><span style="color:#d08770;">%.9lf</span><span style="color:#96b5b4;">\n</span><span>&quot;, ts-&gt;</span><span style="color:#bf616a;">tv_sec </span><span>+ ts-&gt;</span><span style="color:#bf616a;">tv_nsec </span><span>* </span><span style="color:#d08770;">1e-9</span><span>);
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(size &gt; </span><span style="color:#d08770;">0</span><span>)
+</span><span>        </span><span style="color:#b48ead;">break</span><span>;
+</span><span>}
+</span></code></pre>
+<h3 id="tx">TX</h3>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#65737e;">// 创建 socket 后
+</span><span style="color:#65737e;">// 设置 SO_TIMESTAMPING 选项
+</span><span>{
+</span><span>    </span><span style="color:#b48ead;">int</span><span> timestamps = SOF_TIMESTAMPING_TX_SOFTWARE | SOF_TIMESTAMPING_SOFTWARE;
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#bf616a;">setsockopt</span><span>(connfd, SOL_SOCKET, SO_TIMESTAMPING, &amp;timestamps, sizeof(timestamps)) &lt; </span><span style="color:#d08770;">0</span><span>)
+</span><span>    {
+</span><span>        </span><span style="color:#96b5b4;">perror</span><span>(&quot;</span><span style="color:#a3be8c;">SO_TIMESTAMPING</span><span>&quot;);
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// 发送数据后, 时间戳会被写入到 ERRQUEUE 中
+</span><span style="color:#b48ead;">char</span><span> buf[</span><span style="color:#d08770;">1024</span><span>];
+</span><span style="color:#65737e;">// ...
+</span><span style="color:#b48ead;">while </span><span>(</span><span style="color:#d08770;">true</span><span>)
+</span><span>{
+</span><span>    </span><span style="color:#bf616a;">write</span><span>(connfd, buf, size);
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// read tx timestamp
+</span><span>    {
+</span><span>        </span><span style="color:#65737e;">/* For transmit timestamps the outgoing packet is looped back to the socket’s error queue with the send timestamp(s) attached.
+</span><span style="color:#65737e;">         * A process receives the timestamps by calling recvmsg() with flag MSG_ERRQUEUE set and with a msg_control buffer sufficiently large to receive the relevant metadata structures.
+</span><span style="color:#65737e;">         * The recvmsg call returns the original outgoing data packet with two ancillary messages attached. */
+</span><span>        </span><span style="color:#b48ead;">struct</span><span> msghdr msg = {};
+</span><span>        </span><span style="color:#b48ead;">char</span><span> control[</span><span style="color:#bf616a;">CMSG_SPACE</span><span>(sizeof(</span><span style="color:#b48ead;">struct</span><span> timespec))];
+</span><span>        msg.</span><span style="color:#bf616a;">msg_control </span><span>= control;
+</span><span>        msg.</span><span style="color:#bf616a;">msg_controllen </span><span>= sizeof(control);
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#bf616a;">recvmsg</span><span>(connfd, &amp;msg, MSG_ERRQUEUE) &lt; </span><span style="color:#d08770;">0</span><span>)
+</span><span>        {
+</span><span>            </span><span style="color:#96b5b4;">perror</span><span>(&quot;</span><span style="color:#a3be8c;">recvmsg</span><span>&quot;);
+</span><span>            </span><span style="color:#96b5b4;">exit</span><span>(</span><span style="color:#d08770;">1</span><span>);
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">auto</span><span> cmsg = </span><span style="color:#bf616a;">CMSG_FIRSTHDR</span><span>(&amp;msg); cmsg != </span><span style="color:#d08770;">NULL</span><span>; cmsg = </span><span style="color:#bf616a;">CMSG_NXTHDR</span><span>(&amp;msg, cmsg))
+</span><span>        {
+</span><span>            </span><span style="color:#b48ead;">if </span><span>(cmsg-&gt;</span><span style="color:#bf616a;">cmsg_level </span><span>== SOL_SOCKET &amp;&amp; cmsg-&gt;</span><span style="color:#bf616a;">cmsg_type </span><span>== SCM_TIMESTAMPING)
+</span><span>            {
+</span><span>                </span><span style="color:#b48ead;">struct</span><span> timespec *ts = (</span><span style="color:#b48ead;">struct</span><span> timespec *)</span><span style="color:#bf616a;">CMSG_DATA</span><span>(cmsg);
+</span><span>                </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">write </span><span style="color:#d08770;">%d</span><span style="color:#a3be8c;"> bytes, tx timestamp: </span><span style="color:#d08770;">%.9lf</span><span style="color:#96b5b4;">\n</span><span>&quot;, size, ts-&gt;</span><span style="color:#bf616a;">tv_sec </span><span>+ ts-&gt;</span><span style="color:#bf616a;">tv_nsec </span><span>* </span><span style="color:#d08770;">1e-9</span><span>);
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h2 id="ce-shi">测试</h2>
+<h3 id="ruan-jian-shi-jian-chuo-overhead">软件时间戳 overhead</h3>
+<p>在测试机上开启 RX 时间戳选项并通过 <code>recvmsg</code> 读取时间戳的 overhead 约为 100ns</p>
+<h3 id="ruan-jian-shi-jian-chuo-sheng-cheng-shi-jian-dian">软件时间戳生成时间点</h3>
+<p>文档描述</p>
+<blockquote>
+<p>Request rx timestamps when data enters the kernel. These timestamps are generated just after a device driver hands a packet to the kernel receive stack.</p>
+<p>即内核从驱动拿到数据包后就生成时间戳</p>
+</blockquote>
+<p>对于字节流</p>
+<blockquote>
+<p>The SO_TIMESTAMPING interface supports timestamping of bytes in a bytestream. Each request is interpreted as a request for when the entire contents of the buffer has passed a timestamping point. That is, for streams option SOF_TIMESTAMPING_TX_SOFTWARE will record when all bytes have reached the device driver, regardless of how many packets the data has been converted into.</p>
+<p>即字节流的时间戳会 &gt;= 最后一个字节对应的包的时间戳</p>
+</blockquote>
+<p>实际测试如下场景：</p>
+<ul>
+<li>发送端几次发送间隔较久(1s)，预期几个包也会间隔较久到达，如果内核立即处理并给每个包打时间戳，那么读到的 RX 时间戳间隔也应当是 1s。</li>
+<li>但接收方如果不及时读数据，而是 sleep 一段时间等发送方发完再读，会发现有连续好几秒的包(定义包为发送端的一次发送)有相同的时间戳，且值大于等于最后一个包的时间戳。</li>
+</ul>
+<p>说明这些数据可能还是在驱动或者内核排队了，并且内核进入打时间戳的时机时，这些数据包已经被整合成了一个 skb 或是什么结构，因此一起得到了较晚的时间戳</p>
+<p>暂时没有找到获取更准确时间戳的方法</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        
