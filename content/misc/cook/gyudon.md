@@ -1,5 +1,5 @@
 ---
-title: "牛丼"
+title: "Gyuudon/牛丼"
 date: 2025-04-11
 taxonomies:
   categories: ["cook"]

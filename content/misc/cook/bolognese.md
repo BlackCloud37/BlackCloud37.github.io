@@ -1,5 +1,5 @@
 ---
-title: "番茄肉酱(意面)"
+title: "Bolognese/番茄肉酱(意面)"
 date: 2024-06-11
 taxonomies:
   categories: ["cook"]
