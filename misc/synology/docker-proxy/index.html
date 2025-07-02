@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Synology docker proxy</title>
+        
+        <meta name="title" content="Synology docker proxy">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/synology/docker-proxy/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Synology docker proxy">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/synology/docker-proxy/">
+        <meta property="twitter:title" content="Synology docker proxy">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/synology/docker-proxy/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/synology/docker-proxy/",
+                "@type":"WebSite",
+                "headline":"Synology docker proxy",
+                "name":"Synology docker proxy",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/docker-proxy</p>
+<p class="post-meta"><time datetime="2025-02-03">2025-02-03</time></p>
+<h1>Synology docker proxy</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>DSM 7.2.2，配置 docker pull 走代理</p>
+<p>参考：<a href="https://linux.do/t/topic/109710">【分享】群辉Docker pull代理设置方法</a>，只是配置文件位置不一样</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">vim</span><span> /usr/local/lib/systemd/system/pkg-ContainerManager-dockerd.service
+</span></code></pre>
+<p><code>HTTP(S)_PROXY</code> 改成自己的代理地址，<code>NO_PROXY</code> 不用动</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>[Service]
+</span><span>Environment=&quot;HTTP_PROXY=http://127.0.0.1:1080&quot;
+</span><span>Environment=&quot;HTTPS_PROXY=http://127.0.0.1:1080&quot;
+</span><span>Environment=&quot;NO_PROXY=localhost,127.0.0.0/8,192.168.0.0/16,172.16.0.0/12,10.0.0.0/8&quot;
+</span></code></pre>
+<p>重启服务</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> synosystemctl restart pkg-ContainerManager-dockerd
+</span></code></pre>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/synology">#synology</a>
+
+<a href="/tags/docker">#docker</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

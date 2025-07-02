@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>python gc 与循环引用</title>
+        
+        <meta name="title" content="python gc 与循环引用">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/programming/python/gc-performance/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="python gc 与循环引用">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/programming/python/gc-performance/">
+        <meta property="twitter:title" content="python gc 与循环引用">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/programming/python/gc-performance/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/programming/python/gc-performance/",
+                "@type":"WebSite",
+                "headline":"python gc 与循环引用",
+                "name":"python gc 与循环引用",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/gc-performance</p>
+<p class="post-meta"><time datetime="2024-09-11">2024-09-11</time></p>
+<h1>python gc 与循环引用</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>在优化日志落盘的任务里，为了避免消费日志队列过慢导致爆队列，其中一个优化是快速消费队列并全部缓存到 deque 里，再慢慢落盘</p>
+<p>但测试时发现，虽然理论上 <code>deque</code> 的 <code>append</code> 是 O(1) 的，但实际表现是 append 时不时会变慢(体现为消费队列并 <code>append</code> 变慢导致队列爆掉)，且随着 <code>deque</code> 变大，对应的延迟会变高</p>
+<p>这个问题表现类似 <a href="https://stackoverflow.com/questions/2473783/is-there-a-way-to-circumvent-python-list-append-becoming-progressively-slower">is there a way to circumvent python list append becoming progressively slower</a>，所以猜测可能也是 <code>gc</code> 导致的，禁用 <code>gc</code> 后确实不会变慢了，但随后发现引入了内存泄露，即虽然 <code>deque</code> 里缓存的元素被消费完了，但进程内存用量不会下降</p>
+<p>由于 <code>gc</code> 只被用于回收有循环引用的对象，所以猜测是项目里的某些对象有循环引用，定位到了如下代码：</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Foo</span><span style="color:#eff1f5;">:
+</span><span>    @</span><span style="color:#96b5b4;">property
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">bar</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">try</span><span>:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>._bar
+</span><span>        </span><span style="color:#b48ead;">except </span><span>AttributeError:
+</span><span>            </span><span style="color:#bf616a;">self</span><span>._bar = </span><span style="color:#bf616a;">self</span><span>.c_bar.contents
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>._bar
+</span></code></pre>
+<p>其中 <code>c_bar</code> 是一个 <code>ctypes.POINTER</code>，在命中 <code>AttributeError</code> 时的逻辑会使 <code>self._bar</code> 引用 <code>self.c_bar</code>，产生循环引用，改掉这里后内存泄露消失</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/bug">#bug</a>
+
+
+
+<a href="/categories/python">+python</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

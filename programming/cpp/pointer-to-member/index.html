@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>C++ pointer to member</title>
+        
+        <meta name="title" content="C++ pointer to member">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/programming/cpp/pointer-to-member/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="C++ pointer to member">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/programming/cpp/pointer-to-member/">
+        <meta property="twitter:title" content="C++ pointer to member">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/programming/cpp/pointer-to-member/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/programming/cpp/pointer-to-member/",
+                "@type":"WebSite",
+                "headline":"C++ pointer to member",
+                "name":"C++ pointer to member",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/pointer-to-member</p>
+<p class="post-meta"><time datetime="2025-01-02">2025-01-02</time></p>
+<h1>C++ pointer to member</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<h2 id="bei-jing">背景</h2>
+<p>在做侵入式容器时，容器通常需要访问对象的成员。例如，侵入式链表需要将链表节点嵌入到对象中，这时用 pointer to member 来实现，可以避免硬编码成员名：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Node {
+</span><span>    Node* next;
+</span><span>    Node* prev;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Foo {
+</span><span>    Node node1;
+</span><span>    Node node2;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">auto</span><span> PtrToMember&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">List </span><span style="color:#eff1f5;">{
+</span><span style="color:#65737e;">// access via
+</span><span style="color:#65737e;">// Node node = foo-&gt;*PtrToMember;
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span>List&lt;&amp;Foo::node1&gt; list1;
+</span><span>List&lt;&amp;Foo::node2&gt; list2;
+</span></code></pre>
+<h2 id="tui-dao-pointer-to-who-s-member">推导 Pointer to <em>Who's</em> Member</h2>
+<p>由于容器往往需要知道储存对象的类型，例如上面的 Foo，最简单的做法是也放到模板参数里</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">auto</span><span> PtrToMember, </span><span style="color:#b48ead;">typename</span><span> T&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">List </span><span style="color:#eff1f5;">{}</span><span>;
+</span><span>
+</span><span>List&lt;&amp;Foo::node1, Foo&gt; list1;
+</span></code></pre>
+<p>但既然 <code>PtrToMember</code> 已经包含了 <code>Foo</code>，其实可以自动推导出 <code>T</code>，参考 <a href="https://stackoverflow.com/questions/65375734/inferring-type-and-class-when-passing-a-pointer-to-data-member-as-a-non-type-tem">Inferring type and class when passing a pointer to data member as a non-type template argument</a></p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> T&gt; </span><span style="color:#b48ead;">struct </span><span>type_from_member;
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">typename</span><span> Cls,</span><span style="color:#b48ead;">typename</span><span> M&gt;
+</span><span style="color:#b48ead;">struct </span><span>type_from_member&lt;M Cls::*&gt; {
+</span><span>    </span><span style="color:#b48ead;">using </span><span>class_type = Cls;
+</span><span>    </span><span style="color:#b48ead;">using </span><span>member_type = M;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">template </span><span>&lt;</span><span style="color:#b48ead;">auto</span><span> PtrToMember, </span><span style="color:#b48ead;">typename</span><span> T = type_from_member&lt;</span><span style="color:#b48ead;">decltype</span><span>(PtrToMember)&gt;::class_type&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">List </span><span style="color:#eff1f5;">{
+</span><span style="color:#eff1f5;">}</span><span>;
+</span><span>
+</span><span>List&lt;&amp;Foo::node1 </span><span style="color:#65737e;">/* T=Foo */</span><span>&gt; list1;
+</span></code></pre>
+<p>可以看到，上述模板特化中，<code>PtrToMember</code> 的类型是 <code>M Cls::*</code>，即 <code>Node Foo::*</code>。<code>Node Foo::*</code> 是一个明确的 <code>typename</code>：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span>Node Foo::* ptr = &amp;Foo::node1;
+</span><span>
+</span><span>Foo foo;
+</span><span>Node&amp; node = foo.*</span><span style="color:#bf616a;">ptr</span><span>;
+</span></code></pre>
+<p>完整的定义可以参考 <a href="https://en.cppreference.com/w/cpp/language/pointer">Pointer declaration</a> 的 Pointers to members 一节</p>
+<h2 id="ji-cheng">继承</h2>
+<p>在实践中，<code>Foo</code> 可能会涉及继承，此时会发现自动推导失效了：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Base {
+</span><span>    Node node;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">struct </span><span>Derived : </span><span style="color:#a3be8c;">Base </span><span>{};
+</span><span>
+</span><span>List&lt;&amp;Derived::node </span><span style="color:#65737e;">/* T=Base */</span><span>&gt; list; </span><span style="color:#65737e;">/* 此处推导的结果是 T=Base, 而非期望的 Derived,
+</span><span style="color:#65737e;">                                         * 即使我们写了 &amp;Derived::node */
+</span></code></pre>
+<p>原因还是 <code>&amp;Derived::node</code> 的类型是 <code>Node Base::*</code>，而不是 <code>Node Derived::*</code></p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span>static_assert(std::is_same_v&lt;</span><span style="color:#b48ead;">decltype</span><span>(&amp;Derived::node), Node Base::*&gt;); </span><span style="color:#65737e;">// Pass
+</span><span style="color:#65737e;">// static_assert(std::is_same_v&lt;decltype(&amp;Derived::node), Node Derived::*&gt;); // Fail
+</span></code></pre>
+<p>另外，基类的 <code>PtrToMember</code> 可以隐式转换成派生类的 <code>PtrToMember</code></p>
+<blockquote>
+<p>Pointer to data member of an accessible unambiguous non-virtual base class can be implicitly converted to pointer to the same data member of a derived class</p>
+</blockquote>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span>Node Base::* ptr = &amp;Base::node;
+</span><span>Node Derived::* ptr2 = ptr; </span><span style="color:#65737e;">// OK
+</span></code></pre>
+<p>反向的转换则需要 <code>static_cast</code>，且如果用基类没有该 member，但试图用这个 ptr 访问基类的 member，是 undefined behavior</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">struct </span><span>Base {};
+</span><span style="color:#b48ead;">struct </span><span>Derived : </span><span style="color:#a3be8c;">Base </span><span>{ Node node; };
+</span><span>Node Derived::* derived_ptr = &amp;Derived::node;
+</span><span>Node Base::* base_ptr = static_cast&lt;Node Base::*&gt;(derived_ptr); </span><span style="color:#65737e;">// OK
+</span><span>
+</span><span>Derived derived;
+</span><span>derived.*</span><span style="color:#bf616a;">derived_ptr</span><span>; </span><span style="color:#65737e;">// OK
+</span><span>
+</span><span>Base base;
+</span><span>base.*</span><span style="color:#bf616a;">base_ptr</span><span>; </span><span style="color:#65737e;">// UB
+</span></code></pre>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

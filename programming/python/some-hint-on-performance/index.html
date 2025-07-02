@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>Some notes on python performance</title>
+        
+        <meta name="title" content="Some notes on python performance">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/programming/python/some-hint-on-performance/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="Some notes on python performance">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/programming/python/some-hint-on-performance/">
+        <meta property="twitter:title" content="Some notes on python performance">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/programming/python/some-hint-on-performance/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/programming/python/some-hint-on-performance/",
+                "@type":"WebSite",
+                "headline":"Some notes on python performance",
+                "name":"Some notes on python performance",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/some-hint-on-performance</p>
+<p class="post-meta"><time datetime="2025-01-24">2025-01-24</time></p>
+<h1>Some notes on python performance</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>记录一下这两天写 python 时遇到的一些性能问题和解决。大部分不能算优化，只是特定 case 下的对性能数字量级的认知。大部分测试基于 python 3.8。</p>
+<h3 id="isinstance-he-type-is">isinstance 和 type is</h3>
+<p>如果希望检查实例是否 exactly 是某个类型 A，而不包括 A 的子类，用 <code>type(a) is A</code>。</p>
+<p>如果希望检查实例是否是 A 或者 A 的子类，用 <code>isinstance(a, A)</code>。</p>
+<p>除了语义上的区别，二者的性能也不同，如果检查的类型<em>继承链比较复杂</em>，且结果为 False 时，<code>isinstance</code> 的性能会差很多，否则差不多。</p>
+<ul>
+<li>
+<p>在我的 case 中，被检查的类型从 <code>pydantic.BaseModel</code> 派生多级。<code>isinstance</code> 为 False 时，比 <code>type is</code> 慢 ~10 倍。</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>pydantic </span><span style="color:#b48ead;">import </span><span>BaseModel
+</span><span style="color:#b48ead;">import </span><span>timeit
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">A</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">BaseModel</span><span style="color:#eff1f5;">):
+</span><span>    a: int
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">B</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">A</span><span style="color:#eff1f5;">):
+</span><span>    b: int
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">C1</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">B</span><span style="color:#eff1f5;">):
+</span><span>    c: int
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">C2</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">B</span><span style="color:#eff1f5;">):
+</span><span>    c: int
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">C3</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">B</span><span style="color:#eff1f5;">):
+</span><span>    c: int
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span>c1 = </span><span style="color:#bf616a;">C1</span><span>(</span><span style="color:#bf616a;">a</span><span>=</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#bf616a;">b</span><span>=</span><span style="color:#d08770;">2</span><span>, </span><span style="color:#bf616a;">c</span><span>=</span><span style="color:#d08770;">3</span><span>)
+</span><span>c2 = </span><span style="color:#bf616a;">C2</span><span>(</span><span style="color:#bf616a;">a</span><span>=</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#bf616a;">b</span><span>=</span><span style="color:#d08770;">2</span><span>, </span><span style="color:#bf616a;">c</span><span>=</span><span style="color:#d08770;">3</span><span>)
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">isinstance true </span><span>&quot;, \
+</span><span>    timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#96b5b4;">isinstance</span><span>(c1, C1), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">type is    true </span><span>&quot;, \
+</span><span>    timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#96b5b4;">type</span><span>(c1) is C1, </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">isinstance false</span><span>&quot;, \
+</span><span>    timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#96b5b4;">isinstance</span><span>(c1, C2), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">type is    false</span><span>&quot;, \
+</span><span>    timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#96b5b4;">type</span><span>(c1) is C2, </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))    
+</span></code></pre>
+<p>结果是</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>isinstance true  0.05928762990515679
+</span><span>type is    true  0.08189487305935472
+</span><span>isinstance false 0.6317731359740719
+</span><span>type is    false 0.08188665006309748
+</span></code></pre>
+</li>
+</ul>
+<h3 id="datetime-strptime">datetime.strptime</h3>
+<p>当解析的时间戳格式固定时，手写 datetime 解析比 strptime 更快</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">parse_timestamp</span><span>(</span><span style="color:#bf616a;">time_str</span><span>: str) -&gt; float:
+</span><span>    </span><span style="color:#b48ead;">return </span><span>datetime.</span><span style="color:#bf616a;">datetime</span><span>(
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[:</span><span style="color:#d08770;">4</span><span>], </span><span style="color:#d08770;">10</span><span>),
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[</span><span style="color:#d08770;">5</span><span>:</span><span style="color:#d08770;">7</span><span>], </span><span style="color:#d08770;">10</span><span>),
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[</span><span style="color:#d08770;">8</span><span>:</span><span style="color:#d08770;">10</span><span>], </span><span style="color:#d08770;">10</span><span>),
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[</span><span style="color:#d08770;">11</span><span>:</span><span style="color:#d08770;">13</span><span>], </span><span style="color:#d08770;">10</span><span>),
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[</span><span style="color:#d08770;">14</span><span>:</span><span style="color:#d08770;">16</span><span>], </span><span style="color:#d08770;">10</span><span>),
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[</span><span style="color:#d08770;">17</span><span>:</span><span style="color:#d08770;">19</span><span>], </span><span style="color:#d08770;">10</span><span>),
+</span><span>        </span><span style="color:#bf616a;">int</span><span>(time_str[</span><span style="color:#d08770;">20</span><span>:</span><span style="color:#d08770;">26</span><span>], </span><span style="color:#d08770;">10</span><span>)
+</span><span>    ).</span><span style="color:#bf616a;">timestamp</span><span>()
+</span><span>
+</span><span>timestr = &quot;</span><span style="color:#a3be8c;">2024-12-06 22:57:00.393023</span><span>&quot;
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">parse_timestamp</span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#bf616a;">parse_timestamp</span><span>(timestr), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">strptime       </span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: datetime.datetime.</span><span style="color:#bf616a;">strptime</span><span>(timestr, &quot;</span><span style="color:#d08770;">%Y</span><span style="color:#a3be8c;">-</span><span style="color:#d08770;">%m</span><span style="color:#a3be8c;">-</span><span style="color:#d08770;">%d %H</span><span style="color:#a3be8c;">:</span><span style="color:#d08770;">%M</span><span style="color:#a3be8c;">:</span><span style="color:#d08770;">%S</span><span style="color:#a3be8c;">.</span><span style="color:#d08770;">%f</span><span>&quot;), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>parse_timestamp 1.8856778349727392
+</span><span>strptime        6.808586899889633
+</span></code></pre>
+<h3 id="ru-guo-ke-yi-bu-yong-re-na-jiu-bu-yong">如果可以不用 re，那就不用</h3>
+<p>我需要从字符串中提取出 <code>key1=value key2=value2 ...</code> 这样的 pattern 成一个 dict。</p>
+<p>一开始是直接 <code>split(' ')</code> 再 <code>split('=')</code>，后来发现某些 value 可能包含空格，图方便就改成了 <code>re.finditer</code>。</p>
+<p>但其实这个解析任务是可以不用 re 的，而且手写解析比 re 快很多。具体可以参考代码</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#bf616a;">KEY_PATTERN </span><span>= re.</span><span style="color:#bf616a;">compile</span><span>(</span><span style="color:#b48ead;">r</span><span>&quot;</span><span style="color:#a3be8c;">(</span><span style="color:#d08770;">\w</span><span>+</span><span style="color:#a3be8c;">)=</span><span>&quot;)
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">parse_kv_re</span><span>(</span><span style="color:#bf616a;">text</span><span>: str) -&gt; Dict[str, str]:
+</span><span>    data = {}
+</span><span>    prev_match = </span><span style="color:#d08770;">None
+</span><span>    </span><span style="color:#b48ead;">for </span><span>match </span><span style="color:#b48ead;">in </span><span>KEY_PATTERN.</span><span style="color:#bf616a;">finditer</span><span>(text):
+</span><span>        </span><span style="color:#b48ead;">if </span><span>prev_match:
+</span><span>            data[prev_match.</span><span style="color:#bf616a;">group</span><span>(</span><span style="color:#d08770;">1</span><span>)] = text[prev_match.</span><span style="color:#bf616a;">end</span><span>() : match.</span><span style="color:#bf616a;">start</span><span>()].</span><span style="color:#bf616a;">strip</span><span>()
+</span><span>        prev_match = match
+</span><span>    </span><span style="color:#b48ead;">if </span><span>prev_match:
+</span><span>        data[prev_match.</span><span style="color:#bf616a;">group</span><span>(</span><span style="color:#d08770;">1</span><span>)] = text[prev_match.</span><span style="color:#bf616a;">end</span><span>() :].</span><span style="color:#bf616a;">strip</span><span>()
+</span><span>    </span><span style="color:#b48ead;">return </span><span>data
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">parse_kv_split</span><span>(</span><span style="color:#bf616a;">text</span><span>: str) -&gt; Dict[str, str]:
+</span><span>    data = {}
+</span><span>    prev_key = </span><span style="color:#d08770;">None
+</span><span>    val = &quot;&quot;
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">for </span><span>token </span><span style="color:#b48ead;">in </span><span>text.</span><span style="color:#bf616a;">split</span><span>():
+</span><span>        </span><span style="color:#b48ead;">if </span><span>&quot;</span><span style="color:#a3be8c;">=</span><span>&quot; in token:
+</span><span>            </span><span style="color:#b48ead;">if </span><span>prev_key:
+</span><span>                data[prev_key] = val
+</span><span>                val = &quot;&quot;
+</span><span>            prev_key, val = token.</span><span style="color:#bf616a;">split</span><span>(&quot;</span><span style="color:#a3be8c;">=</span><span>&quot;, </span><span style="color:#bf616a;">maxsplit</span><span>=</span><span style="color:#d08770;">1</span><span>)
+</span><span>        </span><span style="color:#b48ead;">else</span><span>:
+</span><span>            val += &quot; &quot; + token
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">if </span><span>prev_key:
+</span><span>        data[prev_key] = val
+</span><span>    </span><span style="color:#b48ead;">return </span><span>data
+</span><span>
+</span><span>text = &#39;</span><span style="color:#a3be8c;">key1=some_val1 key2=some_val2 key3=some_val3 key4=looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong key5={&quot;some&quot;: &quot;val&quot;, &quot;key&quot;: &quot;value&quot;, &quot;random&quot;: 123}</span><span>&#39;
+</span><span>
+</span><span style="color:#b48ead;">assert </span><span style="color:#bf616a;">parse_kv_re</span><span>(text) == </span><span style="color:#bf616a;">parse_kv_split</span><span>(text)
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">re   </span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#bf616a;">parse_kv_re</span><span>(text), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">100000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">split</span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#bf616a;">parse_kv_split</span><span>(text), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">100000</span><span>))
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>re    4.418985206983052
+</span><span>split 0.19559685792773962
+</span></code></pre>
+<p>如果一定要用 re，可以考虑去 <a href="https://regex101.com/">regex101</a> 上检查自己 pattern 的性能，例如避免 <a href="https://regex101.com/r/iXSKTs/1/debugger">catastrophic backtracking</a></p>
+<p>另外，还试过把 <code>"=" in token</code> 改成 find，想着这样就可以省掉 split 直接按 index slice，但更慢了，以下 timeit 说明了原因</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>token = &quot;</span><span style="color:#a3be8c;">key2=some_val2</span><span>&quot;
+</span><span>
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">in    </span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: &quot;</span><span style="color:#a3be8c;">=</span><span>&quot; in token, </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">find  </span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: token.</span><span style="color:#bf616a;">find</span><span>(&quot;</span><span style="color:#a3be8c;">=</span><span>&quot;) != -</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span>index = token.</span><span style="color:#bf616a;">find</span><span>(&quot;</span><span style="color:#a3be8c;">=</span><span>&quot;)
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">slice </span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: [token[:index], token[index + </span><span style="color:#d08770;">1 </span><span>:]], </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">split </span><span>&quot;, timeit.</span><span style="color:#bf616a;">timeit</span><span>(</span><span style="color:#b48ead;">lambda</span><span>: token.</span><span style="color:#bf616a;">split</span><span>(&quot;</span><span style="color:#a3be8c;">=</span><span>&quot;, </span><span style="color:#bf616a;">maxsplit</span><span>=</span><span style="color:#d08770;">1</span><span>), </span><span style="color:#bf616a;">number</span><span>=</span><span style="color:#d08770;">1000000</span><span>))
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>in     0.05515715305227786
+</span><span>find   0.1189718859968707
+</span><span>slice  0.1710334960371256
+</span><span>split  0.15278159803710878
+</span></code></pre>
+<p>in 实在是太快了，另外 slice 居然也比 split 慢。</p>
+<h3 id="dang-xin-gc-you-qi-shi-chu-li-da-liang-dui-xiang-shi">当心 gc，尤其是处理大量对象时</h3>
+<p>python 的 list 被认为是有均摊插入复杂度的，但是当插入的是 object 且数据量很大时，可能会观测到某一次插入操作耗时<strong>非常久</strong>的情况，也许在代码中会表现为程序莫名其妙地 block 秒级别。我之前写过一篇类似的，<a href="../gc-performance">gc 与循环引用</a>。</p>
+<p>在 <a href="https://stackoverflow.com/questions/2473783/is-there-a-way-to-circumvent-python-list-append-becoming-progressively-slower">SO</a> 上有一个相关的讨论。其<a href="https://stackoverflow.com/a/2480015/12838860">回答</a> 中的结论，我在 python 3.8 上 somehow 也能复现，不论是在 list，deque 亦或是 dict 上，例如</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">import </span><span>time
+</span><span style="color:#b48ead;">import </span><span>gc
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">A</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__init__</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.x = </span><span style="color:#d08770;">1
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.y = </span><span style="color:#d08770;">2
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.why = &#39;</span><span style="color:#a3be8c;">no reason</span><span>&#39;
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">time_to_append</span><span>(</span><span style="color:#bf616a;">size</span><span>, </span><span style="color:#bf616a;">append_list</span><span>, </span><span style="color:#bf616a;">item_gen</span><span>):
+</span><span>    t0 = time.</span><span style="color:#bf616a;">time</span><span>()
+</span><span>    </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>, size):
+</span><span>        append_list.</span><span style="color:#bf616a;">append</span><span>(</span><span style="color:#bf616a;">item_gen</span><span>())
+</span><span>    </span><span style="color:#b48ead;">return </span><span>time.</span><span style="color:#bf616a;">time</span><span>() - t0
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">test</span><span>():
+</span><span>    x = []
+</span><span>    count = </span><span style="color:#d08770;">10000
+</span><span>    </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>,</span><span style="color:#d08770;">1000</span><span>):
+</span><span>        </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#96b5b4;">len</span><span>(x), </span><span style="color:#bf616a;">time_to_append</span><span>(count, x, </span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#bf616a;">A</span><span>()))
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">test_nogc</span><span>():
+</span><span>    x = []
+</span><span>    count = </span><span style="color:#d08770;">10000
+</span><span>    </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(</span><span style="color:#d08770;">0</span><span>,</span><span style="color:#d08770;">1000</span><span>):
+</span><span>        gc.</span><span style="color:#bf616a;">disable</span><span>()
+</span><span>        </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#96b5b4;">len</span><span>(x), </span><span style="color:#bf616a;">time_to_append</span><span>(count, x, </span><span style="color:#b48ead;">lambda</span><span>: </span><span style="color:#bf616a;">A</span><span>()))
+</span><span>        gc.</span><span style="color:#bf616a;">enable</span><span>()
+</span><span>
+</span><span style="color:#bf616a;">test</span><span>()
+</span><span style="color:#bf616a;">test_nogc</span><span>()
+</span></code></pre>
+<img class="invertable" src="&#x2F;images&#x2F;content&#x2F;programming&#x2F;python&#x2F;some-hint-on-performance&#x2F;gc_result.png" alt="gc_result" />
+<p>发现这种场景时，可以选择禁用自动 gc 并在合适的时候手动 collect。此外，如果代码不包含任何循环引用，禁用 gc 并且不 collect 应当也是安全的，不会导致内存泄露。可以用 gc 的 DEBUG_LEAK flag 来检查是否有循环引用。</p>
+<p>另外，注意这个现象发生的数据量级很大，例如 1e7 个对象时，gc 才会需要 1s。因此如果观测到了这个现象，建议先检查自己的代码，看到底是真的有那么多数据，还是自己忘记了一些资源回收工作导致数据无节制增长了(例如往 dict 里加了 key 但没有删除)。</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        

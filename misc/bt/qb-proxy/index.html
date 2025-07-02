@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <title>用公网服务器代理 qBittorrent 的上传</title>
+        
+        <meta name="title" content="用公网服务器代理 qBittorrent 的上传">
+        <meta name="author" content="Chen Ye">
+        <meta name="description" content="Somewhere">
+        <meta name="generator" content="Zola v0.16.1">
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://yechenz37.tech/misc/bt/qb-proxy/">
+        <meta property="og:site_name" content="Pissf****t&#x27;s">
+        <meta property="og:title" content="用公网服务器代理 qBittorrent 的上传">
+        <meta property="og:description" content="Somewhere">
+        <meta property="og:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+
+        
+        
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://yechenz37.tech/misc/bt/qb-proxy/">
+        <meta property="twitter:title" content="用公网服务器代理 qBittorrent 的上传">
+        <meta property="twitter:description" content="Somewhere">
+        <meta property="twitter:image" content="https:&#x2F;&#x2F;yechenz37.tech&#x2F;images&#x2F;logo.png">
+        
+        
+        <link rel="canonical" href="https://yechenz37.tech/misc/bt/qb-proxy/">
+        <link rel="shortcut icon" type="image/x-icon" href="https://yechenz37.tech/images/logo.png">
+        <script type="application/ld+json">
+            {
+                "description":"Somewhere",
+                "url":"https://yechenz37.tech/misc/bt/qb-proxy/",
+                "@type":"WebSite",
+                "headline":"用公网服务器代理 qBittorrent 的上传",
+                "name":"用公网服务器代理 qBittorrent 的上传",
+                "author":{
+                    "@type":"Person",
+                    "name":"Chen Ye"
+                },
+                "@context":"https://schema.org"
+            }
+        </script>
+        
+        
+        
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://yechenz37.tech/atom.xml">
+        
+        
+        
+        <link rel="stylesheet" href="https://yechenz37.tech/style.css"/>
+        
+    </head>
+    <body theme="auto">
+        <div class="w">
+            <header>
+                
+                <nav>
+                    
+                    <a href="/" >~home</a>
+                    
+                    <a href="/tags" >#tags</a>
+                    
+                    <a href="/categories" >+categories</a>
+                    
+                </nav>
+                
+                
+<p><a href="..">..</a>/qb-proxy</p>
+<p class="post-meta"><time datetime="2025-02-16">2025-02-16</time></p>
+<h1>用公网服务器代理 qBittorrent 的上传</h1>
+
+            </header>
+            <main class="page-content" aria-label="Content">
+                
+
+
+
+<p>思考用 qb 做种时，本地没有公网 IP 导致上传很慢的情景，能否通过公网服务器代理上传。</p>
+<h2 id="si-lu">思路</h2>
+<ol>
+<li>qb 使用公网服务器作为<a href="https://yechenz37.tech/misc/bt/qb-proxy/#proxy">代理</a>，向 peer 通告公网服务器的 IP</li>
+<li>公网服务器设置一个<a href="https://yechenz37.tech/misc/bt/qb-proxy/#port-forward">端口转发</a>，将 peer 的连接转发到本地</li>
+</ol>
+<h2 id="ke-xing-xing-yan-zheng">可行性验证</h2>
+<h3 id="proxy">1. 代理</h3>
+<p>首先在本地的 8088 端口开一个走公网服务器的 socks5 代理：</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">ssh -D</span><span> 0.0.0.0:8088</span><span style="color:#bf616a;"> -N -f</span><span> user@your_server
+</span></code></pre>
+<p>在 qb 中设置代理：socks5, 127.0.0.1:8088</p>
+<p>代理下面的三个选项中(这里参考了 <a href="https://cherr.cc/qb_proxy">qBittorrent反代解决NAT连通性</a>)</p>
+<p>勾选：</p>
+<ul>
+<li>使用代理服务器进行主机名查询</li>
+<li>只对 torrent 使用代理
+<ul>
+<li>这个选项决定上报到 tracker 的 IP</li>
+</ul>
+</li>
+</ul>
+<p>不勾选：</p>
+<ul>
+<li>使用代理服务器进行用户连接
+<ul>
+<li>这个选项会导致下载也走代理。另外，上报的 port 会变成 1，导致 peer 无法连接</li>
+</ul>
+</li>
+</ul>
+<p>此外，还需要在 qb 高级设置里勾选 允许来自同一 IP 地址的多个连接，因为在本机看来所有 peer 都是公网服务器的 IP。</p>
+<p>这样，qb 就会上报公网服务器的 IP 了，但是 peer 还不能从公网服务器连接到我们。</p>
+<h3 id="port-forward">2. 端口转发</h3>
+<p>我比较习惯用 firewalld + tailscale 来端口转发，假设要将公网服务器的 60123 端口转发到本地 60123 端口：</p>
+<p>安装 tailscale</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">curl -fsSL</span><span> https://tailscale.com/install.sh | </span><span style="color:#bf616a;">sh
+</span></code></pre>
+<p>然后在本机和公网服务器上都认证并开启 tailscale，此时二者应该已经在 ts 的局域网中，并且可以 DIRECT 互访。假设本机的 ts IP 是 TAILSCALE_IP_LOCAL。</p>
+<p>然后在服务器上设置端口转发：</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">TAILSCALE_IP_LOCAL</span><span>=</span><span style="color:#a3be8c;">100.100.100.100
+</span><span style="color:#bf616a;">PORT</span><span>=</span><span style="color:#a3be8c;">60123
+</span><span style="color:#65737e;"># 打开 60123 端口
+</span><span style="color:#bf616a;">firewall-cmd --add-port</span><span>=${</span><span style="color:#bf616a;">PORT</span><span>}/tcp</span><span style="color:#bf616a;"> --add-port</span><span>=${</span><span style="color:#bf616a;">PORT</span><span>}/udp</span><span style="color:#bf616a;"> --permanent
+</span><span style="color:#65737e;"># 将 60123 端口转发到 TAILSCALE_IP_LOCAL:60123
+</span><span style="color:#bf616a;">firewall-cmd --zone</span><span>=public</span><span style="color:#bf616a;"> --add-forward-port</span><span>=port=${</span><span style="color:#bf616a;">PORT</span><span>}:proto=tcp:toaddr=${</span><span style="color:#bf616a;">TAILSCALE_IP_LOCAL</span><span>}:${</span><span style="color:#bf616a;">PORT</span><span>}</span><span style="color:#bf616a;"> --permanent
+</span><span style="color:#bf616a;">firewall-cmd --zone</span><span>=public</span><span style="color:#bf616a;"> --add-forward-port</span><span>=port=${</span><span style="color:#bf616a;">PORT</span><span>}:proto=udp:toaddr=${</span><span style="color:#bf616a;">TAILSCALE_IP_LOCAL</span><span>}:${</span><span style="color:#bf616a;">PORT</span><span>}</span><span style="color:#bf616a;"> --permanent
+</span><span style="color:#65737e;"># 启用 masquerade
+</span><span style="color:#bf616a;">firewall-cmd --zone</span><span>=public</span><span style="color:#bf616a;"> --add-masquerade --permanent
+</span><span style="color:#65737e;"># 重启防火墙
+</span><span style="color:#bf616a;">firewall-cmd --reload
+</span></code></pre>
+<p>如果服务器有安全组规则，记得打开对应的端口。</p>
+<p>可以通过在本机 <code>nc -l ${TAILSCALE_IP_LOCAL} ${PORT}</code>，然后再在本机 <code>nc ${SERVER_IP} ${PORT}</code> 检查是否能连接来判断端口转发是否正确设置。</p>
+<p>如果正确设置，那么之后 peer 就会通过公网服务器连接到我们，也就完成了整个代理过程。</p>
+
+
+            </main>
+            <footer>
+                
+<p class="taxonomies">
+
+
+<a href="/tags/qbittorrent">#qbittorrent</a>
+
+
+
+<a href="/categories/selfhost">+selfhost</a>
+
+
+
+
+</p>
+
+                
+            </footer>
+        </div>
+    </body>
+</html>
+        
